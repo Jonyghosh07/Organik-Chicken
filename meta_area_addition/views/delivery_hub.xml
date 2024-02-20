@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="delivery_hub_form">
+        <field name="name">delivery.hub.form</field>
+        <field name="model">delivery.hub</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Hub Form">
+                <sheet>
+                    <group>
+                        <div style="width:700px;font-size: 30px;">
+                            <field name="name" nolabel="1"/>
+                        </div>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="country_id"/>
+                            <field name="state_id" widget="many2many_tags"/>
+                            <field name="area_id" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--    Search-->
+    <record id="delivery_hub_search" model="ir.ui.view">
+        <field name="name">delivery.hub.search</field>
+        <field name="model">delivery.hub</field>
+        <field name="arch" type="xml">
+            <search string="By Date">
+                <field name="name"/>
+                <field name="country_id"/>
+                <field name="state_id"/>
+                <field name="area_id"/>
+            </search>
+        </field>
+    </record>
+    <!--    Tree view-->
+    <record id="delivery_hub_kpis_tree" model="ir.ui.view">
+        <field name="name">delivery.hub.inherit</field>
+        <field name="model">delivery.hub</field>
+        <field name="priority" eval="10"/>
+        <field name="arch" type="xml">
+            <tree string="Delivery Hub">
+                <field name="name"/>
+                <field name="country_id"/>
+                <field name="state_id"/>
+                <field name="area_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_delivery_hub" model="ir.actions.act_window">
+        <field name="name">Delivery Hub</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">delivery.hub</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="delivery_hub_kpis_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Delivery Hub
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            id="menuitem_delivery_hub"
+            name="Delivery Hub"
+            parent="contacts.menu_localisation"
+            action="action_delivery_hub"/>
+
+
+</odoo>

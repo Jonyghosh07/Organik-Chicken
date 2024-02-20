@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <template id="amrpy_form">
+            <form t-att-action="tx_url" method="get">
+                <input type="hidden" name="track" t-att-value="track" />
+            </form>
+        </template>
+    </data>
+</odoo>

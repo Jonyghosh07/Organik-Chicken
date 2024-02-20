@@ -1,0 +1,48 @@
+<odoo>
+    <data noupdate="1">
+        <record id="payment_icon_cc_dutch_bangla_bank" model="payment.icon">
+            <field name="sequence">90</field>
+            <field name="name">Ductch Bangla Bank</field>
+            <field name="image" type="base64" file="meta_payment_amarpay/static/description/images/dutch_bangla_bank.png"/>
+        </record>
+
+        <record id="payment_icon_cc_bkash" model="payment.icon">
+            <field name="sequence">91</field>
+            <field name="name">BKash</field>
+            <field name="image" type="base64" file="meta_payment_amarpay/static/description/images/bkash.png"/>
+        </record>
+
+        <record id="payment_icon_cc_nagad" model="payment.icon">
+            <field name="sequence">92</field>
+            <field name="name">Nagad</field>
+            <field name="image" type="base64" file="meta_payment_amarpay/static/description/images/nagad.png"/>
+        </record>
+
+        <record id="payment_icon_cc_rsz_rocket" model="payment.icon">
+            <field name="sequence">93</field>
+            <field name="name">Rocket</field>
+            <field name="image" type="base64" file="meta_payment_amarpay/static/description/images/rsz_rocket.png"/>
+        </record>
+
+        <record id="payment_icon_cc_upay" model="payment.icon">
+            <field name="sequence">94</field>
+            <field name="name">UPay</field>
+            <field name="image" type="base64" file="meta_payment_amarpay/static/description/images/upay.jpeg"/>
+        </record>
+
+
+        <record id="payment_provider_sslcz" model="payment.provider">
+            <field name="name">Payment with aamarPay</field>
+            <field name="code">amrpy</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="redirect_form_view_id" ref="amrpy_form"/>
+           <field name="image_128" type="base64" file="meta_payment_amarpay/static/description/images/footer_logo.png"/>
+            <field name="state">test</field>
+            <field name="amrpy_store_id">aamarpaytest</field>
+            <field name="amrpy_signature_key">dbb74894e82415a2f7ff0ec3a97e4183</field>
+            <field name="payment_icon_ids" eval='[(6, 0, [ref("payment.payment_icon_cc_visa"),ref("payment.payment_icon_cc_mastercard"),ref("meta_payment_amarpay.payment_icon_cc_dutch_bangla_bank"),ref("meta_payment_amarpay.payment_icon_cc_bkash"),ref("meta_payment_amarpay.payment_icon_cc_nagad"),ref("meta_payment_amarpay.payment_icon_cc_rsz_rocket"),ref("meta_payment_amarpay.payment_icon_cc_upay")])]' />
+
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="courier_sale_order_inherit_extend" model="ir.ui.view">
+            <field name="name">courier.sale.order.inherit.extend</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_term_id']"  position="after">
+                    <field name="cancel_date" attrs="{'invisible': [('cancel_date', '=', False)]}"/>
+                    <field name="shipping_method"/>
+                    <field name="payment_method" />
+                    <field name="delivery_done" attrs="{'invisible': [('state', '!=', 'sale')]}"/>
+                    <field name="delivery_done_date" attrs="{'invisible': [('state', '!=', 'sale')]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+
+<!--    <template id="wk_auth_signup_fields" inherit_id="auth_signup.fields" name="OTP Fields" priority="20">-->
+<!--        &lt;!&ndash; Add mobile number &ndash;&gt;-->
+<!--        <xpath expr="//div[@class='mb-3 field-name']" position="after">-->
+<!--            <t t-set='enable_signup_auth' t-value="request.env['ir.default'].sudo().get('website.otp.settings', 'signup_auth')" />-->
+<!--            <t t-if="enable_signup_auth == 1">-->
+<!--                <t t-set='otp_type' t-value="request.env['ir.default'].sudo().get('website.otp.settings', 'otp_type')" />-->
+<!--                <div class="form-group field-mobile">-->
+<!--                    <label for="mobile">Your Mobile</label>-->
+<!--                    <input id="mobile" name="mobile" class="form-control" placeholder="Enter Mobile" required="required" t-att-type="text" />-->
+<!--                </div>-->
+<!--            </t>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+    <template id="wk_auth_reset_pswd" inherit_id="auth_signup.reset_password" name="OTP Reset password" priority="20">
+        <xpath expr="//button[@type='submit']" position="before">
+            <t t-if="token">
+                <t t-set='enable_signup_auth' t-value="request.env['ir.default'].sudo().get('website.otp.settings', 'signup_auth')" />
+                <t t-if="enable_signup_auth == 1">
+                    <p id="otpcounter" />
+                </t>
+                <div id="wk_loader" />
+            </t>
+        </xpath>
+    </template>
+
+    <template id="wk_auth_signup" inherit_id="auth_signup.signup" name="OTP Signup" priority="20">
+        <xpath expr="//button[@type='submit']" position="before">
+            <t t-set='enable_signup_auth' t-value="request.env['ir.default'].sudo().get('website.otp.settings', 'signup_auth')" />
+            <t t-if="enable_signup_auth == 1">
+                <p id="otpcounter" />
+            </t>
+            <div id="wk_loader" />
+        </xpath>
+    </template>
+
+    <template id="wk_auth_otp_verification" inherit_id="auth_signup.signup" name="OTP verification" priority="20">
+        <xpath expr="//button[@type='submit']" position="before">
+            <t t-set='enable_signup_auth' t-value="request.env['ir.default'].sudo().get('website.otp.settings', 'signup_auth')" />
+            <t t-if="enable_signup_auth == 1">
+                <p id="otpcounter" />
+            </t>
+            <div id="wk_loader" />
+        </xpath>
+    </template>
+
+
+<!--    First Login Page-->
+    <template id="replace_login_password" name="Login Layout" inherit_id="web.login">
+        <!-- hide password feild -->
+        <xpath expr="//form[hasclass('oe_login_form')]/div[3]" position="replace">
+            <div class="mb-3 field-password" style="display: none;">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" placeholder="Password" name="password" id="password" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autocomplete="current-password" t-att-autofocus="'autofocus' if login else None" maxlength="4096"/>
+            </div>
+        </xpath>
+
+        <xpath expr="//form[hasclass('oe_login_form')]/div[2]/label" position="replace">
+            <label for="login">Your Mobile</label>
+        </xpath>
+
+        <xpath expr="//form[hasclass('oe_login_form')]/div[2]/input" position="attributes">
+            <attribute name="placeholder">Enter your mobile</attribute>
+        </xpath>
+
+    </template>
+
+
+<!--    OTP Entry and verification Login -->
+    <template id="otp_verify_after_signup" name="Otp verify After Singup">
+        <t t-call="web.login_layout">
+
+            <t t-set="mobile" t-value="partner.phone"/>
+            <form class="oe_signup_form" role="form" method="post" action='/otp/verify' t-if="not message">
+                <t t-if="resp">
+                    <t t-if="resp[2] == 'success'">
+                        <p id="otp_success" class="alert alert-success" role="alert">
+                            <t t-esc="resp[1]"/>
+                        </p>
+
+                    </t>
+                    <t t-elif="resp[2] == 'error'">
+                        <p id="otp_error" class="alert alert-danger" role="alert">
+                            <t t-esc="resp[1]"/>
+                        </p>
+                    </t>
+
+                    <t t-elif="resp[2] == 'warning'">
+                        <p id="otp_warning" class="alert alert-warning" role="alert">
+                            <t t-esc="resp[1]"/>
+                        </p>
+                    </t>
+                </t>
+
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                <input type="hidden" name="partner_id" t-att-value="partner.id"/>
+                <input type="hidden" name="redirect" t-att-value="redirect" />
+                <!-- <input type="hidden" name="mobile" t-att-value="mobile" /> -->
+
+                <h3>Please verify your account.</h3>
+                <p style="margin-bottom: 20px;"> An Otp has been sent to <strong>
+                    <t t-esc="partner.email"/>
+<!--                    <t t-if="mobile">-->
+<!--                    and <t t-esc="mobile"/>-->
+<!--                    </t>-->
+                    </strong>
+                </p>
+                <div class="form-group field-name">
+                    <label for="otpin">Enter OTP</label>
+                    <input type="text" name="otpin" id="otpin" class="form-control form-control-sm" required="required" placeholder="Here ..." />
+                </div>
+
+                <div class="text-center oe_login_buttons pt-3">
+                    <button id="verify_otp" type="submit" class="btn btn-primary btn-block"> Verify </button>
+                    <!-- <a id="sendAgain" t-attf-href="/otp/send" class="btn btn-link btn-sm" role="button">Did Not Received OTP?</a> -->
+                    <a id="sendAgain" t-attf-href="/otp/verification" class="btn btn-link btn-sm" role="button">Did Not Received OTP?</a>
+                </div>
+            </form>
+        </t>
+    </template>
+
+    <!--Reset Password-->
+    <template id="reset_password_temp" name="Reset Layout" inherit_id="auth_signup.reset_password">
+        <!-- hide password feild -->
+        <xpath expr="//div[hasclass('field-login')]" position="replace">
+            <div class="mb-3 field-login">
+                <label for="login" class="col-form-label">Your Phone</label>
+                <input type="text" name="login" t-att-value="login" id="login" class="form-control"
+                    autofocus="autofocus" required="required" autocapitalize="off"/>
+            </div>
+        </xpath>
+
+    </template>
+
+</odoo>

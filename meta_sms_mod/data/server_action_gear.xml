@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_send_bulk_sms" model="ir.actions.server">
+        <field name="name">Send Manual SMS</field>
+        <field name="model_id" ref="meta_sms_mod.model_manual_sms"/>
+        <field name="binding_model_id" ref="meta_sms_mod.model_sale_order"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = model._send_manual_sms()
+        </field>
+    </record>
+
+    <!-- <record id="action_send_bulk_sms" model="ir.actions.server">
+        <field name="name">Send Manual SMS</field>
+        <field name="model_id" ref="meta_sms_mod.model_sale_order"/>
+        <field name="binding_model_id" ref="meta_sms_mod.model_sale_order"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = record._order_manual_msg()
+        </field>
+    </record> -->
+</odoo>

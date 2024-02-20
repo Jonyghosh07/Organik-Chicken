@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="manual_sms_view_form" model="ir.ui.view">
+        <field name="name">manual.sms.form</field>
+        <field name="model">manual.sms</field>
+        <field name="arch" type="xml">
+            <form string="SMS BOX">
+                <group class="oe_title">
+                    <field name="manual_sms_box"/>
+                </group>
+                <footer>
+                    <button name="action_send_manual_sms" string="Send SMS" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- <record id="manual_sms_action" model="ir.actions.act_window">
+        <field name="name">Manual SMS Action</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">manual.sms</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="crm_lead_lost_view_form"/>
+        <field name="target">new</field>
+    </record> -->
+</odoo>

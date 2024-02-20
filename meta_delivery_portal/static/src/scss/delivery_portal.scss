@@ -1,0 +1,47 @@
+/* ---- Order page ---- */
+
+.delivery_tbody .o_line_note {
+    word-break: break-word;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+
+.delivery_tbody input.js_quantity {
+    min-width: 48px;
+    text-align: center;
+}
+
+.delivery_tbody div.input-group.w-50.pull-right {
+    width: 100% !important;
+}
+
+.o_portal .delivery_tbody .js_quantity_container {
+
+    .js_quantity {
+        padding: 0;
+    }
+
+    .input-group-text {
+        padding: 0.2rem 0.4rem;
+    }
+
+    @include media-breakpoint-down(md) {
+        width: 100%;
+    }
+}
+
+/* Red background for not_paid */
+.oe_payment_status_not_paid {
+    background-color: red;
+}
+
+/* Yellow background for in_payment */
+.oe_payment_status_in_payment {
+    background-color: yellow;
+}
+
+/* Green background for paid */
+.oe_payment_status_paid {
+    background-color: green;
+}

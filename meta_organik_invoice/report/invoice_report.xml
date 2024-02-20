@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template inherit_id="web.external_layout_standard" id="organik_chicken_invoice_report_logo">
+        <xpath expr="//div[1]" position="replace">
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <div class="row">
+                    <div class="mb4 d-flex justify-content-center align-items-center">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 85px;" alt="Logo"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="organik_chicken_invoice_report" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[hasclass('row')]" position="replace"/>
+        <xpath expr="//div[hasclass('page')]/h2" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+        <xpath expr="//div[@id='informations']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+        <xpath expr="//div[@id='informations']" position="after">
+            <div style="font-size: 10px; margin-top: -14px;">
+                <div style="text-align: center;">
+                    <span t-esc="o.line_ids.sale_line_ids.order_id.name" />
+                </div>
+                <div style="padding-top: 10px; padding-bottom: 10px;">
+                    <t>Name:</t>
+                    <span t-esc="o.line_ids.sale_line_ids.order_id.partner_id.name" style="font-weight: bold;"/>
+                    <br/>
+                    <t style="padding-top: 5px;">Mobile:</t>
+                    <span t-esc="o.line_ids.sale_line_ids.order_id.partner_id.phone" t-if="o.line_ids.sale_line_ids.order_id.partner_id.phone"/>
+                </div>
+
+            </div>
+        </xpath>
+        <!--Communication and Comment -->
+        <xpath expr="//p[@name='payment_communication']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+        <xpath expr="//div[@name='comment']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+        <xpath expr="//div[@name='payment_term']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+        <!--Invoice line Table-->
+        <xpath expr="//table[@name='invoice_line_table']" position="replace">
+            <table class="table table-sm o_main_table table-borderless" name="invoice_line_table">
+                <tbody class="invoice_tbody" style="border-top: 1px solid black; font-size: 10px;">
+                    <t t-set="current_subtotal" t-value="0"/>
+                    <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+
+                    <t t-foreach="lines" t-as="line">
+                        <t t-if="line.product_id.id != 1">
+                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                            <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                            <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                <t name="account_invoice_line_accountable">
+                                    <td name="account_invoice_line_name">
+                                        <span t-field="line.product_id.name" style="font-weight: bold;"/>
+                                        <br/>
+                                        <span t-esc="line.quantity"/> * <span t-esc="line.price_unit"/> <span style="margin-left: 115px;" t-esc="line.price_total"/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+
+        <xpath expr="//div[@id='total']" position="replace">
+            <div id="total" class="row">
+                <table class="table table-sm table-borderless" style="page-break-inside: avoid; margin-right: 10px; font-size: 10px;">
+
+                    <!--Tax totals-->
+                    <t t-set="tax_totals" t-value="o.tax_totals"/>
+                    <t>
+                        <t t-foreach="lines" t-as="line">
+                            <t t-if="line.product_id.id == 1">
+                                <tr>
+                                    <td><strong>Delivery Fee</strong></td>
+                                    <td class="text-end">
+                                        <span t-esc="line.price_total"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+
+                        <!--Total amount with all taxes-->
+                        <tr class="border-black o_total" style="font-size: 11px; font-weight: bold;">
+                            <td><strong>Total</strong></td>
+                            <td  class="text-end">
+                                <span t-esc="tax_totals['formatted_amount_total_rounded']" t-if="'formatted_amount_total_rounded' in tax_totals"/>
+                                <span t-esc="tax_totals['formatted_amount_total']" t-else=""/>
+                            </td>
+                        </tr>
+
+                    </t>
+
+                    <!--Payments-->
+                    <t t-if="print_with_payments">
+                        <t t-if="o.payment_state != 'invoicing_legacy'">
+                            <t t-set="payments_vals" t-value="o.sudo().invoice_payments_widget and o.sudo().invoice_payments_widget['content'] or []"/>
+                            <t>
+                                <tr>
+                                    <td><strong>Prev Due</strong></td>
+                                    <td class="text-end">
+                                        <span t-field="o.line_ids.sale_line_ids.order_id.partner_id.total_due"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t>
+                                <tr class="border-black" style="font-size: 11px; font-weight: bold;">
+                                    <td><strong>Total Payable</strong></td>
+                                    <td class="text-end">
+                                        <span t-field="o.line_ids.sale_line_ids.order_id.total_payable"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t>
+                                <tr>
+                                    <td>
+                                        <i class="oe_form_field text-begin oe_payment_label">Received CASH</i>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="o.line_ids.sale_line_ids.order_id.paid_amount"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <t>
+                                <tr class="border-black" style="font-size: 11px; font-weight: bold;">
+                                    <td><strong>Total Due</strong></td>
+                                    <td class="text-end">
+                                        <span t-field="o.line_ids.sale_line_ids.order_id.final_due"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </t>
+                </table>
+
+            </div>
+            <div>
+                <div style="font-size: 10px; text-align: center;">
+                    <t>BKash Merchant :</t>
+                    <span t-esc="o.line_ids.sale_line_ids.order_id.bkash_merchant" t-if="o.line_ids.sale_line_ids.order_id.bkash_merchant"/>
+                </div>
+                <div style="font-size: 8px; padding-top: 10px;">
+                    <t>Delivered By :</t>
+                    <span t-esc="o.line_ids.sale_line_ids.order_id.delivery_man.name"/>
+                    <span style="margin-left: 30px;" t-esc="o.line_ids.sale_line_ids.order_id.current_datetime"/>
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+</odoo>

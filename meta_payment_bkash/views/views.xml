@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="payment_provider_form_bkash" model="ir.ui.view">
+            <field name="name">payment.provider.form.bkash</field>
+            <field name="model">payment.provider</field>
+            <field name="inherit_id" ref="payment.payment_provider_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//group[@name="provider_credentials"]' position='after'>
+                    <group attrs="{'invisible': [('code', '!=', 'bkash')]}">
+                        <field name="bkash_username" attrs="{'required': [('code', '=', 'bkash')]}"/>
+                        <field name="bkash_password" password="True" attrs="{'required': [('code', '=', 'bkash')]}"/>
+                        <field name="bkash_appkey" password="True" attrs="{'required': [('code', '=', 'bkash')]}"/>
+                        <field name="bkash_appsecret" password="True" attrs="{'required': [('code', '=', 'bkash')]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

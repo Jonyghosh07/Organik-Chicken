@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <template id="bkash_form">
+            <form t-att-action="tx_url" method="get">
+                <input type="hidden" name="paymentID" t-att-value="paymentID" />
+                <input type="hidden" name="apiVersion" t-att-value="apiVersion" />
+                <input type="hidden" name="hash" t-att-value="hash" />
+                <input type="hidden" name="mode" t-att-value="mode" />
+            </form>
+        </template>
+    </data>
+</odoo>

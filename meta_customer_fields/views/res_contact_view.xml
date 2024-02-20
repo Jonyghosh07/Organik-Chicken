@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_res_contact_form_inherit" model="ir.ui.view">
+        <field name="name">view.res.contact.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//sheet/group/group[2]/field[@name='website']" position="before">
+                <field name="fb_id" />
+                <field name="whatsapp_num" />
+                <field name="bkash_num" />
+                <field name="nagad_num" />
+            </xpath>
+
+            <xpath expr="//field[@name='vat']" position="before">
+                <field name="deli_location_type" />
+            </xpath>
+
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="is_delivery_man" />
+                <field name="is_wholesaler" />
+                <field name="customer_type" attrs="{'invisible': [('is_wholesaler', '!=', True)]}" />
+                <field name="remarks"/>
+                <field name="referral_contact"/>
+            </xpath>
+
+            <xpath expr="//group[1]" position="after">
+                <group name="last_10_sale" string="Last 10 Sales">
+                    <group>
+                        <field name="last_10_sales">
+                            <tree>
+                                <field name="order_id" />
+                                <field name="product_template_id" />
+                                <field name="batch_num" />
+                                <field name="piece_qty" string="Pieces" />
+                                <field name="product_uom_qty" string="KG" />
+                                <field name="price_subtotal" string="Amount" />
+                            </tree>
+                        </field>
+                    </group>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="map_url" />
+                <field name="is_subscriber" />
+                <field name="subscription_line"
+                    attrs="{'invisible': [('is_subscriber', '=', False)]}"
+                    widget="section_and_note_one2many">
+                    <tree string="Sales Order Lines" editable="bottom">
+                        <field name="product_id" />
+                        <field name="piece_qty" />
+                    </tree>
+                </field>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

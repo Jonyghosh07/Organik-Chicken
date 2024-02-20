@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Override the address template -->
+        <template id="custom_portal_my_account_area" inherit_id="portal.portal_my_details_fields">
+
+            <xpath expr="//div[5]" position="attributes">
+                <attribute name="t-att-style">'display:none;'</attribute>
+            </xpath>
+            <xpath expr="//div[6]" position="attributes">
+                <attribute name="t-att-style">'display:none;'</attribute>
+            </xpath>
+
+            <xpath expr="//div[12]" position="attributes">
+                <attribute name="t-att-style">'display:none;'</attribute>
+            </xpath>
+
+<!--            Select Bangladesh as default country and hide -->
+            <xpath expr="//div[13]/select/t/option" position="replace">
+                <option t-att-value="country.id" t-att-selected="country.id == 19">
+                    <t t-esc="country.name" />
+                </option>
+            </xpath>
+            <xpath expr="//div[13]" position="attributes">
+                <attribute name="t-att-style">'display:none;'</attribute>
+            </xpath>
+
+            <xpath expr="//div[8]" position="after">
+                <div t-attf-class="mb-3 col-lg-6" id="div_whatsapp">
+                    <label class="col-form-label" for="whatsapp_num">WhatsApp No.</label>
+                    <input type="whatsapp_num" name="whatsapp_num" t-attf-class="form-control #{error.get('whatsapp_num') and 'is-invalid' or ''}" t-att-value="whatsapp_num or partner.whatsapp_num" />
+                </div>
+            </xpath>
+
+            <xpath expr="//div[15]" position="after">
+
+                <div t-attf-class="mb-3 #{error.get('area_id') and 'o_has_error' or ''} col-xl-6">
+                    <label class="col-form-label label-optional" for="state_id">Area</label>
+                    <select name="area_id" t-attf-class="form-select #{error.get('area_id') and 'is-invalid' or ''}">
+                        <option value="">select...</option>
+                        <t t-foreach="areas or []" t-as="area">
+                            <option t-att-value="area.id" style="display:none;" t-att-data-state_id="area.state_id.id" t-att-selected="area.id == int(area_id) if area_id else area.id == partner.area_id.id">
+                                <t t-esc="area.name" />
+                            </option>
+                        </t>
+                    </select>
+                </div>
+
+                <div t-attf-class="mb-3 #{error.get('sub_area_id') and 'o_has_error' or ''} col-xl-6">
+                    <label class="col-form-label label-optional" for="area_id">Sub Area</label>
+                    <select name="sub_area_id" t-attf-class="form-select #{error.get('sub_area_id') and 'is-invalid' or ''}">
+                        <option value="">select...</option>
+                        <t t-foreach="subareas or []" t-as="subarea">
+                            <option t-att-value="subarea.id" style="display:none;" t-att-data-area_id="subarea.area_id.id" t-att-selected="subarea.id == int(sub_area_id) if sub_area_id else subarea.id == partner.sub_area_id.id">
+                                <t t-esc="subarea.name" />
+                            </option>
+                        </t>
+                    </select>
+                </div>
+            </xpath>
+
+        </template>
+    </data>
+</odoo>

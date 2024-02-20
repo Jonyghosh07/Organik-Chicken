@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="portal_docs_entry_importance_hide" inherit_id="portal.portal_docs_entry" priority="1">
+        <xpath expr="//a[@t-att-href='url']" position="replace">
+            <a t-att-href="url" t-att-title="title" class="list-group-item list-group-item-action align-items-center justify-content-between d-none">
+                <t t-esc="title"/>
+                <t t-if='count'>
+                    <span class="badge text-bg-secondary rounded-pill" t-esc="count"/>
+                </t>
+                <t t-elif="placeholder_count">
+                    <span class="badge text-bg-secondary rounded-pill" t-att-data-placeholder_count="placeholder_count">
+                        <i class="fa fa-spin fa-circle-o-notch"></i>
+                    </span>
+                </t>
+            </a>
+        </xpath>
+    </template>
+
+    <template id="portal_my_delivery" name="Delivery" inherit_id="portal.portal_my_home" priority="1">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-if="request.env.user.partner_id.is_delivery_man">
+                <div>
+                    <p>Hi <t t-esc="request.env.user.partner_id.name"/></p>
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">Pending Delivery</t>
+                        <t t-set="url" t-value="'/my/delivery'"/>
+                        <t t-set="placeholder_count" t-value="'delivery_count'"/>
+                    </t>
+
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">Delivered Orders</t>
+                        <t t-set="url" t-value="'/done/delivery'"/>
+                        <t t-set="placeholder_count" t-value="'done_delivery_count'"/>
+                    </t>
+                </div>
+                <div style="margin-top: 45px; width: 100%;">
+                    <t t-if="deliveries">
+                        <Strong>Report:</Strong>
+                        <table style="border: 1px solid black; margin-left: 10px; margin-top: 10px; width: 90%; background-color: white;">
+                            <thead>
+                                <td style="border: 1px solid black; text-align: center;">
+                                    <Strong>নাম</Strong>
+                                </td>
+                                <td style="border: 1px solid black; text-align: center;">
+                                    <Strong>পেন্ডিং</Strong>
+                                </td>
+                                <td style="border: 1px solid black; text-align: center;">
+                                    <Strong>কমপ্লিট</Strong>
+                                </td>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="product_quantities" t-as="product">
+                                    <tr>
+                                        <td style="border: 1px solid black; text-align: center;">
+                                            <span t-esc="product"/>
+                                            (<span t-esc="product_quantities[product]['total']"/>)
+                                        </td>
+                                        <td style="border: 1px solid black; text-align: center;">
+                                            <span t-esc="product_quantities[product]['pending']"/>
+                                        </td>
+                                        <td style="border: 1px solid black; text-align: center;">
+                                            <span t-esc="product_quantities[product]['done']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <table style="border: 1px solid black; margin-left: 65px; margin-top: 30px; width: 60%; background-color: white;">
+                            <tr style="border: 1px solid black;">
+                                <th style="border-right: 1px solid black; text-align: center;">ক্যাশ</th>
+                                <td style="text-align: center;"><span t-esc="product_list['round_paid']"/></td>
+                            </tr>
+                            <tr style="border: 1px solid black;">
+                                <th style="border-right: 1px solid black; text-align: center;">বাকি</th>
+                                <td style="text-align: center;"><span t-esc="product_list['round_due']"/></td>
+                            </tr>
+                        </table>
+
+                    </t>
+                </div>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="attributes">
+            <attribute name="t-att-style">'display: None;' if request.env.user.partner_id.is_delivery_man else ''</attribute>
+        </xpath>
+    </template>
+
+    <template id="portal_delivery_footer_hide" name="Hidden_Footer" inherit_id="portal.frontend_layout" priority="1">
+        <xpath expr="//footer" position="attributes">
+            <attribute name="t-att-style">'display: None;' if request.env.user.partner_id.is_delivery_man else ''</attribute>
+        </xpath>
+    </template>
+
+    <template id="portal_delivery_sidebar_hide" name="Hidden_Sidebar" inherit_id="portal.portal_layout" priority="1">
+        <xpath expr="//div[@id='o_my_sidebar']" position="attributes">
+            <attribute name="t-att-style">'display: None;' if request.env.user.partner_id.is_delivery_man else ''</attribute>
+        </xpath>
+    </template>
+</odoo>

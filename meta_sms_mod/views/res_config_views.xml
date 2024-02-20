@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sms_conf_view" model="ir.ui.view">
+            <field name="name">sms.settings.form</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <!-- <field name="view_mode">form</field> -->
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Meta Sms" string="Meta Sms" data-key="meta_sms_mod">
+                        <h2>Meta Sms Configuration</h2>
+                        <div class="row mt10 o_settings_container">
+                            <div class="col-xs-12 col-md-12 o_setting_box">                                                                                                   
+                                <!-- <sheet> -->
+
+                                <sheet>
+                                    <group>
+                                        <label for="sms_provider"/>
+                                        <b><field name="sms_provider"/></b>
+                                    </group>
+                                </sheet>
+
+                                <!-- elitbuzz field -->
+                                <sheet>
+                                    <group attrs="{'invisible': [('sms_provider', '!=', 'elitbuzz')],'required': [('sms_provider', '=', 'elitbuzz')]}">
+                                        <label for="elitbuzz_api_token"/>
+                                        <b><field name="elitbuzz_api_token"/></b>
+
+                                        <label for="elitbuzz_sid"/>
+                                        <b><field name="elitbuzz_sid"/></b>
+                                    </group>
+                                </sheet>
+
+<!--                                     Order Confirmation Message -->
+                                <sheet>
+                                    <group>
+                                        <label for="order_confirmation_msg"/>
+                                        <b><field name="order_confirmation_msg" /></b>
+                                    </group>
+                                    <group attrs="{'invisible': [('order_confirmation_msg', '!=', True)]}">
+                                        <label for="order_confirmation_content"/>
+                                        <b><field name="order_confirmation_content" placeholder="e.g. Dear Customer,
+                                         you order has been confirm!
+                                         You will have to pay"/></b>
+                                    </group>
+                                </sheet>
+
+                                <!-- Order Confirmation W/O Message -->
+<!--                                    <sheet>-->
+<!--                                        <group>-->
+<!--                                            <label for="order_confirmation_msg_wod"/>-->
+<!--                                            <b><field name="order_confirmation_msg_wod" /></b>-->
+<!--                                        </group>-->
+<!--                                        <group attrs="{'invisible': [('order_confirmation_msg_wod', '!=', True)]}">-->
+<!--                                            <label for="order_confirmation_content_wod"/>-->
+<!--                                            <b><field name="order_confirmation_content_wod" placeholder="e.g. Dear Customer,-->
+<!--                                             you order has been confirm!-->
+<!--                                             You will have to pay"/></b>-->
+<!--                                        </group>-->
+<!--                                    </sheet>-->
+
+                                <!-- Reset Password Message -->
+                                <sheet>
+                                    <group>
+                                        <label for="reset_pass_msg"/>
+                                        <b><field name="reset_pass_msg" /></b>
+                                    </group>
+                                    <group attrs="{'invisible': [('reset_pass_msg', '!=', True)]}">
+                                        <label for="reset_pass_content"/>
+                                        <b><field name="reset_pass_content"
+                                                  placeholder="e.g. Dear Customer, Please Click below to change you password!"/></b>
+                                    </group>
+                                </sheet>
+
+
+                                <!-- Cash Payment Message -->
+                                <sheet>
+                                    <group>
+                                        <label for="order_cash_msg"/>
+                                        <b><field name="order_cash_msg" /></b>
+                                    </group>
+                                    <group attrs="{'invisible': [('order_cash_msg', '!=', True)]}">
+                                        <label for="order_cash_content"/>
+                                        <b><field name="order_cash_content" placeholder="e.g. Dear Customer,
+                                         you order has been confirm!
+                                         You will have to pay"/></b>
+                                    </group>
+                                </sheet>
+
+                                <!-- NO Cash Payment Message -->
+                                <sheet>
+                                    <group>
+                                        <label for="order_nocash_msg"/>
+                                        <b><field name="order_nocash_msg" /></b>
+                                    </group>
+                                    <group attrs="{'invisible': [('order_nocash_msg', '!=', True)]}">
+                                        <label for="order_nocash_content"/>
+                                        <b><field name="order_nocash_content" placeholder="e.g. Dear Customer,
+                                         you order has been confirm!
+                                         You will have to pay"/></b>
+                                    </group>
+                                </sheet>
+
+                                <!--Order Invoice Message -->
+                                <sheet>
+                                    <group>
+                                        <label for="invoice_msg"/>
+                                        <b><field name="invoice_msg" /></b>
+                                    </group>
+                                    <group attrs="{'invisible': [('invoice_msg', '!=', True)]}">
+                                        <label for="invoice_content"/>
+                                        <b><field name="invoice_content" placeholder="e.g. Dear Customer,
+                                         Have a good day.."/></b>
+                                    </group>
+                                </sheet>
+
+                                <br/>
+                                <footer>
+                                <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                                or
+                                <button special="cancel" string="Cancel" class="btn-default"/>
+                                </footer>
+
+                                <!-- </sheet> -->
+                                
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+                
+            </field>
+        </record>
+        
+        <record id="action_meta_sms_conf" model="ir.actions.act_window">
+          <field name="name">MetaSMS Configuration</field>
+          <field name="res_model">res.config.settings</field>
+          <field name="view_id" ref="sms_conf_view"/>
+          <field name="view_mode">form</field>
+          <field name="target">inline</field>
+          <field name="context">{'module':'meta_sms_mod'}</field>
+        </record>
+
+        <menuitem id="menu_meta_sms_configuration"  parent="base.menu_administration"  action="meta_sms_mod.action_meta_sms_conf" name="MetaSMS Configuration"/>
+
+    </data>
+</odoo>

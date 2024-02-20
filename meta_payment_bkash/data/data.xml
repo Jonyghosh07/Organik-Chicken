@@ -1,0 +1,24 @@
+<odoo>
+    <data noupdate="1">
+        <record id="payment_icon_cc_bkash" model="payment.icon">
+            <field name="sequence">91</field>
+            <field name="name">BKash</field>
+            <field name="image" type="base64" file="meta_payment_bkash/static/description/images/bkash.png"/>
+        </record>
+
+        <record id="payment_provider_bkash" model="payment.provider">
+            <field name="name">Payment with bKash</field>
+            <field name="code">bkash</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="redirect_form_view_id" ref="bkash_form"/>
+           <field name="image_128" type="base64" file="meta_payment_bkash/static/description/images/bkash.png"/>
+            <field name="state">test</field>
+            <field name="bkash_username">sandboxTokenizedUser02</field>
+            <field name="bkash_password">sandboxTokenizedUser02@12345</field>
+            <field name="bkash_appkey">4f6o0cjiki2rfm34kfdadl1eqq</field>
+            <field name="bkash_appsecret">2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b</field>
+            <field name="payment_icon_ids" eval='[(6, 0, [ref("meta_payment_bkash.payment_icon_cc_bkash")])]' />
+        </record>
+
+    </data>
+</odoo>

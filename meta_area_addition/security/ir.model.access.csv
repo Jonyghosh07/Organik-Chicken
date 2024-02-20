@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_area,access_res_area,model_res_area,,1,1,1,1
+access_res_subarea,access_res_subarea,model_res_subarea,,1,1,1,1
+access_res_areacode,access_res_areacode,model_res_areacode,,1,1,1,1
+access_delivery_hub,access_delivery_hub,model_delivery_hub,,1,1,1,1

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Hide Documents in Home-->
+        <!-- Hide Documents in Home-->
+        <template id="custom_portal_my_home" inherit_id="portal.portal_my_home" name="Custom My Portal">
+            <xpath expr="//h3[text()='Documents']" position="attributes">
+                <attribute name="class">d-none</attribute>
+            </xpath>
+        </template>
+
+        <!--Deactivate Account-->
+        <!--Deactivate Account-->
+        <template id="custom_portal_my_account_deactivate" inherit_id="portal.portal_my_security">
+            <xpath expr="//section[@name='portal_deactivate_account']" position="attributes">
+                <attribute name="style">display:none</attribute>
+            </xpath>
+        </template>
+
+        <!--Two-Factor Authentication-->
+        <!--Two-Factor Authentication-->
+        <template id="custom_portal_two_factor_auth" inherit_id="auth_totp_portal.totp_portal_hook">
+            <xpath expr="//section[2]" position="attributes">
+                <attribute name="style">display:none</attribute>
+            </xpath>
+        </template>
+
+        <!--Due-->
+        <!--Due-->
+        <template id="portal_my_delivery" name="Delivery" inherit_id="portal.portal_my_home" priority="1">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="after">
+                <div>
+                    <t t-if="not request.env.user.partner_id.is_delivery_man">
+                        <div style="width: 100%; display: flex; justify-content: space-between;">
+                            <div style="background-color: white;
+                                        padding: 6px;
+                                        padding-left: 18px;
+                                        display: flex;
+                                        justify-content: space-between;
+                                        border-radius: 5px;
+                                        width: 100%">
+                                <t>Due Payment</t>
+                                <span class="badge text-bg-secondary rounded-pill">
+                                    <t t-esc="request.env.user.partner_id.credit"/>
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

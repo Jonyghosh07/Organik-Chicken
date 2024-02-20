@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    
+    <record id="scheduled_so_sms_action" model="ir.cron">
+        <field name="name">Scheduled Sale Order Sms</field>
+        <field name="model_id" ref="model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">model.so_sms_cron()</field>
+        <!-- <field name="user_id" ref="base.user_root"/> -->
+        <field name="interval_number">30</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active">False</field>
+    </record>    
+
+</odoo>

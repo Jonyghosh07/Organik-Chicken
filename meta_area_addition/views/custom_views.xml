@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="res_area_tree_view" model="ir.ui.view">
+        <field name="name">res.area.tree.view</field>
+        <field name="model">res.area</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="name"/>
+                <field name="sub_area_id" widget="many2many_tags"/>
+                <field name="state_id"/>
+                <field name="areacode_id" options="{'no_create_edit': True}"/>
+            </tree>
+        </field>
+    </record>
+    <record id="res_subarea_tree_view" model="ir.ui.view">
+        <field name="name">res.subarea.tree.view</field>
+        <field name="model">res.subarea</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="name"/>
+                <field name="area_id"/>
+                <field name="state_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="res_contacts_form_view" model="ir.ui.view">
+        <field name="name">res.contact.form.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_address_format')]/field[@name='street']" position="replace">
+                <field name="street" placeholder="Flat &amp; House/ Holding Number..." class="o_address_street"
+                       attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_address_format')]/field[@name='street2']" position="replace">
+                <field name="street2" placeholder="Street / Road / Avenue No. / Name" class="o_address_street"
+                       attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_address_format')]/field[@name='state_id']" position="replace">
+                <field name="state_id" class="o_address_state" placeholder="District"
+                       options="{'no_open': True, 'no_quick_create': True}"
+                       attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"
+                       context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_address_format')]/field[@name='state_id']" position="after">
+                <field name="area_id" placeholder="Area" domain="[('state_id', '=', state_id)]"/>
+                <field name="sub_area_id" placeholder="Sub Area" domain="[('area_id', '=', area_id)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_res_area" model="ir.actions.act_window">
+        <field name="name">Areas</field>
+        <field name="res_model">res.area</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <record id="action_res_sub_area" model="ir.actions.act_window">
+        <field name="name">Sub Areas</field>
+        <field name="res_model">res.subarea</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem
+            id="menuitem_res_area"
+            name="Areas"
+            parent="contacts.menu_localisation"
+            action="action_res_area"
+            groups="base.group_erp_manager"/>
+    <menuitem
+            id="menuitem_res_subarea"
+            name="Sub Areas"
+            parent="contacts.menu_localisation"
+            action="action_res_sub_area"
+            groups="base.group_erp_manager"/>
+
+
+</odoo>

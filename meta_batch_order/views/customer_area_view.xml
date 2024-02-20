@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_customer_area_form_view" model="ir.ui.view">
+        <field name="name">sale.customer.area.form.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="cus_area" invisible="1"/>
+                <field name="cus_sub_area" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_quotation_customer_area_tree_view" model="ir.ui.view">
+        <field name="name">sale.quotation.customer.area.tree.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="cus_area" optional="show"/>
+                <field name="cus_sub_area" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_customer_area_tree_view" model="ir.ui.view">
+        <field name="name">sale.order.customer.area.tree.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="cus_area" optional="show"/>
+                <field name="cus_sub_area" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_customer_invoice_inherit" model="ir.ui.view">
+            <field name="name">view.customer.invoice.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_date']" position="before">
+                    <field name="inv_delivery_man" optional="show"/>
+                    <field name="inv_paid" optional="show"/>
+                    <field name="inv_sale_id" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_customer_payment_inherit" model="ir.ui.view">
+            <field name="name">view.customer.payment.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="pay_sale_order" optional="show"/>
+                    <field name="pay_delivery_man" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Override the address template -->
+        <template id="custom_portal_checkout_modification" inherit_id="website_sale.address">
+
+            <!--Select Bangladesh as default country and hide -->
+            <xpath expr="//form[hasclass('checkout_autoformat')]/div[1]/div[11]" position="replace">
+                <div t-attf-class="mb-3 #{error.get('country_id') and 'o_has_error' or ''} col-lg-6 div_country">
+                    <label class="col-form-label" for="country_id">Country</label>
+                    <select id="country_id" name="country_id" t-attf-class="form-select #{error.get('country_id') and 'is-invalid' or ''}" t-att-mode="mode[1]">
+                        <option value="19">Bangladesh</option>
+                        <t t-foreach="countries" t-as="c">
+                            <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                                <t t-esc="c.name" />
+                            </option>
+                        </t>
+                    </select>
+                </div>
+            </xpath>
+
+
+            <xpath expr="//input[@name='phone']" position="replace">
+                <input type="tel" name="phone" id="numb" onblur="checkLength(this)" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}"
+                       t-att-value="'phone' in checkout and checkout['phone']" minlength="11" placeholder="+88" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                <!--                       t-att-value="'phone' in checkout and checkout['phone']" minlength="11" maxlength="11" placeholder="+88" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>-->
+                <span id="hidden_div" style="display:none;color: green;font-weight: bold;font-size: 20px;">✓</span>
+<!--                <div id="show_div" style="display:none;"></div> style="display: block;"-->
+            </xpath>
+            <xpath expr="//form[1]" position="after">
+                <script>
+                      function checkLength(el) {
+                        if (el.value.length &lt; 11) {
+                          alert("Phone Number Must Be 11 Digits")
+                          document.getElementById('hidden_div').style.display = "none";
+                        }
+                        else{
+                          document.getElementById('hidden_div').style.display = "block";
+                        }
+                    }
+                </script>
+            </xpath>
+
+        </template>
+    </data>
+</odoo>

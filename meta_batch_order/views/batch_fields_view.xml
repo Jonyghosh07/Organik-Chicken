@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_chicken_batch_form_extends" model="ir.ui.view">
+		<field name="name">View Chicken Batch Form</field>
+		<field name="model">stock.lot</field>
+		<field name="inherit_id" ref="stock.view_production_lot_form"/>
+		<field name="arch" type="xml">
+
+			<xpath expr="//group/group[1]"  position="after">
+				<group>
+					<field name="exp_date"/>
+					<field name="avg_wght"/>
+					<field name="unit_price_kg"/>
+					<field name="exp_chick"/>
+					<field name="expired_chick"/>
+					<field name="demand_qty"/>
+                    <field name="avail_chick"/>
+				</group>
+			</xpath>
+
+			<xpath expr="//page[@name='description']"  position="after">
+				<page string="Sales" name="sales">
+					<sheet>
+						<group>
+							<field name="sale_orders" widget="many2many_tags"/>
+						</group>
+					</sheet>
+				</page>
+			</xpath>
+
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="contacts_available_field_view_form" model="ir.ui.view">
+        <field name="name">contacts.available.field.view.form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="show_ribbon"/>
+            </xpath>
+            <xpath expr="//field[@name='image_1920']" position="before">
+                <widget name="web_ribbon" title="Temporary Unavailable" attrs="{'invisible': [('show_ribbon', '!=', True)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_report_picking_operations" inherit_id="stock.report_picking">
+        <xpath expr="//div[@name='right_box']" position="attributes">
+            <attribute name="style">margin-right: 100px;</attribute>
+        </xpath>
+    </template>
+
+</odoo>

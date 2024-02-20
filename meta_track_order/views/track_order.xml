@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="menu_track_order" model="website.menu">
+        <field name="name">Track Order</field>
+        <field name="url">/track_order</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">53</field>
+    </record>
+
+    <template id="get_order_id" name="Track Order">
+        <t t-call="website.layout">
+            <div class="container text-left">
+                <div class="row">
+                    <div class="col-xxl-5 col-xl-6 col-lg-8 mx-auto">
+                        <form class="" action="/search_order_id" method="GET">
+                            <div class="bg-white rounded shadow-sm">
+                                <div class="fs-15 fw-600 p-3 border-bottom text-center">
+                                    Check Your Order Status
+                                </div>
+                                <div class="form-box-content p-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control mb-3"
+                                               placeholder="Search by Order ID (example: S00001) or Phone Number"
+                                               name="order_id" required="required"/>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Track Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <record id="tracking_info" model="website.page">
+        <field name="name">Tracking Info</field>
+        <field name="type">qweb</field>
+        <field name="url">/tracking-info</field>
+        <field name="website_published">True</field>
+        <field name="key">meta_track_order.tracking_info</field>
+        <field name="arch" type="xml">
+<!--            <link rel="stylesheet" type="text/css" href="/meta_track_order/static/src/css/css.css/"/>-->
+            <t t-call="website.layout">
+                <div class="container text-left">
+                    <div class="row">
+                        <div class="col-xxl-8 col-xl-8 col-lg-8 mx-auto">
+                            <form class="" action="/search_order_id" method="GET">
+                                <div class="bg-white rounded shadow-sm">
+                                    <div class="fs-15 fw-600 p-3 border-bottom text-center">
+                                        Check Your Order Status
+                                    </div>
+                                    <div class="form-box-content p-3">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control mb-3"
+                                                   placeholder="Search by Order ID (example: S00001) or Phone Number"
+                                                   name="order_id" required="required"/>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary">Track Order</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <t t-if="is_tracking_order=='other_order'">
+                                <t t-foreach="sale_id" t-as="sale_id">
+                                    <t t-set="stock_picking"
+                                       t-value="request.env['stock.picking'].sudo().search([('origin', '=', sale_id.name)])"/>
+                                    <t t-if="len(stock_picking) > 1">
+                                        <t t-foreach="each_stock_picking" t-as="stock_picking">
+                                            <t t-if="each_stock_picking.state != 'cancel'">
+                                                <t t-set="stock_picking" t-value="each_stock_picking"/>
+                                            </t>
+                                        </t>
+                                    </t>
+                                    <div class="p-4">
+                                        <ul class="list-inline text-center aiz-steps">
+                                            <div class="icon">
+                                                <td class="w-50 fw-600 order_status">
+                                                    <h3>ORDER STATUS</h3>
+                                                    <h4 style="margin-bottom:30px;">
+                                                        <t t-if="sale_id['name']" t-esc="sale_id['name']"/>
+                                                    </h4>
+                                                </td>
+
+                                            </div>
+                                            <li class="list-inline-item mobile_view"
+                                                style="margin-right: 41px; vertical-align: top;">
+                                                <t t-if="sale_id['state']=='draft' and sale_id['state']!='cancel'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/1.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/green.png"/>
+                                                    </div>
+                                                    <strong style="color:green; margin:top;">Order Confirmed</strong>
+                                                    <div>
+                                                        <t t-if="sale_id['date_order']"
+                                                           t-esc="(sale_id['date_order']+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <div>
+                                                        <t t-if="sale_id['date_order']"
+                                                           t-esc="(sale_id['date_order']+ datetime.timedelta(.25)).strftime('%I:%M %p')"/>
+                                                    </div>
+                                                </t>
+                                                <t t-if="sale_id['state']=='cancel'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/5.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/green.png"/>
+                                                    </div>
+                                                    <strong style="color:green; margin:top;">Returned / Cancelled
+                                                    </strong>
+                                                    <t t-if="sale_id['cancel_date']">
+                                                        <div>
+                                                            <t t-if="sale_id['cancel_date']"
+                                                               t-esc="(sale_id['cancel_date']+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"></t>
+                                                        </div>
+                                                        <div>
+                                                            <t t-if="sale_id['cancel_date']"
+                                                               t-esc="(sale_id['cancel_date']+ datetime.timedelta(.25)).strftime('%I:%M %p')"></t>
+                                                        </div>
+                                                    </t>
+                                                </t>
+                                                <t t-elif="sale_id['state']!='draft' and sale_id['state']!='cancel'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/1.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+
+                                                    <div style="margin:15px;">
+                                                        <t t-if="sale_id['date_order']">
+                                                            <img src="meta_track_order/static/src/image/green.png"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <img src="meta_track_order/static/src/image/ashes.png"/>
+                                                        </t>
+                                                    </div>
+                                                    <t style="margin:top">Order Confirmed
+                                                        <div></div>
+                                                        <div></div>
+                                                    </t>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="sale_id['date_order']"
+                                                           t-esc="(sale_id['date_order']+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="sale_id['date_order']"
+                                                           t-esc="(sale_id['date_order']+ datetime.timedelta(.25)).strftime('%I:%M %p')"/>
+                                                    </div>
+                                                </t>
+                                            </li>
+                                            <li class="list-inline-item mobile_view"
+                                                style="margin-right: 41px; vertical-align: top;">
+                                                <t t-if="sale_id['state']=='sale' and sale_id['state']!='cancel'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/2.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/green.png"/>
+                                                    </div>
+                                                    <strong style="color:green; margin:top;">Processing Order</strong>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="stock_picking.create_date"
+                                                           t-esc="stock_picking.create_date.strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="stock_picking.create_date"
+                                                           t-esc="stock_picking.create_date.strftime('%I:%M %p')"/>
+                                                    </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/2.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <t t-if="stock_picking.create_date and sale_id['state']!='cancel'">
+                                                            <img src="meta_track_order/static/src/image/green.png"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <img src="meta_track_order/static/src/image/ashes.png"/>
+                                                        </t>
+                                                    </div>
+                                                    <t style="margin:top">Processing Order
+                                                        <div></div>
+                                                        <div></div>
+                                                    </t>
+                                                </t>
+                                            </li>
+                                            <li class="list-inline-item mobile_view"
+                                                style="margin-right: 41px; vertical-align: top;">
+                                                <t t-if="stock_picking.state=='done' and stock_picking.delivered==False and sale_id['state']!='cancel'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/3.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/green.png"/>
+                                                    </div>
+                                                    <strong style="color:green; margin:top;">Out for Delivery</strong>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="stock_picking.date_done"
+                                                           t-esc="(stock_picking.date_done+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <!--                                                    <div style="color:#7f8c8d">-->
+                                                    <!--                                                        <t t-esc="stock_picking.date_done.strftime('%I:%M %p')" />-->
+                                                    <!--                                                    </div>-->
+
+                                                </t>
+                                                <t t-else="">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/3.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <t t-if="stock_picking.date_done">
+                                                            <img src="meta_track_order/static/src/image/green.png"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <img src="meta_track_order/static/src/image/ashes.png"/>
+                                                        </t>
+                                                    </div>
+                                                    <t style="margin:top">Out for Delivery
+                                                        <div></div>
+                                                        <div></div>
+                                                    </t>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="stock_picking.date_done"
+                                                           t-esc="(stock_picking.date_done+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <!--                                                    <div style="color:#7f8c8d">-->
+                                                    <!--                                                        <t t-if="stock_picking.date_done"-->
+                                                    <!--                                                           t-esc="stock_picking.date_done.strftime('%I:%M %p')"/>-->
+                                                    <!--                                                    </div>-->
+
+                                                </t>
+                                            </li>
+                                            <li class="list-inline-item mobile_view" style="vertical-align: top;">
+                                                <t t-if="(stock_picking.delivered and stock_picking.state=='done') or (sale_id.delivery_done==True) and sale_id['state']!='cancel'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/4.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/green.png"/>
+
+                                                    </div>
+                                                    <strong style="color:green; margin:top;">Delivered</strong>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="sale_id.delivery_done"
+                                                           t-esc="sale_id.delivery_done_date.strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <!--                      .strftime('%d-%m-%Y')                              <div style="color:#7f8c8d">-->
+                                                    <!--                                                        <t t-esc="stock_picking.delivered.strftime('%I:%M %p')"/>-->
+                                                    <!--                                                    </div>-->
+                                                </t>
+                                                <t t-else="">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/4.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/ashes.png"/>
+                                                    </div>
+                                                    <t style="margin:top">Delivered</t>
+                                                    <div></div>
+                                                    <div></div>
+                                                </t>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="text-center alert alert-danger">Please <a href="/web/login">login</a> to
+                                        see details
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-if="is_tracking_order=='no_order'">
+                                <div class="text-center alert alert-danger">The order number you entered doesn't
+                                    match your record.
+                                </div>
+                            </t>
+                            <t t-if="is_tracking_order=='user'" >
+                            <t name="Tracking Info">
+                                <t t-foreach="sale_id" t-as="sale_id">
+                                    <t t-set="stock_picking"
+                                       t-value="request.env['stock.picking'].sudo().search([('origin', '=', sale_id.name)])"/>
+                                    <t t-if="len(stock_picking) > 1">
+                                        <t t-foreach="each_stock_picking" t-as="stock_picking">
+                                            <t t-if="each_stock_picking.state != 'cancel'">
+                                                <t t-set="stock_picking" t-value="each_stock_picking[0]"/>
+                                            </t>
+                                        </t>
+                                    </t>
+                                    <div class="bg-white rounded shadow-sm mt-5">
+                                        <div class="fs-15 fw-600 p-3 border-bottom">
+                                            Order Summary
+                                        </div>
+                                        <div class="p-3">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <table class="table table-borderless">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="w-50 fw-600">Order Code:</td>
+                                                                <td>
+                                                                    <t t-if="sale_id['name']" t-esc="sale_id['name']"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="w-50 fw-600">Customer:</td>
+                                                                <td>
+                                                                    <t t-if="sale_id['partner_id'].name"
+                                                                       t-esc="sale_id['partner_id'].name"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="w-50 fw-600">Email:</td>
+                                                                <td>
+                                                                    <t t-if="sale_id['partner_id'].email"
+                                                                       t-esc="sale_id['partner_id'].email"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="w-50 fw-600">Shipping Address:</td>
+                                                                <td>
+                                                                    <t t-if="sale_id['partner_id'].contact_address"
+                                                                       t-esc="sale_id['partner_id'].contact_address"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <table class="table table-borderless">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="w-50 fw-600">Order Date:</td>
+                                                                <td>
+                                                                    <t t-if="sale_id['date_order']"
+                                                                       t-esc="(sale_id['date_order']+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="w-50 fw-600">Total order amount:</td>
+                                                                <td>
+                                                                    <t t-if="sale_id['amount_total']"
+                                                                       t-esc="sale_id['amount_total']"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="w-50 fw-600">Shipping method:</td>
+                                                                <td>
+                                                                    <t t-if="sale_id['shipping_method']"
+                                                                       t-esc="sale_id['shipping_method'].name"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="w-50 fw-600">Payment method:</td>
+                                                                <td>
+                                                                    <t t-if="sale_id['payment_method']"
+                                                                       t-esc="sale_id['payment_method']"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <ul class="list-inline text-center aiz-steps">
+                                            <div class="icon">
+                                                <td class="w-50 fw-600 order_status">
+                                                    <h3 style="margin-bottom:30px;">ORDER STATUS</h3>
+                                                </td>
+                                            </div>
+                                            <li class="list-inline-item mobile_view"
+                                                style="vertical-align: top; margin-right: 38px;">
+                                                <t t-if="sale_id['state']=='draft' and sale_id['state']!='cancel'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/1.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/green.png"/>
+                                                    </div>
+                                                    <strong style="color:green; margin:top;">Order Confirmed</strong>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="sale_id['date_order']"
+                                                           t-esc="(sale_id['date_order']+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="sale_id['date_order']"
+                                                           t-esc="(sale_id['date_order']+ datetime.timedelta(.25)).strftime('%I:%M %p')"/>
+                                                    </div>
+                                                </t>
+                                                <t t-if="sale_id['state']=='cancel'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/5.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/green.png"/>
+                                                    </div>
+                                                    <strong style="color:green; margin:top;">Returned / Cancelled
+                                                    </strong>
+                                                    <t t-if="sale_id['cancel_date']">
+                                                        <div>
+                                                            <t t-esc="(sale_id['cancel_date']+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"/>
+                                                        </div>
+                                                        <div>
+                                                            <t t-esc="(sale_id['cancel_date']+ datetime.timedelta(.25)).strftime('%I:%M %p')"/>
+                                                        </div>
+                                                    </t>
+                                                </t>
+                                                <t t-elif="sale_id['state']!='draft' and sale_id['state']!='cancel'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/1.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <t t-if="sale_id['date_order']">
+                                                            <img src="meta_track_order/static/src/image/green.png"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <img src="meta_track_order/static/src/image/ashes.png"/>
+                                                        </t>
+                                                    </div>
+                                                    <t style="margin:top">Order Confirmed
+                                                        <div/>
+                                                        <div/>
+                                                    </t>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="sale_id['date_order']"
+                                                           t-esc="(sale_id['date_order']+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="sale_id['date_order']"
+                                                           t-esc="(sale_id['date_order']+ datetime.timedelta(.25)).strftime('%I:%M %p')"/>
+                                                    </div>
+                                                </t>
+                                            </li>
+                                            <li class="list-inline-item mobile_view"
+                                                style="vertical-align: top; margin-right: 38px;">
+                                                <t t-if="sale_id['state']=='sale' and sale_id['state']!='cancel' and stock_picking.state!='done'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/2.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/green.png"/>
+                                                    </div>
+                                                    <strong style="color:green; margin:top;">Processing Order</strong>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="stock_picking.create_date"
+                                                           t-esc="stock_picking.create_date.strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <!--                                                    <div style="color:#7f8c8d">-->
+                                                    <!--                                                        <t t-esc="stock_picking.create_date.strftime('%I:%M %p')"/>-->
+                                                    <!--                                                    </div>-->
+                                                </t>
+                                                <t t-else="">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/2.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <t t-if="stock_picking.create_date and sale_id['state']!='cancel'">
+                                                            <img src="meta_track_order/static/src/image/green.png"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <img src="meta_track_order/static/src/image/ashes.png"/>
+                                                        </t>
+                                                    </div>
+                                                    <t style="margin:top">Processing Order
+                                                        <div></div>
+                                                        <div></div>
+                                                    </t>
+                                                    <!--                                                    <div style="color:#7f8c8d">-->
+                                                    <!--                                                        <t t-if="stock_picking.create_date"-->
+                                                    <!--                                                           t-esc="stock_picking.create_date.strftime('%d-%m-%Y')"/>-->
+                                                    <!--                                                    </div>-->
+                                                    <!--                                                    <div style="color:#7f8c8d">-->
+                                                    <!--                                                        <t t-if="stock_picking.create_date"-->
+                                                    <!--                                                           t-esc="stock_picking.create_date.strftime('%I:%M %p')"/>-->
+                                                    <!--                                                    </div>-->
+                                                </t>
+                                            </li>
+                                            <li class="list-inline-item mobile_view"
+                                                style="vertical-align: top; margin-right: 38px;">
+                                                <t t-if="stock_picking.state=='done' and stock_picking.delivered==False and sale_id['state']!='cancel' and sale_id.delivery_done==False">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/3.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/green.png"/>
+
+                                                    </div>
+                                                    <strong style="color:green; margin:top;">Out for Delivery</strong>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="stock_picking.date_done"
+                                                           t-esc="(stock_picking.date_done+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <!--                                                    <div style="color:#7f8c8d">-->
+                                                    <!--                                                        <t t-esc="stock_picking.date_done.strftime('%I:%M %p')"/>-->
+                                                    <!--                                                    </div>-->
+                                                </t>
+                                                <t t-else="">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/3.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <t t-if="stock_picking.date_done and sale_id['state']!='cancel'">
+                                                            <img src="meta_track_order/static/src/image/green.png"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <img src="meta_track_order/static/src/image/ashes.png"/>
+                                                        </t>
+                                                    </div>
+                                                    <t style="margin:top">Out for Delivery
+                                                        <div></div>
+                                                        <div></div>
+                                                    </t>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="stock_picking.date_done"
+                                                           t-esc="(stock_picking.date_done+ datetime.timedelta(.25)).strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <!--                                                    <div style="color:#7f8c8d">-->
+                                                    <!--                                                        <t t-if="stock_picking.date_done"-->
+                                                    <!--                                                           t-esc="stock_picking.date_done.strftime('%I:%M %p')"/>-->
+                                                    <!--                                                    </div>-->
+
+                                                </t>
+                                            </li>
+                                            <li class="list-inline-item mobile_view" style="vertical-align: top;">
+                                                <t t-if="(stock_picking.delivered and stock_picking.state=='done') or (sale_id.delivery_done==True)  and sale_id['state']!='cancel'">
+                                                    <div>
+                                                        <img src="meta_track_order/static/src/image/4.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/green.png"/>
+
+                                                    </div>
+                                                    <strong style="color:green; margin:top">Delivered</strong>
+                                                    <div style="color:#7f8c8d">
+                                                        <t t-if="sale_id.delivery_done"
+                                                           t-esc="sale_id.delivery_done_date.strftime('%d-%m-%Y')"/>
+                                                    </div>
+                                                    <!--                                                    <div style="color:#7f8c8d">-->
+                                                    <!--                                                        <t t-esc="stock_picking.delivered.strftime('%I:%M %p')"/>-->
+                                                    <!--                                                    </div>-->
+                                                </t>
+                                                <t t-else="">
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/4.png"
+                                                             class="status_image" style="width:80px; height:80px;"/>
+                                                    </div>
+                                                    <div style="margin:15px;">
+                                                        <img src="meta_track_order/static/src/image/ashes.png"/>
+                                                    </div>
+                                                    <t style="margin:top">Delivered</t>
+                                                    <div></div>
+                                                    <div></div>
+                                                </t>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-white rounded shadow-sm mt-4">
+                                        <div class="p-3">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product Name</th>
+                                                        <th>Quantity</th>
+                                                        <th>Shipped By</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr t-foreach="sale_id['order_line']" t-as="o">
+                                                        <td>
+                                                            <t t-if="o.name" t-esc="o.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <t t-if="o.product_uom_qty" t-esc="o.product_uom_qty"/>
+                                                        </td>
+                                                        <td>
+                                                            <!--                                                            <t t-if="sale_id['courier_name']" t-esc="sale_id['courier_name']"/>-->
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <hr style="border: 4px solid gray;"/>
+
+
+                                </t>
+                            </t>
+                        </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </field>
+    </record>
+</odoo>
