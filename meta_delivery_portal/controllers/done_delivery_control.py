@@ -35,6 +35,7 @@ class DoneDeliveryPortal(portal.CustomerPortal):
         today_utc = pytz.utc.localize(datetime.utcnow())
         today_tz = today_utc.astimezone(pytz.timezone(request.env.user.partner_id.sudo().tz))
         today = date(year=today_tz.year, month=today_tz.month, day=today_tz.day)
+        _logger.info(f"for done delivery delivery man's today ----------------> {today}")
 
         values = self._prepare_portal_layout_values()
         Saleorder = request.env['sale.order']
@@ -79,7 +80,6 @@ class DoneDeliveryPortal(portal.CustomerPortal):
             'sortby': sortby,
             'filterby': filterby,
         })
-        _logger.info(f"Done delivery delivery man's today's values ----------------> {today}")
         return values
 
     def _done_delivery_get_page_view_values(self, order, access_token, **kwargs):

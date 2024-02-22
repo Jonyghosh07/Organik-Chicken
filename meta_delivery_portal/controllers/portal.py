@@ -3,6 +3,7 @@ from odoo.addons.portal.controllers.portal import CustomerPortal, pager as porta
 from odoo import fields, http, tools, _, SUPERUSER_ID
 from datetime import date, datetime
 import pytz
+from odoo.osv import expression
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -22,14 +23,18 @@ class MyDeliveryPortal(CustomerPortal):
         if 'delivery_count' in counters:
             values['delivery_count'] = request.env['sale.order'].sudo().search_count(
                 ['&', '&', '&', ('delivery_man', '=', request.env.user.partner_id.id), ('state', 'in', ['draft', 'sent']),
-                 ('delivery_date', '=', today), ('defer_status', '=', False)]) \
+                ('delivery_date', '=', today), ('defer_status', '=', False)]) \
                 if request.env['sale.order'].sudo().check_access_rights('read', raise_exception=False) else 0
 
         if 'done_delivery_count' in counters:
-            values['done_delivery_count'] = request.env['sale.order'].sudo().search_count(
-                ['|', '&', ('state', '=', 'draft'), ('defer_status', '!=', False), '&',
-                    ('delivery_man', '=', request.env.user.partner_id.id), ('state', 'in', ['sale']),
-                    ('delivery_date', '=', today)]) \
+            domain = expression.AND([
+                    [('delivery_man', '=', request.env.user.partner_id.id), ('delivery_date', '=', today)],
+                    ['|',
+                        ('state', 'in', ['sale']),
+                        '&', ('state', '=', 'draft'), ('defer_status', '!=', False)
+                    ]
+                ])
+            values['done_delivery_count'] = request.env['sale.order'].sudo().search_count(domain) \
                 if request.env['sale.order'].sudo().check_access_rights('read', raise_exception=False) else 0
 
         return values

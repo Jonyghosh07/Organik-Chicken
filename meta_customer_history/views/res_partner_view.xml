@@ -18,6 +18,7 @@
         <field name="inherit_id" ref="base.view_partner_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='vat']" position="after">
+                <field name="last_delivery_batch" optional="show"/>
                 <field name="last_delivery_date" optional="show"/>
                 <field name="last_delivery_prods" optional="show"/>
             </xpath>

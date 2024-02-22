@@ -37,7 +37,7 @@ class DeliveryReport(CustomerPortal):
 
                 if product_name in product_quantities:
                     product_quantities[product_name]['total'] = product_quantities[product_name].get('total',
-                                                                                                    0) + piece_qty
+                                                                                                     0) + piece_qty
                     product_quantities[product_name]['pending'] = product_quantities[product_name].get('pending', 0) + (
                         piece_qty if sale.state == 'draft' else 0)
                 else:

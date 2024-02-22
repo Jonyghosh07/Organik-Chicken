@@ -180,18 +180,10 @@ class SaleOrderInherits(models.Model):
         order = self.env['sale.order'].sudo().search([('name', '=', order_id)])
         _logger.info(f"order lines_to_update {lines_to_update}")
         if order:
-            _logger.info(f"if order:  ----------  : {order.name}")
             for j in lines_to_update:
-                _logger.info(f"---------- INSIDE -> for j in lines_to_update  ----------")
                 for i in order.order_line:
-                    _logger.info(f"for i in order.order_line i.id ---------------------->>>>>> : {i.id}")
-                    _logger.info(f"for i in order.order_line j['id'] ------------------->>>>>> : {j['id']}")
                     if i.id == j['id']:
-                        _logger.info(f"if i.id == j['id']:  j[id] =========----------  : {j['id']}")
-                        _logger.info(f"if i.id == j['id']:  i.id  =========----------  : {i.id}")
-                        _logger.info(f"i.piece_qty before -----------: {i.piece_qty}")
                         i.piece_qty = j['piece_qty']
-                        _logger.info(f"i.piece_qty after -----------: {i.piece_qty}")
                         i.product_uom_qty = j['product_uom_qty']
                         i.price_unit = j['price_unit']
         return True
@@ -201,7 +193,10 @@ class SaleOrderInherits(models.Model):
         order = self.env['sale.order'].sudo().search([('id', '=', order_id)])
         pay_opt = fields[0].get('payment_option')
         paid_amount = fields[0].get('received')
+        map_url = fields[0].get('map_url')
         if order:
+            if map_url:
+                order.partner_id.map_url = map_url
             order.payment_option = pay_opt
             if pay_opt == 'cash' and paid_amount:
                 order.receipt_paid = paid_amount

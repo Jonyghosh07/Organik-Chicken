@@ -27,15 +27,16 @@
 
     <template id="portal_layout" name="Portal Layout">
         <t t-call="portal.frontend_layout">
-            <t t-set="is_portal" t-value="True"/>
+            <t t-set="is_portal" t-value="True" />
 
-            <div t-if="not no_breadcrumbs and not my_details and not breadcrumbs_searchbar" class="o_portal container mt-3">
+            <div t-if="not no_breadcrumbs and not my_details and not breadcrumbs_searchbar"
+                class="o_portal container mt-3">
                 <div class="row align-items-center bg-white g-0 border rounded">
                     <div class="col-10">
                         <t t-call="meta_delivery_portal.portal_breadcrumbs"></t>
                     </div>
                     <div t-if="prev_record or next_record" class="col-2 flex-grow-0 text-center">
-                        <t t-call='portal.record_pager'/>
+                        <t t-call='portal.record_pager' />
                     </div>
                 </div>
             </div>
@@ -44,27 +45,32 @@
                     <t t-if="my_details">
                         <div class="row justify-content-between mt-4">
                             <div t-attf-class="col-12 col-md col-lg-6">
-                                <t t-out="0"/>
+                                <t t-out="0" />
                             </div>
-                            <div id="o_my_sidebar" class="pt-3 pt-lg-0 col-12 col-md col-lg-4 col-xl-3 o_my_sidebar">
+                            <div id="o_my_sidebar"
+                                class="pt-3 pt-lg-0 col-12 col-md col-lg-4 col-xl-3 o_my_sidebar">
                                 <div class="o_my_contact" t-if="sales_user">
-                                    <t t-call="portal.portal_contact"/>
+                                    <t t-call="portal.portal_contact" />
                                 </div>
                                 <div class="o_portal_my_details">
-                                    <h4>Details <a role="button" href="/my/account" class="btn btn-sm btn-link"><i class="fa fa-pencil"/> Edit</a></h4>
-                                    <hr class="mt-1 mb-0"/>
-                                    <div t-field="user_id.partner_id" t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}'/>
+                                    <h4>Details <a role="button" href="/my/account"
+                                            class="btn btn-sm btn-link"><i class="fa fa-pencil" />
+                                        Edit</a></h4>
+                                    <hr class="mt-1 mb-0" />
+                                    <div t-field="user_id.partner_id"
+                                        t-options='{"widget": "contact", "fields": ["email", "phone", "address", "name"]}' />
                                 </div>
                                 <div class="o_portal_my_security mt-3">
                                     <h4>Account Security </h4>
-                                    <hr class="mt-1 mb-1"/>
-                                    <a href="/my/security"><i class="fa fa-pencil mx-1"/>Edit Security Settings</a>
+                                    <hr class="mt-1 mb-1" />
+                                    <a href="/my/security"><i class="fa fa-pencil mx-1" />Edit
+                                        Security Settings</a>
                                 </div>
                             </div>
                         </div>
                     </t>
                     <t t-else="">
-                        <t t-out="0"/>
+                        <t t-out="0" />
                     </t>
                 </div>
             </div>
@@ -73,48 +79,56 @@
 
 
     <template id="portal_searchbar" name="Portal Search Bar">
-        <nav t-attf-class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_portal_navbar {{classes if classes else ''}} {{'mt-3 rounded' if breadcrumbs_searchbar else 'border-top-0' }}">
+        <nav
+            t-attf-class="navbar navbar-light navbar-expand-lg border py-0 mb-2 o_portal_navbar {{classes if classes else ''}} {{'mt-3 rounded' if breadcrumbs_searchbar else 'border-top-0' }}">
             <!--  Navbar breadcrumb or title  -->
             <t t-if="breadcrumbs_searchbar">
-                <t t-call="meta_delivery_portal.portal_breadcrumbs"/>
+                <t t-call="meta_delivery_portal.portal_breadcrumbs" />
             </t>
-            <span t-else="" class="navbar-brand mb-0 h1 me-auto" t-esc="title or 'No title'"/>
+            <span t-else="" class="navbar-brand mb-0 h1 me-auto" t-esc="title or 'No title'" />
 
             <!--  Collapse button -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#o_portal_navbar_content" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle filters">
-                <span class="navbar-toggler-icon small"/>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#o_portal_navbar_content" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle filters">
+                <span class="navbar-toggler-icon small" />
             </button>
 
             <!--  Collapsable content  -->
             <div class="collapse navbar-collapse" id="o_portal_navbar_content">
                 <div class="nav flex-column flex-lg-row ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
-<!--                    <div t-if="searchbar_sortings">-->
-<!--                        <span class="small me-1 navbar-text">Sort By:</span>-->
-<!--                        <div class="btn-group">-->
-<!--                            <button id="portal_searchbar_sortby" data-bs-toggle="dropdown" class="btn btn-secondary btn-sm dropdown-toggle">-->
-<!--                                <t t-esc="searchbar_sortings[sortby].get('label', 'Newest')"/>-->
-<!--                            </button>-->
-<!--                            <div class="dropdown-menu" aria-labelledby="portal_searchbar_sortby">-->
-<!--                                <t t-foreach="searchbar_sortings" t-as="option">-->
-<!--                                    <a t-att-href="request.httprequest.path + '?' + keep_query('*', sortby=option)"-->
-<!--                                       t-attf-class="dropdown-item#{sortby == option and ' active' or ''}">-->
-<!--                                        <span t-esc="searchbar_sortings[option].get('label')"/>-->
-<!--                                    </a>-->
-<!--                                </t>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div t-if="searchbar_sortings">-->
+                    <!--                        <span class="small me-1 navbar-text">Sort By:</span>-->
+                    <!--                        <div class="btn-group">-->
+                    <!--                            <button id="portal_searchbar_sortby" data-bs-toggle="dropdown" class="btn
+                    btn-secondary btn-sm dropdown-toggle">-->
+                    <!--                                <t t-esc="searchbar_sortings[sortby].get('label', 'Newest')"/>-->
+                    <!--                            </button>-->
+                    <!--                            <div class="dropdown-menu" aria-labelledby="portal_searchbar_sortby">-->
+                    <!--                                <t t-foreach="searchbar_sortings" t-as="option">-->
+                    <!--                                    <a t-att-href="request.httprequest.path + '?' + keep_query('*',
+                    sortby=option)"-->
+                    <!--                                       t-attf-class="dropdown-item#{sortby == option and ' active' or ''}">-->
+                    <!--                                        <span t-esc="searchbar_sortings[option].get('label')"/>-->
+                    <!--                                    </a>-->
+                    <!--                                </t>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <div t-if="searchbar_filters" class="ms-lg-2">
                         <span class="small me-1 navbar-text">Filter By:</span>
                         <div class="btn-group">
-                            <button id="portal_searchbar_filters" data-bs-toggle="dropdown" class="btn btn-secondary btn-sm dropdown-toggle">
-                                <t t-esc="searchbar_filters.get(filterby,searchbar_filters.get('all')).get('label', 'All')"/>
+                            <button id="portal_searchbar_filters" data-bs-toggle="dropdown"
+                                class="btn btn-secondary btn-sm dropdown-toggle">
+                                <t
+                                    t-esc="searchbar_filters.get(filterby,searchbar_filters.get('all')).get('label', 'All')" />
                             </button>
                             <div class="dropdown-menu" aria-labelledby="portal_searchbar_filters">
                                 <t t-foreach="searchbar_filters" t-as="option">
-                                    <a t-att-href="default_url + '?' + keep_query('*', filterby=option)"
-                                       t-attf-class="dropdown-item#{filterby == option and ' active' or ''}">
-                                        <span t-esc="searchbar_filters[option].get('label')"/>
+                                    <a
+                                        t-att-href="default_url + '?' + keep_query('*', filterby=option)"
+                                        t-attf-class="dropdown-item#{filterby == option and ' active' or ''}">
+                                        <span t-esc="searchbar_filters[option].get('label')" />
                                     </a>
                                 </t>
                             </div>
@@ -123,35 +137,40 @@
                     <div t-if="searchbar_groupby" class="ms-lg-2">
                         <span class="small me-1 navbar-text">Group By:</span>
                         <div class="btn-group">
-                            <button id="portal_searchbar_groupby" data-bs-toggle="dropdown" class="btn btn-secondary btn-sm dropdown-toggle">
-                                <t t-esc="searchbar_groupby[groupby].get('label', 'None')"/>
+                            <button id="portal_searchbar_groupby" data-bs-toggle="dropdown"
+                                class="btn btn-secondary btn-sm dropdown-toggle">
+                                <t t-esc="searchbar_groupby[groupby].get('label', 'None')" />
                             </button>
                             <div class="dropdown-menu" aria-labelledby="portal_searchbar_groupby">
                                 <t t-foreach="searchbar_groupby" t-as="option">
-                                    <a t-att-href="default_url + '?' + keep_query('*', groupby=option)"
-                                       t-attf-class="dropdown-item#{groupby == option and ' active' or ''}">
-                                        <span t-esc="searchbar_groupby[option].get('label')"/>
+                                    <a
+                                        t-att-href="default_url + '?' + keep_query('*', groupby=option)"
+                                        t-attf-class="dropdown-item#{groupby == option and ' active' or ''}">
+                                        <span t-esc="searchbar_groupby[option].get('label')" />
                                     </a>
                                 </t>
                             </div>
                         </div>
                     </div>
-                    <t t-out="0"/>
+                    <t t-out="0" />
                 </div>
-                <form t-if="searchbar_inputs" class="o_portal_search_panel ms-lg-4 col-xl-4 col-md-5">
+                <form t-if="searchbar_inputs"
+                    class="o_portal_search_panel ms-lg-4 col-xl-4 col-md-5">
                     <div class="input-group input-group-sm w-100">
-                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"/>
+                        <button type="button" class="btn btn-secondary dropdown-toggle"
+                            data-bs-toggle="dropdown" />
                         <div class="dropdown-menu" role="menu">
                             <t t-foreach='searchbar_inputs' t-as='input'>
                                 <a t-att-href="'#' + input_value['input']"
                                     t-attf-class="dropdown-item#{search_in == input_value['input'] and ' active' or ''}">
-                                    <span t-out="input_value['label']"/>
+                                    <span t-out="input_value['label']" />
                                 </a>
                             </t>
                         </div>
-                        <input type="text" class="form-control form-control-sm" placeholder="Search" t-att-value='search' name="search"/>
+                        <input type="text" class="form-control form-control-sm" placeholder="Search"
+                            t-att-value='search' name="search" />
                         <button class="btn btn-secondary o_wait_lazy_js" type="submit">
-                            <span class="fa fa-search"/>
+                            <span class="fa fa-search" />
                         </button>
                     </div>
                 </form>
@@ -177,7 +196,7 @@
                         <th style="text-align: left;">Area</th>
                         <th style="text-align: left;">SubArea</th>
                         <th style="text-align: left;">Customer Remarks</th>
-			<th style="text-align: left;">Order Remarks</th>
+                        <th style="text-align: left;">Order Remarks</th>
                         <th style="text-align: left;">Product</th>
                     </tr>
                 </thead>
@@ -201,14 +220,14 @@
                             <span t-field="quotation.partner_remarks" />
                         </td>
 
-			<td style="text-align: left;">
+                        <td style="text-align: left;">
                             <span t-field="quotation.custom_remarks" />
                         </td>
 
                         <td style="text-align: left;">
                             <t t-foreach="quotation.order_line" t-as="line">
-                                <t t-if="line.product_id.id != 1">
-                                    (<t t-esc="line.piece_qty" />) <span t-field="line.product_id.name" />
+                                <t t-if="line.product_id.id != 1"> (<t t-esc="line.piece_qty" />) <span
+                                        t-field="line.product_id.name" />
                                     <br />
                                 </t>
                             </t>
@@ -221,13 +240,13 @@
         <style>
 
             th, td {
-                text-align: center;
+            text-align: center;
             }
 
             @media screen and (max-width: 768px) {
-                th, td {
-                    font-size: 11px; /* Adjust the font size as needed */
-                }
+            th, td {
+            font-size: 11px; /* Adjust the font size as needed */
+            }
             }
         </style>
 
@@ -263,18 +282,19 @@
 
                             <!--OTP
                             Block-->
-<!--                            <div id="otp_block" style="margin: 20px; display: none">-->
-<!--                                <input type="text" id="otp" name="OTP" placeholder="Enter the OTP" />-->
-<!--                            </div>-->
+                            <!--                            <div id="otp_block" style="margin: 20px; display: none">-->
+                            <!--                                <input type="text" id="otp" name="OTP" placeholder="Enter the OTP"
+                            />-->
+                            <!--                            </div>-->
 
-<!--                            <div id="otp_successful" style="display: none">-->
-<!--                                <p>OTP verification Successful.</p>-->
-<!--                                <p>Thank you..</p>-->
-<!--                            </div>-->
-<!--                            <div id="otp_unsuccessful" style="display: none">-->
-<!--                                <p>OTP verification Unsuccessful.</p>-->
-<!--                                <p>Enter again..</p>-->
-<!--                            </div>-->
+                            <!--                            <div id="otp_successful" style="display: none">-->
+                            <!--                                <p>OTP verification Successful.</p>-->
+                            <!--                                <p>Thank you..</p>-->
+                            <!--                            </div>-->
+                            <!--                            <div id="otp_unsuccessful" style="display: none">-->
+                            <!--                                <p>OTP verification Unsuccessful.</p>-->
+                            <!--                                <p>Enter again..</p>-->
+                            <!--                            </div>-->
 
                             <!--Done
                             Button-->
@@ -288,32 +308,34 @@
 
                             <!--Submit
                             Button-->
-<!--                            <div id="submit_button" class="col-sm-auto mt8"-->
-<!--                                style="margin: 20px; display: none">-->
-<!--                                <a role="button" class="btn btn-primary" id="submitButton" href="#">-->
-<!--                                    <i class="fa fa-check" />-->
-<!--                                    <t t-if="sale_order._has_to_be_paid(True)">Submit</t>-->
-<!--                                </a>-->
-<!--                            </div>-->
+                            <!--                            <div id="submit_button" class="col-sm-auto mt8"-->
+                            <!--                                style="margin: 20px; display: none">-->
+                            <!--                                <a role="button" class="btn btn-primary" id="submitButton"
+                            href="#">-->
+                            <!--                                    <i class="fa fa-check" />-->
+                            <!--                                    <t t-if="sale_order._has_to_be_paid(True)">Submit</t>-->
+                            <!--                                </a>-->
+                            <!--                            </div>-->
 
-<!--                            <script>-->
-<!--                                const targetDiv = document.getElementById("otp_block");-->
-<!--                                const targetDivDoneButton = document.getElementById("done_button");-->
-<!--                                const targetDivSubmitButton =-->
-<!--                                document.getElementById("submit_button");-->
-<!--                                const btn = document.getElementById("submitButton");-->
-<!--                                btn.onclick = function () {-->
-<!--                                if (targetDiv.style.display == "none") {-->
-<!--                                targetDiv.style.display = "block";-->
-<!--                                targetDivDoneButton.style.display = "block";-->
-<!--                                targetDivSubmitButton.style.display = "none";-->
-<!--                                }-->
-<!--                                };-->
-<!--                            </script>-->
+                            <!--                            <script>-->
+                            <!--                                const targetDiv = document.getElementById("otp_block");-->
+                            <!--                                const targetDivDoneButton =
+                            document.getElementById("done_button");-->
+                            <!--                                const targetDivSubmitButton =-->
+                            <!--                                document.getElementById("submit_button");-->
+                            <!--                                const btn = document.getElementById("submitButton");-->
+                            <!--                                btn.onclick = function () {-->
+                            <!--                                if (targetDiv.style.display == "none") {-->
+                            <!--                                targetDiv.style.display = "block";-->
+                            <!--                                targetDivDoneButton.style.display = "block";-->
+                            <!--                                targetDivSubmitButton.style.display = "none";-->
+                            <!--                                }-->
+                            <!--                                };-->
+                            <!--                            </script>-->
 
                             <div id="cancel_button" class="col-sm-auto mt8">
                                 <a role="button" class="btn btn-danger" id="cancelButton" href="#">
-                                    <i class="fa fa-times"/> Defer </a>
+                                    <i class="fa fa-times" /> Defer </a>
                             </div>
                         </t>
 
@@ -407,11 +429,12 @@
 
                         <div>
                             <strong>Address :</strong>
-                            <t t-esc="sale_order.partner_invoice_id.street" /> <t
-                                t-if="sale_order.partner_invoice_id.street" />,
-                            <t t-esc="sale_order.partner_invoice_id.street2" /> <t
-                                t-if="sale_order.partner_invoice_id.street2" />,
-                            <t t-esc="sale_order.partner_invoice_id.city" /> <t
+                            <t
+                                t-esc="sale_order.partner_invoice_id.street" /> <t
+                                t-if="sale_order.partner_invoice_id.street" />, <t
+                                t-esc="sale_order.partner_invoice_id.street2" /> <t
+                                t-if="sale_order.partner_invoice_id.street2" />, <t
+                                t-esc="sale_order.partner_invoice_id.city" /> <t
                                 t-if="sale_order.partner_invoice_id.city" />
                         </div>
                         <div>
@@ -441,7 +464,8 @@
                             <t t-if="sale_order.partner_invoice_id.name" />
                         </div>
 
-                        <!--Phone Mobile-->
+                        <!--Phone
+                        Mobile-->
                         <div>
                             <strong>Phone :</strong>
                             <span t-set="has_phone" t-value="sale_order.partner_id.phone" />
@@ -457,12 +481,12 @@
                         <div>
                             <strong>Address :</strong>
                             <t
-                            t-esc="sale_order.partner_invoice_id.street" /> <t
-                            t-if="sale_order.partner_invoice_id.street" />, <t
-                            t-esc="sale_order.partner_invoice_id.street2" /> <t
-                            t-if="sale_order.partner_invoice_id.street2" />, <t
-                            t-esc="sale_order.partner_invoice_id.city" /> <t
-                            t-if="sale_order.partner_invoice_id.city" />
+                                t-esc="sale_order.partner_invoice_id.street" /> <t
+                                t-if="sale_order.partner_invoice_id.street" />, <t
+                                t-esc="sale_order.partner_invoice_id.street2" /> <t
+                                t-if="sale_order.partner_invoice_id.street2" />, <t
+                                t-esc="sale_order.partner_invoice_id.city" /> <t
+                                t-if="sale_order.partner_invoice_id.city" />
                         </div>
 
                         <div>
@@ -482,17 +506,33 @@
                     <div>
                         <t t-if="sale_order.partner_remarks">
                             <strong>Remarks :</strong>
-                            <span id="partner_remarks" t-field="sale_order.partner_remarks" style="background-color: yellow; padding: 2px;"/>
+                            <span id="partner_remarks" t-field="sale_order.partner_remarks"
+                                style="background-color: yellow; padding: 2px;" />
                         </t>
                     </div>
-                    <div t-if="sale_order.partner_id.map_url"
-                        style="padding-top: 15px; padding-bottom: 15px;">
+                    <div>
+                        <t t-if="sale_order.custom_remarks">
+                            <strong>Order Remarks :</strong>
+                            <span id="order_remarks" t-field="sale_order.custom_remarks"
+                                style="background-color: #73F340; padding: 2px;" />
+                        </t>
+                    </div>
+                    <div style="padding-top: 15px; padding-bottom: 15px;">
                         <t>
                             <strong>Map Url:</strong>
                         </t>
-                        <a t-attf-href="{{sale_order.partner_id.map_url}}" target="_blank">
-                            <span t-field="sale_order.partner_id.map_url" />
-                        </a>
+                        <t t-if="sale_order.partner_id.map_url">
+                            <a t-attf-href="{{sale_order.partner_id.map_url}}" target="_blank">
+                                <span t-field="sale_order.partner_id.map_url" />
+                            </a>
+                        </t>
+                        <t t-else="">
+                            <input id="o_url_input" class="form-control W-50 o_url_input"
+                                placeholder="Enter Google Map Url here ....."
+                                type="text"
+                                style="height: 50Px;"
+                            />
+                        </t>
                     </div>
                 </div>
 
@@ -545,7 +585,8 @@
                                     t-value="current_subtotal + line.price_total"
                                     groups="account.group_show_line_subtotals_tax_included" />
 
-                                <tr t-att-class="'bg-200 fw-bold o_line_section'
+                                <tr
+                                    t-att-class="'bg-200 fw-bold o_line_section'
                                      if line.display_type == 'line_section' else 'fst-italic o_line_note'
                                      if line.display_type == 'line_note' else ''+'o_line_item'"
                                     t-att-data-line-id="line.id"
@@ -570,7 +611,8 @@
                                             </div>
                                         </td>
 
-                                        <!--Quantity Value Kgs-->
+                                        <!--Quantity
+                                        Value Kgs-->
                                         <td id="quantity" class="text-center">
                                             <div id="quote_qty">
                                                 <span t-field="line.product_uom_qty"
@@ -578,7 +620,8 @@
                                             </div>
                                         </td>
 
-                                        <!--Unit Price-->
+                                        <!--Unit
+                                        Price-->
                                         <td id="unit_price"
                                             t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
                                             <div
@@ -784,9 +827,10 @@
                                             <option value="not_time">সময় পাওয়া যায় নাই</option>
                                         </select>
                                     </div>
-                                    <div id="date_delivery_field" style="text-align: center; padding-top: 10px; display: none;">
+                                    <div id="date_delivery_field"
+                                        style="text-align: center; padding-top: 10px; display: none;">
                                         <label for="date_delivery">Date of Delivery:</label>
-                                        <input type="date" id="date_delivery" name="date_delivery"/>
+                                        <input type="date" id="date_delivery" name="date_delivery" />
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer d-flex justify-content-between">
@@ -800,16 +844,20 @@
                             </div>
                             <script>
                                 // Get references to the select and input elements
-                                var deliveryStatusSelect = document.getElementById("delivery_status_select");
-                                var dateDeliveryField = document.getElementById("date_delivery_field");
+                                var deliveryStatusSelect =
+                                document.getElementById("delivery_status_select");
+                                var dateDeliveryField =
+                                document.getElementById("date_delivery_field");
 
                                 // Add an event listener to the select element
                                 deliveryStatusSelect.addEventListener("change", function () {
-                                    if (deliveryStatusSelect.value == "not_home") {
-                                        dateDeliveryField.style.display = "block"; // Show the date input field
-                                    } else {
-                                        dateDeliveryField.style.display = "none"; // Hide the date input field
-                                    }
+                                if (deliveryStatusSelect.value == "not_home") {
+                                dateDeliveryField.style.display = "block"; // Show the date input
+                                field
+                                } else {
+                                dateDeliveryField.style.display = "none"; // Hide the date input
+                                field
+                                }
                                 });
                             </script>
                         </div>
@@ -879,12 +927,12 @@
                 <strong>Previous Due</strong>
             </td>
             <td id="prev_due" class="text-end">
-                <span t-esc="sale_order.partner_id.total_due"/>
+                <span t-esc="sale_order.partner_id.total_due" />
             </td>
         </tr>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"/>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" />
         <script>
-        $(document).ready(function() {
+            $(document).ready(function() {
             // Get the value from the span element
             var totalDue = parseFloat($("#prev_due span").text());
 
@@ -893,7 +941,7 @@
 
             // Update the span with the formatted value
             $("#prev_due span").text(formattedTotalDue);
-        });
+            });
         </script>
 
 
@@ -902,12 +950,12 @@
                 <strong>Total Payable</strong>
             </td>
             <td id="total_payable" class="text-end">
-                <span t-esc="sale_order.total_payable"/>
+                <span t-esc="sale_order.total_payable" />
             </td>
         </tr>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"/>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" />
         <script>
-        $(document).ready(function() {
+            $(document).ready(function() {
             // Get the value from the span element
             var totalPay = parseFloat($("#total_payable span").text());
 
@@ -916,7 +964,7 @@
 
             // Update the span with the formatted value
             $("#total_payable span").text(formattedTotalPay);
-        });
+            });
         </script>
 
 
@@ -925,7 +973,7 @@
                 <strong>Payment Option:</strong>
             </td>
             <td class="text-end">
-                <select id="options_list" >
+                <select id="options_list">
                     <option value="cash">Cash</option>
                     <option value="bkash">bKash</option>
                     <option value="bank">Bank</option>
@@ -935,34 +983,33 @@
         <style>
             /* CSS to style the select element */
             #options_list {
-                font-size: 1.5rem;
-                width: 80%;
-                margin-left: 35px;
-                display: block;
+            font-size: 1.5rem;
+            width: 80%;
+            margin-left: 35px;
+            display: block;
             }
 
             /* Media query for mobile view */
             @media (max-width: 768px) {
-                td.text-end {
-                    cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
-                }
-                td.text-end select {
-                    display: none; /* Initially hide the select element */
-                }
-                td.text-end.clicked select {
-                    display: block; /* Display it when the parent td has the "clicked" class */
-                }
+            td.text-end {
+            cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
+            }
+            td.text-end select {
+            display: none; /* Initially hide the select element */
+            }
+            td.text-end.clicked select {
+            display: block; /* Display it when the parent td has the "clicked" class */
+            }
             }
         </style>
 
         <script>
             // JavaScript to handle the click event
             document.addEventListener("DOMContentLoaded", function () {
-                const tdElement = document.querySelector('td.text-end');
-
-                tdElement.addEventListener("click", function () {
-                    tdElement.classList.add("clicked");
-                });
+            const tdElement = document.querySelector('td.text-end');
+            tdElement.addEventListener("click", function () {
+            tdElement.classList.add("clicked");
+            });
             });
         </script>
 
@@ -974,40 +1021,41 @@
                 <input style="width: 60%;" type="number" id="amount_rcvd" />
             </td>
         </tr>
-<!--        <script>-->
-<!--            // JavaScript to handle the change event on the select element-->
-<!--            document.addEventListener("DOMContentLoaded", function () {-->
-<!--                const selectElement = document.getElementById("options_list");-->
-<!--                const amountInput = document.getElementById("amount_rcvd");-->
-<!--                const doneButtonDiv = document.getElementById("done_button");-->
-<!--                const resultElement = document.getElementById("result");-->
+        <!--        <script>-->
+        <!--            // JavaScript to handle the change event on the select element-->
+        <!--            document.addEventListener("DOMContentLoaded", function () {-->
+        <!--                const selectElement = document.getElementById("options_list");-->
+        <!--                const amountInput = document.getElementById("amount_rcvd");-->
+        <!--                const doneButtonDiv = document.getElementById("done_button");-->
+        <!--                const resultElement = document.getElementById("result");-->
 
-<!--                // Function to update amount and result-->
-<!--                function updateAmountAndResult() {-->
-<!--                    if (selectElement.value === "bkash" || selectElement.value === "bank") {-->
-<!--                        amountInput.value = "0.00";-->
-<!--                        doneButtonDiv.style.display = "block";-->
-<!--                    } else {-->
-<!--                        amountInput.value = "";-->
-<!--                        doneButtonDiv.style.display = "none";-->
-<!--                    }-->
+        <!--                // Function to update amount and result-->
+        <!--                function updateAmountAndResult() {-->
+        <!--                    if (selectElement.value === "bkash" || selectElement.value === "bank") {-->
+        <!--                        amountInput.value = "0.00";-->
+        <!--                        doneButtonDiv.style.display = "block";-->
+        <!--                    } else {-->
+        <!--                        amountInput.value = "";-->
+        <!--                        doneButtonDiv.style.display = "none";-->
+        <!--                    }-->
 
-<!--                    // Calculation-->
-<!--                    var value = document.getElementById('total_payable').querySelector('span').textContent.trim();-->
-<!--                    var numericValue = parseFloat(value.replace(/[^0-9.-]+/g, ''));-->
-<!--                    var amountReceived = parseFloat(amountInput.value);-->
-<!--                    var result = numericValue - amountReceived;-->
-<!--                    resultElement.textContent = result.toFixed(2);-->
-<!--                }-->
+        <!--                    // Calculation-->
+        <!--                    var value =
+        document.getElementById('total_payable').querySelector('span').textContent.trim();-->
+        <!--                    var numericValue = parseFloat(value.replace(/[^0-9.-]+/g, ''));-->
+        <!--                    var amountReceived = parseFloat(amountInput.value);-->
+        <!--                    var result = numericValue - amountReceived;-->
+        <!--                    resultElement.textContent = result.toFixed(2);-->
+        <!--                }-->
 
-<!--                // Initial update-->
-<!--                updateAmountAndResult();-->
+        <!--                // Initial update-->
+        <!--                updateAmountAndResult();-->
 
-<!--                // Event listener for changes in payment option-->
-<!--                selectElement.addEventListener("change", updateAmountAndResult);-->
-<!--            });-->
+        <!--                // Event listener for changes in payment option-->
+        <!--                selectElement.addEventListener("change", updateAmountAndResult);-->
+        <!--            });-->
 
-<!--        </script>-->
+        <!--        </script>-->
 
         <tr class="border-black o_total">
             <td>

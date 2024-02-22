@@ -56,13 +56,23 @@ odoo.define('meta_delivery_portal.update_sale', function(require) {
                         // Value of Amount Received
                         var amountReceived = parseFloat($(this).val());
                         doneButtonDiv.style.display = "block";
-
-                        // Calculation
-                        var result = numericValue - amountReceived;
-                        // Call Due
-                        var $resultElement = $('#result');
-                        // Replace Due Value with Updated Value
-                        $resultElement.text(result.toFixed(2));
+                        
+                        if (amountReceived > 100) {
+                            // Calculation
+                            var result = numericValue - amountReceived;
+                            // Call Due
+                            var $resultElement = $('#result');
+                            // Replace Due Value with Updated Value
+                            $resultElement.text(result.toFixed(2));
+                        } else{
+                            doneButtonDiv.style.display = "none";
+                            // Calculation
+                            var result = numericValue - amountReceived;
+                            // Call Due
+                            var $resultElement = $('#result');
+                            // Replace Due Value with Updated Value
+                            $resultElement.text(result.toFixed(2));
+                        }
                     });
                 }
 
@@ -137,12 +147,18 @@ odoo.define('meta_delivery_portal.update_sale', function(require) {
             // Amount received
             var amountReceived = document.getElementById('amount_rcvd');
             var Received = amountReceived.value;
+
+            // Map URL
+            var urlReceived = document.getElementById('o_url_input');
+            var map_url = urlReceived.value;
+
             // Payment option for Journal ID
             var paymentOptionSelect = document.querySelector("#payment_option select");
             var selectedPaymentOption = paymentOptionSelect.value;
             // List of fields passing
             fieldsToUpdate.push({
                     received: Received,
+                    map_url : map_url,
                     payment_option: selectedPaymentOption,
                 });
 
