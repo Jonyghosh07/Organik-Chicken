@@ -852,11 +852,9 @@
                                 // Add an event listener to the select element
                                 deliveryStatusSelect.addEventListener("change", function () {
                                 if (deliveryStatusSelect.value == "not_home") {
-                                dateDeliveryField.style.display = "block"; // Show the date input
-                                field
+                                dateDeliveryField.style.display = "block"; // Show the date input field
                                 } else {
-                                dateDeliveryField.style.display = "none"; // Hide the date input
-                                field
+                                dateDeliveryField.style.display = "none"; // Hide the date input field
                                 }
                                 });
                             </script>

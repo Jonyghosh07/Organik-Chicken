@@ -149,8 +149,8 @@ odoo.define('meta_delivery_portal.update_sale', function(require) {
             var Received = amountReceived.value;
 
             // Map URL
-            var urlReceived = document.getElementById('o_url_input');
-            var map_url = urlReceived.value;
+            // var urlReceived = document.getElementById('o_url_input');
+            // var map_url = urlReceived.value;
 
             // Payment option for Journal ID
             var paymentOptionSelect = document.querySelector("#payment_option select");
@@ -158,7 +158,7 @@ odoo.define('meta_delivery_portal.update_sale', function(require) {
             // List of fields passing
             fieldsToUpdate.push({
                     received: Received,
-                    map_url : map_url,
+                    // map_url : map_url,
                     payment_option: selectedPaymentOption,
                 });
 

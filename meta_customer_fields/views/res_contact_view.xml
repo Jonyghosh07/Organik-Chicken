@@ -58,4 +58,15 @@
 
         </field>
     </record>
+
+    <record id="view_res_contact_tree_inherit" model="ir.ui.view">
+        <field name="name">view.res.contact.tree.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="after">
+                <field name="subscription_data" optional="show"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>

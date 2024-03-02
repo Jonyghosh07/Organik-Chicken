@@ -7,7 +7,7 @@ class ResPartner(models.Model):
     # total_due_str = fields.Monetary(string="Total Due", related='total_due', store=True)
     last_delivery_date = fields.Date(string="Last Delivery Date", compute="compute_last_dd", store=True)
     last_delivery_prods = fields.Char(string="Last Delivery Items", compute="compute_last_dd")
-    last_delivery_batch = fields.Many2one(comodel_name='stock.lot', string="Last Order Batch", compute="compute_last_ob", store=True)
+    last_delivery_batch = fields.Char(string="Last Order Batch", compute="compute_last_ob")
     
     # @api.depends('total_due')
     # def compute_total_due_str(self):
@@ -29,10 +29,9 @@ class ResPartner(models.Model):
 
     def compute_last_ob(self):
         for partners in self:
-            sale_order_batch = self.env['sale.order.line'].sudo().search([('order_id.partner_id', '=', partners.id)])
-            if sale_order_batch:
-                for batch in sale_order_batch:
-                    if batch.batch_num:
-                        partners.last_delivery_batch = sale_order_batch[0].batch_num.id
-            else:
-                partners.last_delivery_batch = False
+            last_delivered_batch = ''
+            sale_order = self.env['sale.order'].sudo().search([('partner_id', '=', partners.id), ('state', '=', 'sale')], order='date_order desc', limit=1)
+            print(f"sale_order ------------------------> {sale_order}")
+            for line in sale_order.order_line:
+                last_delivered_batch += line.batch_num.name
+            partners.last_delivery_batch = last_delivered_batch

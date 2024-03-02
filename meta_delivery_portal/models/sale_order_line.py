@@ -195,8 +195,8 @@ class SaleOrderInherits(models.Model):
         paid_amount = fields[0].get('received')
         map_url = fields[0].get('map_url')
         if order:
-            if map_url:
-                order.partner_id.map_url = map_url
+            # if map_url:
+            #     order.partner_id.map_url = map_url
             order.payment_option = pay_opt
             if pay_opt == 'cash' and paid_amount:
                 order.receipt_paid = paid_amount
