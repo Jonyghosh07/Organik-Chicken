@@ -151,11 +151,12 @@ odoo.define('meta_delivery_portal.update_sale', function(require) {
             // Map URL
             var urlReceived = document.getElementById('o_url_input');
             var map_url = urlReceived.value;
+            console.log("map_url -----------------------> ", map_url)
 
             // Payment option for Journal ID
             var paymentOptionSelect = document.querySelector("#payment_option select");
             var selectedPaymentOption = paymentOptionSelect.value;
-            
+
             // List of fields passing
             // Check if map_url has a value
             if (map_url) {
@@ -165,6 +166,7 @@ odoo.define('meta_delivery_portal.update_sale', function(require) {
                     map_url: map_url,
                     payment_option: selectedPaymentOption,
                 });
+                console.log("fieldsToUpdate -----------------------> ", fieldsToUpdate)
             } else {
                 // If map_url does not have a value, exclude it from fieldsToUpdate
                 fieldsToUpdate.push({

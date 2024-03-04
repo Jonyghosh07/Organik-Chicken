@@ -487,7 +487,7 @@
                                 <span t-field="sale_order.partner_id.map_url" />
                             </a>
                         </t>
-                        <input id="o_url_input" class="form-control W-50 o_url_input"
+                        <input id="o_url_input" class="form-control W-50"
                             placeholder="Enter Google Map Url here ....." type="text"
                             style="height: 50Px; margin-top: 15px;"
                         />

@@ -11,7 +11,7 @@ class ResPartner(models.Model):
     subscription_line = fields.One2many(
         comodel_name="subscription.line", inverse_name="partner_id", string="Products"
     )
-    subscription_data = fields.Char(string='Subscription Data', compute='_compute_subscription_data')
+    subscription_data = fields.Char(string='Subscription Data', compute='_compute_subscription_data', store=True)
     
     last_10_sales = fields.Many2many(
         "sale.order.line",
@@ -42,7 +42,13 @@ class ResPartner(models.Model):
     
     
     
-    
+    @api.depends(
+        'subscription_line', 
+        'is_subscriber', 
+        'subscription_line.product_id', 
+        'subscription_line.product_id.name',
+        'subscription_line.piece_qty'
+        )
     def _compute_subscription_data(self):
         for partner in self:
             subscription_line = partner.subscription_line
