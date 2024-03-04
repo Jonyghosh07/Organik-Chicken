@@ -97,24 +97,6 @@
             <!--  Collapsable content  -->
             <div class="collapse navbar-collapse" id="o_portal_navbar_content">
                 <div class="nav flex-column flex-lg-row ms-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0">
-                    <!--                    <div t-if="searchbar_sortings">-->
-                    <!--                        <span class="small me-1 navbar-text">Sort By:</span>-->
-                    <!--                        <div class="btn-group">-->
-                    <!--                            <button id="portal_searchbar_sortby" data-bs-toggle="dropdown" class="btn
-                    btn-secondary btn-sm dropdown-toggle">-->
-                    <!--                                <t t-esc="searchbar_sortings[sortby].get('label', 'Newest')"/>-->
-                    <!--                            </button>-->
-                    <!--                            <div class="dropdown-menu" aria-labelledby="portal_searchbar_sortby">-->
-                    <!--                                <t t-foreach="searchbar_sortings" t-as="option">-->
-                    <!--                                    <a t-att-href="request.httprequest.path + '?' + keep_query('*',
-                    sortby=option)"-->
-                    <!--                                       t-attf-class="dropdown-item#{sortby == option and ' active' or ''}">-->
-                    <!--                                        <span t-esc="searchbar_sortings[option].get('label')"/>-->
-                    <!--                                    </a>-->
-                    <!--                                </t>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
                     <div t-if="searchbar_filters" class="ms-lg-2">
                         <span class="small me-1 navbar-text">Filter By:</span>
                         <div class="btn-group">
@@ -179,8 +161,7 @@
     </template>
 
 
-    <!--View
-    of my/delivery list-->
+    <!--View of my/delivery list-->
     <template id="portal_my_delivery_template" name="My Deliveries">
         <t t-call="meta_delivery_portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True" />
@@ -296,8 +277,7 @@
                             <!--                                <p>Enter again..</p>-->
                             <!--                            </div>-->
 
-                            <!--Done
-                            Button-->
+                            <!--Done Button-->
                             <div id="done_button" class="col-sm-auto mt8"
                                 style="margin: 20px; display: none">
                                 <a role="button" class="btn btn-primary" id="doneButton" href="#">
@@ -305,33 +285,6 @@
                                     <t t-if="sale_order._has_to_be_paid(True)">Done</t>
                                 </a>
                             </div>
-
-                            <!--Submit
-                            Button-->
-                            <!--                            <div id="submit_button" class="col-sm-auto mt8"-->
-                            <!--                                style="margin: 20px; display: none">-->
-                            <!--                                <a role="button" class="btn btn-primary" id="submitButton"
-                            href="#">-->
-                            <!--                                    <i class="fa fa-check" />-->
-                            <!--                                    <t t-if="sale_order._has_to_be_paid(True)">Submit</t>-->
-                            <!--                                </a>-->
-                            <!--                            </div>-->
-
-                            <!--                            <script>-->
-                            <!--                                const targetDiv = document.getElementById("otp_block");-->
-                            <!--                                const targetDivDoneButton =
-                            document.getElementById("done_button");-->
-                            <!--                                const targetDivSubmitButton =-->
-                            <!--                                document.getElementById("submit_button");-->
-                            <!--                                const btn = document.getElementById("submitButton");-->
-                            <!--                                btn.onclick = function () {-->
-                            <!--                                if (targetDiv.style.display == "none") {-->
-                            <!--                                targetDiv.style.display = "block";-->
-                            <!--                                targetDivDoneButton.style.display = "block";-->
-                            <!--                                targetDivSubmitButton.style.display = "none";-->
-                            <!--                                }-->
-                            <!--                                };-->
-                            <!--                            </script>-->
 
                             <div id="cancel_button" class="col-sm-auto mt8">
                                 <a role="button" class="btn btn-danger" id="cancelButton" href="#">
@@ -517,22 +470,48 @@
                                 style="background-color: #73F340; padding: 2px;" />
                         </t>
                     </div>
-                    <div style="padding-top: 15px; padding-bottom: 15px;">
-                        <t>
-                            <strong>Map Url:</strong>
-                        </t>
+                    <div class="row" style="padding-top: 15px; padding-bottom: 15px;">
+                        <div class="col-6">
+                            <t>
+                                <strong>Map Url:</strong>
+                            </t>
+                        </div>
                         <t t-if="sale_order.partner_id.map_url">
-                            <a t-attf-href="{{sale_order.partner_id.map_url}}" target="_blank">
+                            <div class="col-6" id="url_button">
+                                <a role="button" class="btn btn-primary" id="urlButton" href="#">
+                                    <!-- <i class="fa fa-check" /> -->
+                                    <t>Update URL</t>
+                                </a>
+                            </div>
+                            <a id="partner_map" t-attf-href="{{sale_order.partner_id.map_url}}" target="_blank" style="margin-top: 15px;">
                                 <span t-field="sale_order.partner_id.map_url" />
                             </a>
                         </t>
-                        <t t-else="">
-                            <input id="o_url_input" class="form-control W-50 o_url_input"
-                                placeholder="Enter Google Map Url here ....."
-                                type="text"
-                                style="height: 50Px;"
-                            />
-                        </t>
+                        <input id="o_url_input" class="form-control W-50 o_url_input"
+                            placeholder="Enter Google Map Url here ....." type="text"
+                            style="height: 50Px; margin-top: 15px;"
+                        />
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                var urlButton = document.getElementById("urlButton");
+                                var mapUrl = document.getElementById("partner_map");
+                                var oUrlInput = document.getElementById("o_url_input");
+
+                                // Check if map_url exists
+                                if (mapUrl) {
+                                    oUrlInput.style.display = "none";
+                                }
+
+                                urlButton.addEventListener("click", function() {
+                                    if (mapUrl) {
+                                        mapUrl.style.display = "none";
+                                        oUrlInput.style.display = "block";
+                                    } else {
+                                        oUrlInput.style.display = "block";
+                                    }
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
 
@@ -551,7 +530,6 @@
                                 <th class="text-start" id="product_name_header">Products</th>
                                 <th class="text-center">Pieces</th>
                                 <th class="text-center">KG</th>
-                                <!-- <th class="text-end">Uom</th> -->
                                 <th
                                     t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
                                     Unit Price
@@ -570,8 +548,6 @@
                             </tr>
                         </thead>
                         <tbody class="delivery_tbody">
-
-
                             <t t-set="current_subtotal" t-value="0" />
                             <t t-set="lines_to_report"
                                 t-value="sale_order._get_order_lines_to_report()" />
@@ -587,8 +563,8 @@
 
                                 <tr
                                     t-att-class="'bg-200 fw-bold o_line_section'
-                                     if line.display_type == 'line_section' else 'fst-italic o_line_note'
-                                     if line.display_type == 'line_note' else ''+'o_line_item'"
+                                        if line.display_type == 'line_section' else 'fst-italic o_line_note'
+                                        if line.display_type == 'line_note' else ''+'o_line_item'"
                                     t-att-data-line-id="line.id"
                                     t-att-data-token="sale_order.access_token" style="height: 55px">
 
@@ -602,8 +578,7 @@
                                                 class="d-none" />
                                         </td>
 
-                                        <!--Quantity
-                                        Value-->
+                                        <!--Quantity Value-->
                                         <td id="piece" class="text-end">
                                             <div id="piece_qty">
                                                 <span t-field="line.piece_qty"
@@ -611,8 +586,7 @@
                                             </div>
                                         </td>
 
-                                        <!--Quantity
-                                        Value Kgs-->
+                                        <!--Quantity Value Kgs-->
                                         <td id="quantity" class="text-center">
                                             <div id="quote_qty">
                                                 <span t-field="line.product_uom_qty"
@@ -620,8 +594,7 @@
                                             </div>
                                         </td>
 
-                                        <!--Unit
-                                        Price-->
+                                        <!--Unit Price-->
                                         <td id="unit_price"
                                             t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
                                             <div
@@ -644,11 +617,6 @@
                                                     t-out="((line.discount % 1) and '%s' or '%d') % line.discount" />
                                                 % </strong>
                                         </td>
-
-                                        <!-- <td id="taxes"
-                                           t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-                                           <span t-out="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
-                                       </td> -->
 
                                         <td t-if="not line.is_downpayment" class="text-end">
                                             <span class="oe_order_line_price_subtotal"
@@ -768,16 +736,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="oe_barcode_tablebody">
-                                                <!-- Table rows will be added dynamically -->
-                                                <!-- <tr>
-                                                    <td class='tbody_item_barcode'>1234567891234</td>
-                                                    <td class='tbody_item_sku'>3456</td>
-                                                    <td class='tbody_item_weight'>7.89123</td>
-                                                    <td>
-                                                        <a class="o_remove_scaned_row text-danger"
-                                                            >Remove</a>
-                                                    </td>
-                                                </tr> -->
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -834,8 +793,7 @@
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer d-flex justify-content-between">
-                                        <a type="button"
-                                            class="btn btn-secondary oe_warning_btn_close"
+                                        <a type="button" class="btn btn-secondary oe_warning_btn_close"
                                         >Close</a>
                                         <a type="button" class="btn btn-primary oe_warning_btn_save">
                                             Save</a>
@@ -852,9 +810,9 @@
                                 // Add an event listener to the select element
                                 deliveryStatusSelect.addEventListener("change", function () {
                                 if (deliveryStatusSelect.value == "not_home") {
-                                dateDeliveryField.style.display = "block"; // Show the date input field
+                                    dateDeliveryField.style.display = "block";
                                 } else {
-                                dateDeliveryField.style.display = "none"; // Hide the date input field
+                                    dateDeliveryField.style.display = "none";
                                 }
                                 });
                             </script>
@@ -981,22 +939,22 @@
         <style>
             /* CSS to style the select element */
             #options_list {
-            font-size: 1.5rem;
-            width: 80%;
-            margin-left: 35px;
-            display: block;
+                font-size: 1.5rem;
+                width: 80%;
+                margin-left: 35px;
+                display: block;
             }
 
             /* Media query for mobile view */
             @media (max-width: 768px) {
             td.text-end {
-            cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
+                cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
             }
             td.text-end select {
-            display: none; /* Initially hide the select element */
+                display: none; /* Initially hide the select element */
             }
             td.text-end.clicked select {
-            display: block; /* Display it when the parent td has the "clicked" class */
+                display: block; /* Display it when the parent td has the "clicked" class */
             }
             }
         </style>
@@ -1006,8 +964,8 @@
             document.addEventListener("DOMContentLoaded", function () {
             const tdElement = document.querySelector('td.text-end');
             tdElement.addEventListener("click", function () {
-            tdElement.classList.add("clicked");
-            });
+                tdElement.classList.add("clicked");
+                });
             });
         </script>
 
@@ -1019,41 +977,6 @@
                 <input style="width: 60%;" type="number" id="amount_rcvd" />
             </td>
         </tr>
-        <!--        <script>-->
-        <!--            // JavaScript to handle the change event on the select element-->
-        <!--            document.addEventListener("DOMContentLoaded", function () {-->
-        <!--                const selectElement = document.getElementById("options_list");-->
-        <!--                const amountInput = document.getElementById("amount_rcvd");-->
-        <!--                const doneButtonDiv = document.getElementById("done_button");-->
-        <!--                const resultElement = document.getElementById("result");-->
-
-        <!--                // Function to update amount and result-->
-        <!--                function updateAmountAndResult() {-->
-        <!--                    if (selectElement.value === "bkash" || selectElement.value === "bank") {-->
-        <!--                        amountInput.value = "0.00";-->
-        <!--                        doneButtonDiv.style.display = "block";-->
-        <!--                    } else {-->
-        <!--                        amountInput.value = "";-->
-        <!--                        doneButtonDiv.style.display = "none";-->
-        <!--                    }-->
-
-        <!--                    // Calculation-->
-        <!--                    var value =
-        document.getElementById('total_payable').querySelector('span').textContent.trim();-->
-        <!--                    var numericValue = parseFloat(value.replace(/[^0-9.-]+/g, ''));-->
-        <!--                    var amountReceived = parseFloat(amountInput.value);-->
-        <!--                    var result = numericValue - amountReceived;-->
-        <!--                    resultElement.textContent = result.toFixed(2);-->
-        <!--                }-->
-
-        <!--                // Initial update-->
-        <!--                updateAmountAndResult();-->
-
-        <!--                // Event listener for changes in payment option-->
-        <!--                selectElement.addEventListener("change", updateAmountAndResult);-->
-        <!--            });-->
-
-        <!--        </script>-->
 
         <tr class="border-black o_total">
             <td>
@@ -1073,7 +996,6 @@
                         <span t-esc="amount_by_group['tax_group_name']" />
                         <span class="text-nowrap"> on <t
                                 t-esc="amount_by_group['formatted_tax_group_base_amount']" />
-                            <!--                            <t />-->
                         </span>
                     </td>
                     <td class="text-end o_price_total">

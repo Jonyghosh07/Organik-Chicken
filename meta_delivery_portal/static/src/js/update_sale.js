@@ -149,18 +149,29 @@ odoo.define('meta_delivery_portal.update_sale', function(require) {
             var Received = amountReceived.value;
 
             // Map URL
-            // var urlReceived = document.getElementById('o_url_input');
-            // var map_url = urlReceived.value;
+            var urlReceived = document.getElementById('o_url_input');
+            var map_url = urlReceived.value;
 
             // Payment option for Journal ID
             var paymentOptionSelect = document.querySelector("#payment_option select");
             var selectedPaymentOption = paymentOptionSelect.value;
+            
             // List of fields passing
-            fieldsToUpdate.push({
+            // Check if map_url has a value
+            if (map_url) {
+                // If map_url has a value, include it in fieldsToUpdate
+                fieldsToUpdate.push({
                     received: Received,
-                    // map_url : map_url,
+                    map_url: map_url,
                     payment_option: selectedPaymentOption,
                 });
+            } else {
+                // If map_url does not have a value, exclude it from fieldsToUpdate
+                fieldsToUpdate.push({
+                    received: Received,
+                    payment_option: selectedPaymentOption,
+                });
+            }
 
             await rpc.query({
                 model: 'sale.order',
