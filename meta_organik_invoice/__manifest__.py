@@ -12,6 +12,7 @@
     ],
     'data': [
         'report/invoice_report.xml',
+        'report/quotation_report.xml',
         'data/paper_format.xml',
     ],
     'assets': {},

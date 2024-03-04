@@ -66,6 +66,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='phone']" position="after">
                 <field name="subscription_data" optional="show"/>
+                <field name="referral_contact" optional="show"/>
             </xpath>
         </field>
     </record>

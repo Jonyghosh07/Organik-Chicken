@@ -252,11 +252,11 @@
                     <div t-attf-class="card #{'pb-5' if report_type == 'html' else ''}"
                         id="portal_sale_content">
                         <div t-call="meta_delivery_portal.my_order_portal_content" />
+                        
                     </div>
 
                     <!-- bottom actions -->
-                    <div
-                        t-if="sale_order._has_to_be_signed(True) or sale_order._has_to_be_paid(True)"
+                    <div t-if="sale_order._has_to_be_signed(True) or sale_order._has_to_be_paid(True)"
                         class="row justify-content-center text-center d-print-none pt-1 pb-4">
                         <t t-if="sale_order._has_to_be_signed(True)">
 
@@ -289,6 +289,12 @@
                             <div id="cancel_button" class="col-sm-auto mt8">
                                 <a role="button" class="btn btn-danger" id="cancelButton" href="#">
                                     <i class="fa fa-times" /> Defer </a>
+                            </div>
+                            <div id="quotation_print" class="col-sm-auto mt8" style="margin-top: 30px !important;">
+                                <t t-set="report_url" t-value="sale_order.get_portal_url(report_type='pdf', download=True)" />
+                                <a role="button" class="btn btn-primary" t-att-href="report_url">
+                                    <button class="btn">Print Invoice</button>
+                                </a>
                             </div>
                         </t>
 
