@@ -11,7 +11,7 @@
     'company': 'Metamorphosis',
     'category': 'Tools',
     'version': '16.0.2.0.0',
-    'depends': ['contacts', 'base', 'meta_delivery_portal', 'account_followup'],
+    'depends': ['contacts', 'base', 'meta_delivery_portal'],
     'data': [
             "views/res_partner_view.xml",
     ],

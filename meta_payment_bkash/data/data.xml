@@ -10,8 +10,9 @@
             <field name="name">Payment with bKash</field>
             <field name="code">bkash</field>
             <field name="company_id" ref="base.main_company"/>
+            <field name="module_id" ref="base.module_meta_payment_bkash"/>
             <field name="redirect_form_view_id" ref="bkash_form"/>
-           <field name="image_128" type="base64" file="meta_payment_bkash/static/description/images/bkash.png"/>
+            <field name="image_128" type="base64" file="meta_payment_bkash/static/description/images/bkash.png"/>
             <field name="state">test</field>
             <field name="bkash_username">sandboxTokenizedUser02</field>
             <field name="bkash_password">sandboxTokenizedUser02@12345</field>
