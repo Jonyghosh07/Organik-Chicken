@@ -50,6 +50,7 @@
                                 <tr style="width: 100%;">
                                     <td style="width: 100%;">
                                         <span t-field="line.product_id.name" style="font-weight: bold;" />
+                                        <span style="font-weight: bold;">(<span t-field="line.piece_qty" style="font-weight: bold;"/>)</span>
                                     </td>
                                     <td>
                                         <span> </span>
@@ -144,7 +145,7 @@
                                 </td>
                             </tr>
                         </t>
-                        <t>
+                        <!-- <t>
                             <tr>
                                 <td>
                                     <i class="oe_form_field text-begin oe_payment_label">Received CASH</i>
@@ -167,7 +168,7 @@
                                         t-esc="str(int(doc.final_due))" />
                                 </td>
                             </tr>
-                        </t>
+                        </t> -->
                     </table>
     
                 </div>

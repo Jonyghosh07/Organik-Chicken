@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import AccessError, UserError, ValidationError
-import re
+import re, logging
 
 
 class ResPartner(models.Model):
@@ -13,11 +13,7 @@ class ResPartner(models.Model):
     )
     subscription_data = fields.Char(string='Subscription Data', compute='_compute_subscription_data', store=True)
     
-    last_10_sales = fields.Many2many(
-        "sale.order.line",
-        compute="_compute_last_10_sale_order_products",
-        string="Last 10 Sales",
-    )
+    last_10_sales = fields.Many2many("sale.order.line", compute="_compute_last_10_sale_order_products", string="Last 10 Sales")
     referral_contact = fields.Many2one(comodel_name="res.partner", string="Reseller")
     map_url = fields.Char(string="Map URL")
     whatsapp_num = fields.Char(string="WhatsApp Number")
@@ -39,7 +35,10 @@ class ResPartner(models.Model):
     )
     remarks = fields.Text(string="Remarks")
     
-    
+    total_due_str = fields.Float(string="Total Due")
+    last_delivery_date = fields.Date(string="Last Delivery Date")
+    last_delivery_prods = fields.Char(string="Last Delivery Items")
+    last_delivery_batch = fields.Char(string="Last Order Batch")
     
     
     @api.depends(
@@ -66,7 +65,15 @@ class ResPartner(models.Model):
                     data = data[:-2]
             partner.subscription_data = data
 
-
+    def update_total_due_str(self):
+        contacts = self.env['res.partner'].sudo().search([("total_due", ">", 0.0)])
+        for partner in contacts:
+            if partner.total_due > 0.0:
+                logging.info(f"partner total due ----------------> {partner.total_due}")
+                # rounded_total_due = round(partner.total_due, 2)
+                partner.total_due_str = round(partner.total_due, 2)
+            else:
+                partner.total_due_str = 0.0
 
     def _compute_last_10_sale_order_products(self):
         for partner in self:
@@ -79,6 +86,25 @@ class ResPartner(models.Model):
                     if line.product_template_id.id != 8:
                         print(f"line -----> {line.product_template_id}")
                         order_lines.append(line.id)
+                
+            # Last delivery Date & Products
+            last_sale_order = self.env["sale.order"].search([("partner_id", "=", partner.id)], order="date_order desc", limit=1)
+            last_delivered_batch = ''
+            if last_sale_order:
+                partner.last_delivery_date = last_sale_order.delivery_date
+                partner.last_delivery_prods = last_sale_order.msg_body
+                for line in last_sale_order.order_line:
+                    if line.batch_num.name:
+                        last_delivered_batch += line.batch_num.name + ', '  # Concatenate batch numbers with a comma and space
+                    else:
+                        last_delivered_batch +=  ''
+                last_delivered_batch = last_delivered_batch[:-2]  # Remove the last comma and space
+                partner.last_delivery_batch = last_delivered_batch
+            else:
+                partner.last_delivery_date = ""
+                partner.last_delivery_prods = ""
+                partner.last_delivery_batch = last_delivered_batch
+            
             partner.last_10_sales = order_lines
 
 

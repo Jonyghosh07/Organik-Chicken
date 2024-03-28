@@ -19,6 +19,7 @@
     'depends': ['contacts', 'base', 'sale_management', 'meta_batch_order'],
     'data': [
         'security/ir.model.access.csv',
+        'data/update_total_due.xml',
         'views/res_contact_view.xml',
         'views/sale_order_view.xml',
     ],
