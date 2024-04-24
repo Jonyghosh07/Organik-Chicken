@@ -4,6 +4,28 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+
+class PortalWizard(models.TransientModel):
+    _inherit = "portal.wizard"
+    
+    def action_pathao_order(self):
+        contact_ids = self.env.context.get('active_ids', [])
+        for partner in self.env['res.partner'].sudo().browse(contact_ids):
+            if partner.phone:
+                self.action_due_message(partner)
+                
+    def action_due_message(self, partner):
+        partner_due_msg = self.env['ir.default'].sudo().get('res.config.settings', 'partner_due_msg_content')
+        if partner_due_msg:
+            mobile = partner.phone.replace('-', '').replace(' ', '')
+            sms_text = partner_due_msg\
+                .replace('<name>', partner.name) \
+                .replace('<due_amount>', str(partner.total_due))
+            self.env['send.sms'].send_sms(mobile, sms_text)
+            _logger.warning("Sending Due SMS-------->")
+        else:
+            _logger.warning("Please Enter The Message Text")
+
 class SaleOrder(models.Model):
     _inherit = "sale.order"
     
@@ -208,12 +230,12 @@ class SaleOrder(models.Model):
     def action_sent_sms(self):
         self.action_quotation_sent()
     
-    # def action_quotation_sent(self):
-    #     _logger.info(f"action_quotation_sent called....")
-    #     for so in self:
-    #         so._order_confirmation_msg()
-    #     res = super(SaleOrder, self).action_quotation_sent()
-    #     return res
+    def action_quotation_sent(self):
+        _logger.info(f"action_quotation_sent called....")
+        for so in self:
+            so._order_confirmation_msg()
+        res = super(SaleOrder, self).action_quotation_sent()
+        return res
 
     # @api.model_create_multi
     def create(self, vals_list):

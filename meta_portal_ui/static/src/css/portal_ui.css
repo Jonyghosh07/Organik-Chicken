@@ -1,0 +1,79 @@
+.o_portal_docs.list-group{
+	gap: 12px;
+}
+
+.o_portal_docs .list-group-item{
+	border-radius: 10px;
+	padding: 20px;
+}
+
+
+/* Due Payment  */
+.due_payment_blk{
+	background-color: white;
+	width: 100%;
+	border-radius: 10px;
+	padding: 20px;
+	margin-bottom: 12px;
+}
+
+.due_payment_blk h4{
+	display: block;
+	margin-bottom: 12px;
+}
+
+.due_payment_blk button{
+	background: red;
+	border-radius: 4px;
+	padding: 5px 12px;
+	color: #fff;
+	font-size: 16px;
+	border: 2px solid transparent;
+	outline: none;
+	transition: all 0.3s ease-in-out;
+}
+
+.due_payment_blk button:hover{
+	background: transparent;
+	color: red;
+	border-color: red;
+}
+
+.due_payment_amount{
+	font-weight: 600;
+	font-size: 32px;
+}
+
+
+/* subscription */
+.subscription_blk a.list-group-item{
+	display: flex;
+	align-items: center;
+	gap: 30px;
+}
+
+.portal_item_blk  a.list-group-item{
+	display: flex;
+	align-items: center;
+	gap: 30px;
+}
+
+.subscription_img{
+	max-width: 72px;
+	width: 100%;
+}
+
+.subscription_img img{
+	width: 100%;
+	height: 100%;
+}
+
+.o_portal_docs > a{
+	display: none !important;
+}
+
+
+/* My Details Hide */
+.o_portal_my_details {
+    display: none;
+}

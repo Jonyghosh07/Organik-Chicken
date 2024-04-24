@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_breadcrumbs_subscription" name="Portal Breadcrumbs Done">
+        <ol t-if="page_name != 'home'" class="o_portal_submenu breadcrumb mb-0 py-2 flex-grow-1"
+            style="margin-top: 1px; margin-bottom: 1px;">
+            <style>
+                /* Increase font size of the link text */
+                .breadcrumb-item a {
+                font-size: 18px;
+                }
+
+                /* Increase size of the icon */
+                .breadcrumb-item a i.fa {
+                font-size: 22px;
+                }
+            </style>
+            <li class="breadcrumb-item ms-1">
+                <a href="/my/home" aria-label="Home" title="Home">
+                    <i class="fa fa-home" />
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/customer/subscription">My Subscription</a>
+            </li>
+        </ol>
+    </template>
+
+    <template id="portal_customer_subscription_template" name="Customer Subscription">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+            <t t-call="meta_portal_ui.portal_breadcrumbs_subscription">
+                <t t-set="title">My Subscription</t>
+            </t>
+
+            <t t-if="subscription_values">
+                <div id="subscription_div">
+                    <div id="subscription_line_div">
+                        <t t-call="portal.portal_table">
+                            <thead>
+                                <tr>
+                                    <th style="display:none;">ID</th>
+                                    <th style="text-align: left;">Product</th>
+                                    <th style="text-align: left;">Piece</th>
+                                </tr>
+                            </thead>
+                            <t t-foreach="subscription_values" t-as="value">
+                                <tr style="height: 60px;" class="subscription_tr" t-att-data-line-id="value['id']">
+                                    <!--Subscription line id-->
+                                    <td style="display:none;">
+                                        <t class="sub_line_id" t-esc="value['id']" />
+                                    </td>
+                                    <!--Product Names-->
+                                    <td style="text-align: left;">
+                                        <t t-out="value['product']" />
+                                    </td>
+                                    <!--Subscribed Piece-->
+                                    <td style="text-align: left;">
+                                        <span t-out="value['piece']" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </div>
+                    <div class="o_subscription_line modal fade" id="o_subscription_line_form" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title d-flex justify-content-center"
+                                        id="form_title">Subscribed Item</h5>
+                                    <a type="button" class="btn btn-secondary oe_subscription_btn_close">x</a>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="table mx-sm-3 mb-2">
+                                            <div class="row p-4" style="width:auto;">
+                                                <div class="col-6">
+                                                    <strong>Product : </strong>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span id="modal_name">Product Name</span>
+                                                </div>
+                                            </div>
+                                            <div class="row p-4" style="width:auto;">
+                                                <div style="display:none;">
+                                                    <input style="width: 100px;padding: 2px;text-align: left;border: none;margin-left: 10px;" type="text" id="modal_id"/>
+                                                </div>
+                                                <div class="col-6">
+                                                    <strong>Piece : </strong>
+                                                </div>
+                                                <div class="col-6">
+                                                    <input style="width: 100px;padding: 2px;text-align: left;border: 1px solid blue;margin-left: 10px;" type="text" id="modal_piece"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal Footer -->
+                                        <div class="modal-footer d-flex justify-content-between">
+                                            <a type="button" style="background-color: red; color: white;" class="btn btn-primary oe_subscription_btn_delete">Delete</a>
+                                            <a type="button" class="btn btn-primary oe_subscription_btn_save">Save</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="customize_div" class="col-sm-auto" style="margin-top:20px; display:flex; justify-content: center;">
+					<a style="display:block; background-color: green; width: 150px;" id="add_prod" role="button" class="btn btn-secondary">Add Product</a>
+                </div>
+            </t>
+            <p t-else="">You have no Subscribed Product.</p>
+        </t>
+    </template>
+
+</odoo>

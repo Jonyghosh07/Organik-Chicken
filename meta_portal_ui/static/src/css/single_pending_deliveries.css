@@ -1,0 +1,35 @@
+
+#single_pending_deliveries_link{
+	border-radius: 10px;
+	background: #fff;
+	padding: 20px;
+	width: 100%;
+}
+
+#single_pending_deliveries_link > a{
+	color: #000;
+	font-size: 20px;
+}
+
+#single_pending_deliveries_link > a:hover {
+	text-decoration: none;
+}
+
+#single_pending_deliveries_link > a #quotation_name{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.single_pending_deliveries_blk{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+
+#single_pending_deliveries_link > a p#note_text{
+	color: red;
+	font-size: 12px;
+	text-align: center;
+}

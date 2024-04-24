@@ -29,21 +29,22 @@
         <!--Due-->
         <!--Due-->
         <template id="portal_my_delivery" name="Delivery" inherit_id="portal.portal_my_home" priority="1">
-            <xpath expr="//div[hasclass('o_portal_docs')]" position="after">
-                <div>
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+                <div class="due_payment_wrapper">
                     <t t-if="not request.env.user.partner_id.is_delivery_man">
                         <div style="width: 100%; display: flex; justify-content: space-between;">
-                            <div style="background-color: white;
-                                        padding: 6px;
-                                        padding-left: 18px;
-                                        display: flex;
-                                        justify-content: space-between;
-                                        border-radius: 5px;
-                                        width: 100%">
-                                <t>Due Payment</t>
-                                <span class="badge text-bg-secondary rounded-pill">
-                                    <t t-esc="request.env.user.partner_id.credit"/>
-                                </span>
+                            <div class="due_payment_blk">
+                                <h4>Total Due</h4>
+                                <p class="due_payment_amount">
+                                    TK. 
+                                    <span>
+                                        <t t-esc="request.env.user.partner_id.credit"/>
+                                    </span>
+                                </p>
+
+                                <button>
+                                    Make Payment
+                                </button>
                             </div>
                         </div>
                     </t>

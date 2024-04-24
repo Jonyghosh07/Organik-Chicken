@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<template id="inherit_portal_my_quotations" name="Inherit My Quotations" inherit_id="sale.portal_my_quotations">
+			<xpath expr="." position="replace">
+				<t t-call="portal.portal_layout">
+					<t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+					<t t-call="portal.portal_searchbar">
+						<t t-set="title">Quotations</t>
+					</t>
+					
+					<t t-if="quotations">
+						<t t-foreach="quotations" t-as="quotation">
+							<ul style="list-style:none; padding-left:0">
+								<li id="single_pending_deliveries_link">
+									<a t-att-href="quotation.get_portal_url()">
+										<span t-out="quotation.name" id="quotation_name"/>
+										<div class="single_pending_deliveries_blk">
+											<div>
+												<t t-foreach="quotation.order_line" t-as="order_line">
+													<t t-if="order_line.product_template_id.id != 1">
+														<ul style="list-style:none; padding-left:0">
+															<li>
+																<p>
+																	<t t-out="order_line.product_template_id.name"/>
+																	<span>
+																		(
+																			<t t-out="order_line.piece_qty"/>
+																		)
+																</span>
+																</p>
+															</li>
+														</ul>
+													</t>
+												</t>
+											</div>
+
+											<p>
+												Tk.<t t-out="quotation.amount_total"/>
+											</p>
+										</div>
+
+										<p id="note_text">
+											Mentioned total price be updated based on actual weight
+										</p>
+									</a>
+								</li>
+							</ul>
+							<!-- <tr>
+								<td><a t-att-href="quotation.get_portal_url()"><t t-out="quotation.name"/></a></td>
+								<td class="text-end"><span t-field="quotation.date_order"/></td>
+								<td class="text-end"><span t-field="quotation.validity_date"/></td>
+								<td class="text-center">
+									<span t-if="quotation.state == 'cancel'" class="badge rounded-pill text-bg-secondary">
+										<i class="fa fa-fw fa-remove"/> Cancelled</span>
+									<span t-if="quotation.is_expired" class="badge rounded-pill text-bg-secondary">
+										<i class="fa fa-fw fa-clock-o"/> Expired</span>
+								</td>
+								<td class="text-end">
+									<span t-field="quotation.amount_total"/>
+								</td>
+							</tr> -->
+						</t>
+					</t>
+					<p t-else="">There are currently no quotations for your account.</p>
+				</t>
+			</xpath>		
+		</template>
+
+
+		<!-- Inside Specific Order -->
+		<!-- Inside Specific Order -->
+		<!-- Inside Specific Order -->
+		<template id="inherit_portal_sidebar" name="Inherit Portal Sidebar" inherit_id="portal.portal_record_sidebar">
+			<xpath expr="//div[@id='sidebar_content']" position="attributes">
+				<attribute name="style">display:none;</attribute>
+			</xpath>
+		</template>
+
+		<template id="inherit_portal_sale_table" name="Inherit Portal Sale Table" inherit_id="sale.sale_order_portal_content">
+			<xpath expr="//section[@id='details']//table[@id='sales_order_table']//td[@id='product_name']" position="replace">
+				<td id="product_name">
+					<span t-esc="line.product_id.name"/>
+				</td>
+			</xpath>
+		</template>
+
+		<template id="inherit_portal_sale_feedback" name="Inherit Portal Sale Feedback" inherit_id="sale.sale_order_portal_template">
+			<xpath expr="//div[@id='quote_content']//div[@t-if='sale_order._has_to_be_signed(True) or sale_order._has_to_be_paid(True)']//t[@t-if='sale_order._has_to_be_signed(True)']/div[2]" position="attributes">
+				<attribute name="style">display:none;</attribute>
+			</xpath>
+			<xpath expr="//div[@id='quote_content']//div[@t-if='sale_order._has_to_be_signed(True) or sale_order._has_to_be_paid(True)']//t[@t-if='sale_order._has_to_be_signed(True)']/div[2]" position="after">
+				<div id="remark_button_div" style="display: flex; justify-content: center;">
+					<div class="col-sm-auto mt8">
+						<a style="display:block;" id="give_msg" role="button" class="btn btn-secondary"><i class="fa fa-comment"/> Give message</a>
+					</div>
+					
+					<div id="msg_submit_button" class="col-sm-auto mt8" style="display:none;">
+						<input id="msg_content" type="text" class="form-control form-control-sm" placeholder="Type your Message/Remarks......" name="message" />
+						<br/>
+						<a id="msg_submit" role="button" class="btn btn-secondary">Submit</a>
+					</div>
+
+					<div id="success_div" class="col-sm-auto mt8" style="display:none;">
+						<strong>Your Message has been sent successfully..</strong>
+					</div>
+	
+					<div style="display: none;">
+						<span id="sale_order_id" t-esc="sale_order.id"></span>
+					</div>
+				</div>
+			</xpath>
+		</template>
+
+	</data>
+</odoo>

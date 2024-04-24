@@ -41,8 +41,8 @@
                                     <group attrs="{'invisible': [('order_confirmation_msg', '!=', True)]}">
                                         <label for="order_confirmation_content"/>
                                         <b><field name="order_confirmation_content" placeholder="e.g. Dear Customer,
-                                         you order has been confirm!
-                                         You will have to pay"/></b>
+                                            you order has been confirm!
+                                            You will have to pay"/></b>
                                     </group>
                                 </sheet>
 
@@ -69,7 +69,7 @@
                                     <group attrs="{'invisible': [('reset_pass_msg', '!=', True)]}">
                                         <label for="reset_pass_content"/>
                                         <b><field name="reset_pass_content"
-                                                  placeholder="e.g. Dear Customer, Please Click below to change you password!"/></b>
+                                                    placeholder="e.g. Dear Customer, Please Click below to change you password!"/></b>
                                     </group>
                                 </sheet>
 
@@ -83,8 +83,8 @@
                                     <group attrs="{'invisible': [('order_cash_msg', '!=', True)]}">
                                         <label for="order_cash_content"/>
                                         <b><field name="order_cash_content" placeholder="e.g. Dear Customer,
-                                         you order has been confirm!
-                                         You will have to pay"/></b>
+                                            you order has been confirm!
+                                            You will have to pay"/></b>
                                     </group>
                                 </sheet>
 
@@ -97,8 +97,8 @@
                                     <group attrs="{'invisible': [('order_nocash_msg', '!=', True)]}">
                                         <label for="order_nocash_content"/>
                                         <b><field name="order_nocash_content" placeholder="e.g. Dear Customer,
-                                         you order has been confirm!
-                                         You will have to pay"/></b>
+                                            you order has been confirm!
+                                            You will have to pay"/></b>
                                     </group>
                                 </sheet>
 
@@ -111,7 +111,20 @@
                                     <group attrs="{'invisible': [('invoice_msg', '!=', True)]}">
                                         <label for="invoice_content"/>
                                         <b><field name="invoice_content" placeholder="e.g. Dear Customer,
-                                         Have a good day.."/></b>
+                                            Have a good day.."/></b>
+                                    </group>
+                                </sheet>
+
+                                <!--Customer Due Message -->
+                                <sheet>
+                                    <group>
+                                        <label for="partner_due_msg"/>
+                                        <b><field name="partner_due_msg" /></b>
+                                    </group>
+                                    <group attrs="{'invisible': [('partner_due_msg', '!=', True)]}">
+                                        <label for="partner_due_msg_content"/>
+                                        <b><field name="partner_due_msg_content" placeholder="e.g. Dear Customer,
+                                            Your due balance is __ taka."/></b>
                                     </group>
                                 </sheet>
 

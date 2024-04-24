@@ -50,7 +50,7 @@
                                 <tr style="width: 100%;">
                                     <td style="width: 100%;">
                                         <span t-field="line.product_id.name" style="font-weight: bold;" />
-                                        <span style="font-weight: bold;">(<span t-field="line.piece_qty" style="font-weight: bold;"/>)</span>
+					<span style="font-weight: bold;">(<span t-field="line.piece_qty" style="font-weight: bold;"/>)</span>
                                     </td>
                                     <td>
                                         <span> </span>
@@ -61,7 +61,7 @@
                                         <span t-esc="line.product_uom_qty" /> x <span t-esc="line.price_unit" />
                                     </td>
                                     <td style="text-align: right;">
-                                        <span t-esc="line.product_uom_qty * line.price_unit" />
+                                        <span t-esc="round((line.product_uom_qty * line.price_unit), 2)" />
                                     </td>
                                 </tr>
                             </t>

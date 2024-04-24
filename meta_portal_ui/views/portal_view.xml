@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		
+        <!-- ****** subscription data goes from here ******* -->
+        <template id="portal_my_home_invoice" name="Subscription" inherit_id="portal.portal_my_home" customize_show="True" priority="10">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <div class="subscription_blk portal_item_blk">
+                    <a class="list-group-item list-group-item-action" href="/customer/subscription" title="My Subscription">
+                        <div class="subscription_img">
+                            <img src="/meta_portal_ui/static/description/images/subscription.png" alt=""/>
+                        </div>
+                        <h3>My Subscription</h3>
+                    </a>
+                </div>
+            </xpath>
+        </template>
+
+
+        <!-- ********** Purchase Orders ******** -->
+        <!-- <template id="custom_portal_purchase" name="Purchase Orders" inherit_id="portal.portal_my_home" customize_show="True" priority="25">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <div class="portal_item_blk">
+                    <a class="list-group-item list-group-item-action" href="/my/purchase" title="Purchase Orders">
+                        <div class="subscription_img">
+                            <img src="/meta_portal_ui/static/description/images/subscription.png" alt=""/>
+                        </div>
+                        <h3>Purchase Orders</h3>
+                    </a>
+                </div>
+            </xpath>
+        </template> -->
+
+        <!-- ****** invoices and bills ******* -->
+        <!-- <template id="custom_portal_invoice" name="Invoice" inherit_id="portal.portal_my_home" customize_show="True" priority="25">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <div class="portal_item_blk">
+                    <a class="list-group-item list-group-item-action" href="/my/invoices" title="Invoices &amp; Bills">
+                        <div class="subscription_img">
+                            <img src="/meta_portal_ui/static/description/images/subscription.png" alt=""/>
+                        </div>
+                        <h3>Invoices &amp; Bills</h3>
+                    </a>
+                </div>
+            </xpath>
+        </template> -->
+
+
+        <!-- ******** Pending Deliveries ********* -->
+        <template id="custom_portal_pending_deliveries" name="Pending Deliveries" inherit_id="portal.portal_my_home" customize_show="True" priority="25">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <div class="portal_item_blk">
+                    <a class="list-group-item list-group-item-action" href="/my/quotes" title="Pending Deliveries">
+                        <div class="subscription_img">
+                            <img src="/meta_portal_ui/static/description/images/pending.png" alt=""/>
+                        </div>
+                        <h3>Pending Deliveries</h3>
+                    </a>
+                </div>
+            </xpath>
+        </template>
+
+
+        <!-- ********** Delivered Orders ********** -->
+        <template id="custom_portal_delivered_orders" name="Delivered Orders" inherit_id="portal.portal_my_home" customize_show="True" priority="25">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <div class="portal_item_blk">
+                    <a class="list-group-item list-group-item-action" href="/my/orders" title="Delivered Orders">
+                        <div class="subscription_img">
+                            <img src="/meta_portal_ui/static/description/images/delivery.png" alt=""/>
+                        </div>
+                        <h3>Delivered Orders</h3>
+                    </a>
+                </div>
+            </xpath>
+        </template>
+
+        <!-- ********** Delivered Orders ********** -->
+        <template id="custom_portal_profile_view" name="Profile" inherit_id="portal.portal_my_home" customize_show="True" priority="30">
+            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+                <div class="portal_item_blk">
+                    <a class="list-group-item list-group-item-action" href="/my/account" title="Profile">
+                        <div class="subscription_img">
+                            <img src="/meta_portal_ui/static/description/images/user.png" alt=""/>
+                        </div>
+                        <h3>Profile</h3>
+                    </a>
+                </div>
+            </xpath>
+        </template>
+        
+	</data>
+</odoo>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<template id="inherit_portal_my_orders" name="Delivered Orders" inherit_id="sale.portal_my_orders">
+			<xpath expr="." position="replace">
+				<t t-call="portal.portal_layout">
+					<t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+					<t t-call="portal.portal_searchbar">
+						<t t-set="title">Sales Orders</t>
+					</t>
+					
+					<t t-if="orders">
+						<t>
+							<ul style="list-style:none; padding-left:0" class="single_delivered_orders_items">
+								<t t-foreach="orders" t-as="order">
+									<li id="single_delivered_orders_link">
+										<a t-att-href="order.get_portal_url()">
+											<div id="delivered_orders_name">
+												<span t-out="order.name" />
+												<span t-field="order.date_order" t-options="{'widget': 'date'}"/>&amp;nbsp;
+											</div>
+											<div class="single_delivered_orders_blk">
+												<div>
+													<t t-foreach="order.order_line" t-as="order_line">
+														<t t-if="order_line.product_template_id.id != 1">
+															<ul style="list-style:none; padding-left:0">
+																<li>
+																	<p>
+																		<t t-out="order_line.product_template_id.name"/>
+																		<span>
+																			(
+																				<t t-out="order_line.piece_qty"/>
+																			)
+																	</span>
+																	</p>
+																</li>
+															</ul>
+														</t>
+													</t>
+													<!-- loremdfhd -->
+												</div>
+	
+												<div class="amount_with_badge_blk">
+													<p class="totall__ammount">
+														Tk.<t t-out="order.amount_total"/>
+													</p>
+	
+													<p t-if="order.payment_status == 'paid'" class="badge text-bg-success" style="padding:10px 20px;">
+														Paid
+													</p>
+													<p t-if="order.payment_status == 'in_payment'" class="badge text-bg-info" style="padding:10px 20px;">
+														In Payment
+													</p>
+
+													<p t-if="order.payment_status == 'not_paid'" class="badge text-bg-danger" style="padding:10px 20px;">
+														Not Paid
+													</p>
+
+													<p t-if="order.payment_status == 'partial'" class="badge text-bg-warning" style="padding:10px 20px;">
+														Partially Paid
+													</p>
+												</div>
+											</div>
+										</a>
+									</li>
+								</t>
+							</ul>
+							<!-- <tr>
+								<td><a t-att-href="order.get_portal_url()"><t t-out="order.name"/></a></td>
+								<td class="text-end">
+									<span t-field="order.date_order" t-options="{'widget': 'date'}"/>&amp;nbsp;
+									<span class='d-none d-md-inline' t-field="order.date_order" t-options="{'time_only': True}"/>
+								</td>
+								<td class="text-center">
+									<span t-if="order.state == 'done'"  class="badge rounded-pill text-bg-success">
+										<i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/>Done
+									</span>
+								</td>
+								<td class="text-end"><span t-field="order.amount_total"/></td>
+							</tr> -->
+						</t>
+					</t>
+
+					<p t-else="">There are currently no orders for your account.</p>
+
+					<div t-if="pager" class="o_portal_pager d-flex justify-content-center">
+						<t t-call="portal.pager"/>
+					</div>
+				</t>
+			</xpath>		
+		</template>
+
+		<!-- Inside Specific Order -->
+		<!-- Inside Specific Order -->
+		<!-- Inside Specific Order -->
+		<template id="inherit_portal_delivery_orders" name="Inherit Portal Delivery Orders" inherit_id="sale_stock.sale_order_portal_content_inherit_sale_stock">
+			<xpath expr="//t[@t-if='delivery_orders']/div[1]" position="attributes">
+				<attribute name="style">display:none;</attribute>
+			</xpath>
+			<xpath expr="//t[@t-if='delivery_orders']/div[2]" position="attributes">
+				<attribute name="style">display:none;</attribute>
+			</xpath>
+		</template>
+
+		<template id="inherit_portal_terms_cond" name="Inherit Portal Terms Condition" inherit_id="sale.sale_order_portal_content">
+			<xpath expr="//section[@t-if='not is_html_empty(sale_order.note)' and @id='terms']" position="attributes">
+				<attribute name="style">display:none;</attribute>
+			</xpath>
+
+			<xpath expr="//div[2]" position="after">
+				<t t-if="sale_order.state == 'sale'">
+					<div id="div_again_order" class="col-sm-auto" style="width: 150px; margin-inline:auto; margin-top:60px;">
+						<a style="display:block;" id="order_again" role="button" class="btn btn-secondary">Order Again</a>
+						<div id="copy_success" class="col-sm-auto mt8" style="display:none;">
+							<strong>Your Order has been placed successfully..</strong>
+						</div>
+						<div style="display: none;">
+							<span id="sale_order_id" t-esc="sale_order.id"></span>
+						</div>
+						<t t-set="report_url" t-value="sale_order.get_portal_url(report_type='pdf', download=True)" />
+						<a t-att-href="report_url" style="display:block; margin-top:10px; background-color:#083eb2;" id="print_invoice" role="button" class="btn btn-secondary">Print Invoice</a>
+					</div>
+				</t>
+			</xpath>
+
+		</template>
+	</data>
+</odoo>

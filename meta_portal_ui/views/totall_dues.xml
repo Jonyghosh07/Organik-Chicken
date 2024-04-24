@@ -1,0 +1,51 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<template id="total_payment_due" name="Totall Due">
+			<xpath expr="." position="replace">
+				<t t-call="portal.portal_layout">
+					<t t-if="quotations">
+						<t t-foreach="quotations" t-as="quotation">
+							<ul style="list-style:none; padding-left:0">
+								<li id="single_pending_deliveries_link">
+									<a t-att-href="quotation.get_portal_url()">
+										<span t-out="quotation.name" id="quotation_name"/>
+										<div class="single_pending_deliveries_blk">
+											<div>
+												<t t-foreach="quotation.order_line" t-as="order_line">
+													<t t-if="order_line.product_template_id.id != 1">
+														<ul style="list-style:none; padding-left:0">
+															<li>
+																<p>
+																	<t t-out="order_line.product_template_id.name"/>
+																	<span>
+																		(
+																			<t t-out="order_line.piece_qty"/>
+																		)
+																</span>
+																</p>
+															</li>
+														</ul>
+													</t>
+												</t>
+											</div>
+
+											<p>
+												Tk.<t t-out="quotation.amount_total"/>
+											</p>
+										</div>
+
+										<p id="note_text">
+											Mentioned total price be updated based on actual weight
+										</p>
+									</a>
+								</li>
+							</ul>
+						</t>
+					</t>
+					<p t-else="">There are currently no quotations for your account.</p>
+				</t>
+			</xpath>		
+		</template>
+	</data>
+</odoo> -->
