@@ -53,7 +53,7 @@ odoo.define('meta_delivery_portal.item_scanner_popup', function (require) {
             o_item_scanner_modal_form.modal('show');
             const prev_codes = await this._getAllRowsOrderLine(lineId);
             console.log("prev_codes ",typeof prev_codes , prev_codes);
-           
+            
             prev_codes.forEach(function (value) {
                 const newRow = `
                     <tr>
@@ -130,8 +130,8 @@ odoo.define('meta_delivery_portal.item_scanner_popup', function (require) {
 
         init: function () {
             this._super.apply(this, arguments);
-            this._onChangeBarcodeInput = _.debounce(this._onChangeBarcodeInput, 300);
-            this._onClickRemoveRow = _.debounce(this._onClickRemoveRow, 400);
+            this._onChangeBarcodeInput = _.debounce(this._onChangeBarcodeInput, 1000);
+            this._onClickRemoveRow = _.debounce(this._onClickRemoveRow, 1000);
 
         },
 

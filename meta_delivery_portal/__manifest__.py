@@ -17,6 +17,7 @@
         'views/done_delivery_order_template.xml',
         'views/portal_template_view.xml',
         'views/delivery_man_view.xml',
+        #'views/order_line_barcode.xml',
     ],
     'assets': {
         'web.assets_frontend': [

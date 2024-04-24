@@ -568,8 +568,7 @@
                                     t-value="current_subtotal + line.price_total"
                                     groups="account.group_show_line_subtotals_tax_included" />
 
-                                <tr
-                                    t-att-class="'bg-200 fw-bold o_line_section'
+                                <tr t-att-class="'bg-200 fw-bold o_line_section'
                                         if line.display_type == 'line_section' else 'fst-italic o_line_note'
                                         if line.display_type == 'line_note' else ''+'o_line_item'"
                                     t-att-data-line-id="line.id"

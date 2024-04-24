@@ -4,22 +4,10 @@ from odoo import models, fields, api, _
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    # total_due_str = fields.Char(string="Total Due", compute='compute_total_due_str', store=True)
-    total_due_str = fields.Char(string="Total Due")
+    # total_due_str = fields.Char(string="Total Due")
     last_delivery_date = fields.Date(string="Last Delivery Date", compute="compute_last_dd", store=True)
     last_delivery_prods = fields.Char(string="Last Delivery Items", compute="compute_last_dd", store=True)
     last_delivery_batch = fields.Char(string="Last Order Batch", compute="compute_last_ob", store=True)
-    
-    # @api.depends('total_due')
-    # def compute_total_due_str(self):
-    #     for partners in self:
-    #         if partners.total_due:
-    #             # Round the total_due to two decimal places
-    #             rounded_total_due = round(partners.total_due, 2)
-    #             # Convert the rounded total_due to a string with two decimal places
-    #             partners.total_due_str = '{:.2f}'.format(rounded_total_due)
-    #         else:
-    #             partners.total_due_str = '0.00'
 
     def compute_last_dd(self):
         for partners in self:
@@ -31,9 +19,9 @@ class ResPartner(models.Model):
                 partners.last_delivery_date = False
                 partners.last_delivery_prods = False
             
-            if partners.total_due:
-                rounded_total_due = round(partners.total_due, 2)
-                partners.total_due_str = '{:.2f}'.format(rounded_total_due)
+            # if partners.total_due:
+            #     rounded_total_due = round(partners.total_due, 2)
+            #     partners.total_due_str = '{:.2f}'.format(rounded_total_due)
 
     def compute_last_ob(self):
         for partner in self:
