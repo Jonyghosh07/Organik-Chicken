@@ -105,11 +105,55 @@
                         </div>
                     </div>
                 </div>
-                <div id="customize_div" class="col-sm-auto" style="margin-top:20px; display:flex; justify-content: center;">
-					<a style="display:block; background-color: green; width: 150px;" id="add_prod" role="button" class="btn btn-secondary">Add Product</a>
-                </div>
             </t>
+
             <p t-else="">You have no Subscribed Product.</p>
+
+            <!-- Add Product Button and Modal -->
+            <div id="customize_div" class="col-sm-auto" style="margin-top:20px; display:flex; justify-content: center;">
+                <a style="display:block; background-color: green; width: 150px;" id="add_prod" role="button" class="btn btn-secondary">Add Product</a>
+                <div class="o_sub_add modal fade" id="o_sub_add_form" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title d-flex justify-content-center"
+                                    id="form_title">Add Subscription</h5>
+                                <a type="button" class="btn btn-secondary oe_sub_btn_close">x</a>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="table mx-sm-3 mb-2">
+                                        <div class="row p-4" style="width:auto;">
+                                            <div class="col-6">
+                                                <strong>Product : </strong>
+                                            </div>
+                                            <div class="col-6">
+                                                <select id="select_modal_prod" style="width: 100px;padding: 2px;text-align: left;border: 1px solid blue;margin-left: 10px;">
+                                                    <!-- Option for default selection -->
+                                                    <option value="">Select Product</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row p-4" style="width:auto;">
+                                            <div class="col-6">
+                                                <strong>Piece : </strong>
+                                            </div>
+                                            <div class="col-6">
+                                                <input style="width: 100px;padding: 2px;text-align: left;border: 1px solid blue;margin-left: 10px;" type="text" id="add_piece"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer d-flex">
+                                        <a type="button" class="btn btn-primary oe_sub_btn_save">Save</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </t>
     </template>
 
