@@ -68,7 +68,7 @@
                                 <div class="modal-header">
                                     <h5 class="modal-title d-flex justify-content-center"
                                         id="form_title">Subscribed Item</h5>
-                                    <a type="button" class="btn btn-secondary oe_subscription_btn_close">x</a>
+                                    <a type="button" class="btn btn-secondary oe_subscription_btn_close fa fa-times"/>
                                 </div>
                                 <div class="modal-body">
                                     <form>
@@ -118,7 +118,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title d-flex justify-content-center"
                                     id="form_title">Add Subscription</h5>
-                                <a type="button" class="btn btn-secondary oe_sub_btn_close">x</a>
+                                <a type="button" class="btn btn-secondary oe_sub_btn_close fa fa-times"/>
                             </div>
                             <div class="modal-body">
                                 <form>

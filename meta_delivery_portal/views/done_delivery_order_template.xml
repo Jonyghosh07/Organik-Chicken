@@ -526,7 +526,7 @@
                 <strong>Previous Due + Total</strong>
             </td>
             <td class="text-end">
-                <span t-esc="sale_order.total_payable"/>
+                <span t-esc="round(sale_order.total_payable, 2)"/>
             </td>
         </tr>
         <tr>
