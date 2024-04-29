@@ -46,6 +46,7 @@ class DeliveryPortal(portal.CustomerPortal):
         domain = expression.AND([
             domain or [],
             ['&', '&', '&', ('delivery_man', '=', request.env.user.partner_id.id), ('state', 'in', ['draft', 'sent'])
+            # ['&', '&', '&', ('delivery_man', '=', request.env.user.partner_id.id), ('state', 'in', ['sent'])
              , ('delivery_date', '=', today), ('defer_status', '=', False)],
         ])
 
@@ -112,6 +113,7 @@ class DeliveryPortal(portal.CustomerPortal):
         }
 
         if order_sudo.state in ('draft', 'sent', 'cancel'):
+        # if order_sudo.state in ('sent', 'cancel'):
             history_session_key = 'my_quotations_history'
         else:
             history_session_key = 'my_orders_history'

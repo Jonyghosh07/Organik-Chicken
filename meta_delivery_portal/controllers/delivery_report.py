@@ -24,6 +24,7 @@ class DeliveryReport(CustomerPortal):
         domain = ['&', '&',
                   ('delivery_man', '=', request.env.user.partner_id.id),
                   ('state', 'in', ['draft', 'sale']),
+                #   ('state', 'in', ['sent', 'sale']),
                   ('delivery_date', '=', today),
                   ]
 
@@ -40,9 +41,11 @@ class DeliveryReport(CustomerPortal):
                                                                                                      0) + piece_qty
                     product_quantities[product_name]['pending'] = product_quantities[product_name].get('pending', 0) + (
                         piece_qty if sale.state == 'draft' else 0)
+                        # piece_qty if sale.state == 'sent' else 0)
                 else:
                     product_quantities[product_name] = {'total': piece_qty,
                                                         'pending': (piece_qty if sale.state == 'draft' else 0),
+                                                        # 'pending': (piece_qty if sale.state == 'sent' else 0),
                                                         'done': 0}
 
                 if sale.state == 'sale':

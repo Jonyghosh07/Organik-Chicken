@@ -111,15 +111,29 @@
 			<xpath expr="//div[2]" position="after">
 				<t t-if="sale_order.state == 'sale'">
 					<div id="div_again_order" class="col-sm-auto" style="width: 150px; margin-inline:auto; margin-top:60px;">
-						<a style="display:block;" id="order_again" role="button" class="btn btn-secondary">Order Again</a>
+						<!-- <a style="display:block;" id="order_again" role="button" class="btn btn-secondary">Order ​Again</a>
 						<div id="copy_success" class="col-sm-auto mt8" style="display:none;">
 							<strong>Your Order has been placed successfully..</strong>
-						</div>
+						</div> -->
+
+						<!-- Sale Order ID -->
 						<div style="display: none;">
 							<span id="sale_order_id" t-esc="sale_order.id"></span>
 						</div>
+
+						<!-- Print Invoice Button -->
 						<t t-set="report_url" t-value="sale_order.get_portal_url(report_type='pdf', download=True)" />
 						<a t-att-href="report_url" style="display:block; margin-top:10px; background-color:#083eb2;" id="print_invoice" role="button" class="btn btn-secondary">Print Invoice</a>
+
+						<!-- Pay Now Button -->
+						<div class="row justify-content-center text-center pt-1 pb-4">
+							<div class="col-sm-auto mt8">
+								<a role="button" data-bs-toggle="modal" data-bs-target="#modalaccept" href="#" t-att-class="'%s' % ('btn btn-light' if sale_order.transaction_ids else 'btn btn-primary')">
+									<i class="fa fa-check"/><t>Pay Now</t>
+								</a>
+							</div>
+						</div>
+					
 					</div>
 				</t>
 			</xpath>

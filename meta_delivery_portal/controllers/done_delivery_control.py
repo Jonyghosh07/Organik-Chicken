@@ -51,6 +51,7 @@ class DoneDeliveryPortal(portal.CustomerPortal):
             ['|',
                 ('state', 'in', ['sale']),
                 '&', ('state', '=', 'draft'), ('defer_status', '!=', False)
+                # '&', ('state', '=', 'sent'), ('defer_status', '!=', False)
             ]
         ])
 
@@ -113,6 +114,7 @@ class DoneDeliveryPortal(portal.CustomerPortal):
         }
 
         if order_sudo.state in ('draft', 'sent', 'cancel'):
+        # if order_sudo.state in ('sent', 'cancel'):
             history_session_key = 'my_quotations_history'
         else:
             history_session_key = 'my_orders_history'

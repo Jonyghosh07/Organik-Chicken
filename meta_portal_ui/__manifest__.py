@@ -18,6 +18,7 @@
 		'views/Pending_Deliveries.xml',
 		'views/Delivered_Orders.xml',
         'views/subscription_view.xml',
+        'views/product_page.xml',
     ],
     'assets': {
         'web.assets_frontend': [
@@ -25,7 +26,7 @@
             '/meta_portal_ui/static/src/css/single_pending_deliveries.css',
             '/meta_portal_ui/static/src/css/delivered_orders.css',
             '/meta_portal_ui/static/src/js/sale_order_update.js',
-            '/meta_portal_ui/static/src/js/sale_copy.js',
+            # '/meta_portal_ui/static/src/js/sale_copy.js',
             '/meta_portal_ui/static/src/js/subscription_page.js',
         ],
     },

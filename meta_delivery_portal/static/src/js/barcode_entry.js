@@ -53,7 +53,7 @@ odoo.define('meta_delivery_portal.item_scanner_popup', function (require) {
             o_item_scanner_modal_form.modal('show');
             const prev_codes = await this._getAllRowsOrderLine(lineId);
             console.log("prev_codes ",typeof prev_codes , prev_codes);
-            
+           
             prev_codes.forEach(function (value) {
                 const newRow = `
                     <tr>

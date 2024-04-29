@@ -23,6 +23,7 @@ class MyDeliveryPortal(CustomerPortal):
         if 'delivery_count' in counters:
             values['delivery_count'] = request.env['sale.order'].sudo().search_count(
                 ['&', '&', '&', ('delivery_man', '=', request.env.user.partner_id.id), ('state', 'in', ['draft', 'sent']),
+                # ['&', '&', '&', ('delivery_man', '=', request.env.user.partner_id.id), ('state', 'in', ['sent']),
                 ('delivery_date', '=', today), ('defer_status', '=', False)]) \
                 if request.env['sale.order'].sudo().check_access_rights('read', raise_exception=False) else 0
 
@@ -32,6 +33,7 @@ class MyDeliveryPortal(CustomerPortal):
                     ['|',
                         ('state', 'in', ['sale']),
                         '&', ('state', '=', 'draft'), ('defer_status', '!=', False)
+                        # '&', ('state', '=', 'sent'), ('defer_status', '!=', False)
                     ]
                 ])
             values['done_delivery_count'] = request.env['sale.order'].sudo().search_count(domain) \

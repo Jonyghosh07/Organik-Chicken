@@ -114,6 +114,7 @@
                             <td class="text-end">
                                 <!-- <t t-if="delivery_amount"> -->
                                     <span t-esc="round(current_subtotal - delivery_amount, 2)" />
+                                    <!-- <span t-esc="delivery_amount" /> -->
                                 <!-- </t>
                                 <t t-else="">
                                     <span t-esc="round(current_subtotal, 2)" />

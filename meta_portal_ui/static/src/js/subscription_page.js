@@ -53,27 +53,41 @@ odoo.define('meta_portal_ui.subscription_page', function(require) {
 
         _onClickDeleteButton: async function (ev) {
             var modalId = $("#modal_id");
-            await this._rpc({
-                model: "res.partner",
-                method: "deleteSubscription",
-                args: [modalId[0].value],
-            }).then(function(){
-                $(ev.delegateTarget).modal('hide');
-                window.location.reload();
-            });
+            // Show confirmation dialog
+            var confirmed = window.confirm("Are you sure you want to delete?");
+            if (confirmed) {
+                await this._rpc({
+                    model: "res.partner",
+                    method: "deleteSubscription",
+                    args: [modalId[0].value],
+                }).then(function(){
+                    $(ev.delegateTarget).modal('hide');
+                    window.location.reload();
+                });
+            }
         },
 
         _onClickSaveButton: async function (ev) {
-            var modalId = $("#modal_id");
-            var modalPiece = $("#modal_piece");
-            await this._rpc({
-                model: "res.partner",
-                method: "updateSubscription",
-                args: [modalId[0].value, modalPiece[0].value],
-            }).then(function(){
-                $(ev.delegateTarget).modal('hide');
-                window.location.reload();
-            });
+            var modalId = $("#modal_id").val();
+            var modalPiece = $('#modal_piece').val();
+            if (modalPiece !== 0 && !Number.isInteger(parseFloat(modalPiece))) {
+                // Show popup with error message
+                alert("You should only enter an integer for the piece value.");
+                return; // Stop further execution
+            }
+            // Show confirmation dialog
+            var confirmed = window.confirm("Are you sure you want to change?");
+            if (confirmed) {
+                await this._rpc({
+                    model: "res.partner",
+                    method: "updateSubscription",
+                    args: [this.getSession().user_id, modalId, modalPiece],
+                }).then(function(){
+                    
+                    $(ev.delegateTarget).modal('hide');
+                    window.location.reload();
+                });
+            }
         },
     });
 
@@ -141,12 +155,32 @@ odoo.define('meta_portal_ui.subscription_page', function(require) {
         _saveSubscription: async function(ev) {
             var productId = $('#select_modal_prod').val();
             var pieceValue = $('#add_piece').val();
+            // Check if pieceValue is not empty and is a valid integer
+            if (pieceValue !== 0 && !Number.isInteger(parseFloat(pieceValue))) {
+                // Show popup with error message
+                alert("You should only enter an integer for the piece value.");
+                return; // Stop further execution
+            }
             
-            await this._rpc({
+            var result = await this._rpc({
                 model: "res.partner",
                 method: "addSubscription",
                 args: [this.getSession().user_id, productId, pieceValue],
-            })
+            });
+
+            // Check the result returned from the server
+            if (result && result.subscription_exists) {
+                // Subscription already exists, ask the user if they want to update the piece
+                var confirmUpdate = window.confirm("The subscription already exists. Do you want to update the piece?");
+                if (confirmUpdate) {
+                    // User wants to update the piece, proceed with the update
+                    await this._rpc({
+                        model: "res.partner",
+                        method: "updateSubscriptionPiece",
+                        args: [this.getSession().user_id, productId, pieceValue],
+                    });
+                }
+            }
 
             // Close the modal
             var o_sub_add_form = $("#o_sub_add_form");

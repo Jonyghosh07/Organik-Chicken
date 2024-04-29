@@ -40,6 +40,7 @@ odoo.define('meta_delivery_portal.update_sale', function(require) {
             const selectElement = document.getElementById("options_list");
             const amountInput = document.getElementById("amount_rcvd");
             const doneButtonDiv = document.getElementById("done_button");
+            console.log("done Button ------------> ", doneButtonDiv)
             const resultElement = document.getElementById("result");
             //Amount Received
             var $amountReceivedInput = this.$('#amount_rcvd');

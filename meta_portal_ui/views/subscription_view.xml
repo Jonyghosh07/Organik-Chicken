@@ -42,6 +42,7 @@
                                     <th style="display:none;">ID</th>
                                     <th style="text-align: left;">Product</th>
                                     <th style="text-align: left;">Piece</th>
+                                    <th style="display:none;">Action</th>
                                 </tr>
                             </thead>
                             <t t-foreach="subscription_values" t-as="value">
@@ -57,6 +58,10 @@
                                     <!--Subscribed Piece-->
                                     <td style="text-align: left;">
                                         <span t-out="value['piece']" />
+                                    </td>
+                                    <!-- Edit Button -->
+                                    <td style="width: 20px;">
+                                        <a type="button" class="btn btn-primary">Edit</a>
                                     </td>
                                 </tr>
                             </t>
@@ -89,7 +94,7 @@
                                                     <strong>Piece : </strong>
                                                 </div>
                                                 <div class="col-6">
-                                                    <input style="width: 100px;padding: 2px;text-align: left;border: 1px solid blue;margin-left: 10px;" type="text" id="modal_piece"/>
+                                                    <input style="width: 100px;padding: 2px;text-align: left;border: 1px solid blue;margin-left: 10px;" type="number" id="modal_piece"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -98,6 +103,28 @@
                                         <div class="modal-footer d-flex justify-content-between">
                                             <a type="button" style="background-color: red; color: white;" class="btn btn-primary oe_subscription_btn_delete">Delete</a>
                                             <a type="button" class="btn btn-primary oe_subscription_btn_save">Save</a>
+
+                                            <!-- Confirmation Modal -->
+                                            <div class="o_confirmation modal fade" id="o_confirmation" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title d-flex justify-content-center"
+                                                                id="form_title">User Confirmation</h5>
+                                                            <a type="button" class="btn btn-secondary oe_confirm_btn_close fa fa-times"/>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form>
+                                                                <div class="table mx-sm-3 mb-2">
+                                                                    <div class="row p-4" style="width:auto;">
+                                                                        <strong>Are you sure to make the changes?</strong>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -139,7 +166,7 @@
                                                 <strong>Piece : </strong>
                                             </div>
                                             <div class="col-6">
-                                                <input style="width: 100px;padding: 2px;text-align: left;border: 1px solid blue;margin-left: 10px;" type="text" id="add_piece"/>
+                                                <input style="width: 100px;padding: 2px;text-align: left;border: 1px solid blue;margin-left: 10px;" type="number" id="add_piece"/>
                                             </div>
                                         </div>
                                     </div>

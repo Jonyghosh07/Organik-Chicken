@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="product_actual_price_warning" inherit_id="website_sale.product_quantity">
+        <!-- Add actual Price warning before Add to Cart button -->
+        <xpath expr="//div[@id='add_to_cart_wrap']" position="before">
+            <div style="background-color: yellow; padding: 10PX; margin: 10px;">
+                <span>Actual price may vary based on weight.</span>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

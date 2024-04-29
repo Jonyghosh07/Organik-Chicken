@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Manual bulk SMS from action... -->
     <record id="action_send_bulk_sms" model="ir.actions.server">
         <field name="name">Send Manual SMS</field>
         <field name="model_id" ref="meta_sms_mod.model_manual_sms"/>
@@ -8,6 +9,18 @@
         <field name="state">code</field>
         <field name="code">
             action = model._send_manual_sms()
+        </field>
+    </record>
+
+    <!-- Manual bulk send SMS from action to change the state to Sent... -->
+    <record id="action_send_by_sms" model="ir.actions.server">
+        <field name="name">Send By SMS</field>
+        <field name="model_id" ref="meta_sms_mod.model_sale_order"/>
+        <field name="binding_model_id" ref="meta_sms_mod.model_sale_order"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = model._action_sms_quot_sent()
         </field>
     </record>
 
