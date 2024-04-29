@@ -51,7 +51,6 @@ class WebsiteSale(http.Controller):
 
         if no_variant_attribute_values:
             no_variant_attribute_values = json_scriptsafe.loads(no_variant_attribute_values)
-        _logger.info("Before Values add_qty -------->", add_qty)
         values = order._cart_update(
             product_id=product_id,
             line_id=line_id,
@@ -61,7 +60,6 @@ class WebsiteSale(http.Controller):
             no_variant_attribute_values=no_variant_attribute_values,
             **kw
         )
-        _logger.info("Values -------->", values)
         request.session['website_sale_cart_quantity'] = order.cart_quantity
         if not order.cart_quantity:
             request.website.sale_reset()

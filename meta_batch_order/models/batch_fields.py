@@ -15,6 +15,7 @@ class StockBatchDetails(models.Model):
     exp_date = fields.Date(string="Expected Date")
     sale_orders = fields.Many2many("sale.order", string="Related Sales", compute="_compute_sale_orders")
     demand_qty = fields.Integer(string="Demand Quantity", compute="_compute_demand_qty")
+    open_close = fields.Selection([('open', 'Open'), ('close', 'Close')], string="Open or Close", default="open")
 
     def _compute_sale_orders(self):
         for item in self:

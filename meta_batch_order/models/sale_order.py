@@ -24,13 +24,26 @@ class SaleOrderDetails(models.Model):
         kilo_gram = 0
         qty_pcs = 0
         if quantity > 0:
-            batches = self.env['stock.lot'].search([('product_id.id', '=', product_id)])
+            batches = self.env['stock.lot'].search([('product_id.id', '=', product_id)], order="id asc")
             products = self.env['product.product'].search([('id', '=', product_id)])
+            
             if batches:
                 for batch in batches:
-                    if batch.avg_wght and batch.avail_chick >= quantity:
+                    if batch.open_close == 'open' and batch.avail_chick >= quantity and batch.exp_date > fields.Date.today():
+                        # if batch.avg_wght and batch.avail_chick >= quantity:
                         kilo_gram = quantity * batch.avg_wght
                         qty_pcs = quantity
+                        break
+                    elif products:
+                        kilo_gram = quantity * products.weight
+                        qty_pcs = quantity
+                        logging.info(f"kilo_gram ----------> {kilo_gram}")
+                        break
+                    else:
+                        kilo_gram = quantity
+                        qty_pcs = quantity
+                        break
+            
             elif products:
                 kilo_gram = quantity * products.weight
                 qty_pcs = quantity
@@ -149,9 +162,10 @@ class SaleOrderDetails(models.Model):
             'linked_line_id': linked_line_id,
         }
 
-        batches = self.env['stock.lot'].sudo().search([('product_id', '=', product.id)])
+        batches = self.env['stock.lot'].sudo().search([('product_id', '=', product.id)], order="id asc")
         for batch in batches:
-            if batch and batch.avail_chick >= quantity:
+            # if batch and batch.avail_chick >= quantity:
+            if batch.open_close == 'open' and batch.avail_chick >= quantity and batch.exp_date > fields.Date.today():
                 values['batch_num'] = batch.id
 
         # add no_variant attributes that were not received

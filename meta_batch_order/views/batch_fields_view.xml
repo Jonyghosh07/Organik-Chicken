@@ -15,6 +15,7 @@
 					<field name="expired_chick"/>
 					<field name="demand_qty"/>
                     <field name="avail_chick"/>
+                    <field name="open_close"/>
 				</group>
 			</xpath>
 
