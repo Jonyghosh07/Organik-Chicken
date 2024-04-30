@@ -27,6 +27,7 @@
             '/meta_portal_ui/static/src/css/delivered_orders.css',
             '/meta_portal_ui/static/src/js/sale_order_update.js',
             # '/meta_portal_ui/static/src/js/sale_copy.js',
+            '/meta_portal_ui/static/src/js/payment_link_button.js',
             '/meta_portal_ui/static/src/js/subscription_page.js',
         ],
     },
