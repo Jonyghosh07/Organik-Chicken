@@ -26,23 +26,22 @@ class SaleOrderDetails(models.Model):
         if quantity > 0:
             batches = self.env['stock.lot'].search([('product_id.id', '=', product_id)], order="id asc")
             products = self.env['product.product'].search([('id', '=', product_id)])
-            
+            got_batch = False
             if batches:
                 for batch in batches:
-                    if batch.open_close == 'open' and batch.avail_chick >= quantity and batch.exp_date > fields.Date.today():
+                    if batch.open_close == 'open' and batch.avail_chick >= quantity and batch.exp_date and batch.exp_date < fields.Date.today():
+                        got_batch = True
                         # if batch.avg_wght and batch.avail_chick >= quantity:
                         kilo_gram = quantity * batch.avg_wght
                         qty_pcs = quantity
                         break
-                    elif products:
-                        kilo_gram = quantity * products.weight
-                        qty_pcs = quantity
-                        logging.info(f"kilo_gram ----------> {kilo_gram}")
-                        break
-                    else:
-                        kilo_gram = quantity
-                        qty_pcs = quantity
-                        break
+                if not got_batch:
+                    kilo_gram = quantity * products.weight
+                    qty_pcs = quantity
+                    logging.info(f"kilo_gram ----------> {kilo_gram}")
+                else:
+                    kilo_gram = quantity
+                    qty_pcs = quantity
             
             elif products:
                 kilo_gram = quantity * products.weight
@@ -165,7 +164,7 @@ class SaleOrderDetails(models.Model):
         batches = self.env['stock.lot'].sudo().search([('product_id', '=', product.id)], order="id asc")
         for batch in batches:
             # if batch and batch.avail_chick >= quantity:
-            if batch.open_close == 'open' and batch.avail_chick >= quantity and batch.exp_date > fields.Date.today():
+            if batch.open_close == 'open' and batch.avail_chick >= quantity and batch.exp_date and batch.exp_date > fields.Date.today():
                 values['batch_num'] = batch.id
 
         # add no_variant attributes that were not received

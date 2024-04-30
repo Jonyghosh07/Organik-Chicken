@@ -91,7 +91,7 @@
                                     <strong>Total</strong>
                                 </td>
                                 <td class="text-end">
-                                    <span t-esc="round(current_subtotal)" />
+                                    <span t-esc="round(current_subtotal - delivery_amount)" />
                                 </td>
                             </tr>
     
@@ -100,10 +100,10 @@
                                 <td>
                                     <span>Discount</span>
                                 </td>
-                                <td t-if="dis_amount" class="text-end">
-                                    (-) <span t-esc="dis_amount" />
+                                <td class="text-end">
+                                    (-) <span t-esc="round(doc.amount_undiscounted - doc.amount_total, 2)" />
+                                    <!-- (-) <span t-esc="dis_amount" /> -->
                                 </td>
-                                <td t-else="" class="text-end">(-) 0.00</td>
                             </tr>
     
                             <tr

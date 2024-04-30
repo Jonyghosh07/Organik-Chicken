@@ -127,10 +127,10 @@
                             <td>
                                 <span>Discount</span>
                             </td>
-                            <td t-if="dis_amount" class="text-end">
-                                (-) <span t-esc="round(dis_amount, 2)" />
+                            <td class="text-end">
+                                (-) <span t-esc="round(o.line_ids.sale_line_ids.order_id.amount_undiscounted - o.line_ids.sale_line_ids.order_id.amount_total, 2)" />
+                                <!-- (-) <span t-esc="round(dis_amount, 2)" /> -->
                             </td>
-                            <td t-else="" class="text-end">(-) 0.00</td>
                         </tr>
 
                         <tr

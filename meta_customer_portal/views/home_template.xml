@@ -38,7 +38,7 @@
                                 <p class="due_payment_amount">
                                     TK. 
                                     <span>
-                                        <t t-esc="request.env.user.partner_id.credit"/>
+                                        <t t-esc="round(request.env.user.partner_id.credit, 2)"/>
                                     </span>
                                 </p>
 

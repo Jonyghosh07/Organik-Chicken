@@ -526,7 +526,7 @@
                 <strong>Previous Due + Total</strong>
             </td>
             <td class="text-end">
-                <span t-esc="sale_order.total_payable"/>
+                <span t-esc="round(sale_order.total_payable, 2)"/>
             </td>
         </tr>
         <tr>
@@ -534,7 +534,7 @@
                 <strong>Amount Paid</strong>
             </td>
             <td class="text-end">
-                <span t-esc="sale_order.receipt_paid"/>
+                <span t-esc="round(sale_order.receipt_paid, 2)"/>
             </td>
         </tr>
         <tr>
@@ -542,7 +542,7 @@
                 <strong>Total Due</strong>
             </td>
             <td id="total_payable" class="text-end">
-                <span t-esc="sale_order.final_due"/>
+                <span t-esc="round(sale_order.final_due, 2)"/>
             </td>
         </tr>
 

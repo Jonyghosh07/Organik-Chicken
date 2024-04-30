@@ -127,8 +127,12 @@
 						</div>
 						
 						<!-- Print Invoice Button -->
-						<t t-set="report_url" t-value="sale_order.get_portal_url(report_type='pdf', download=True)" />
-						<a t-att-href="report_url" style="display:block; margin-top:10px; background-color:#083eb2;" id="print_invoice" role="button" class="btn btn-secondary">Print Invoice</a>
+						<t t-set="invoices"
+                                t-value="sale_order.invoice_ids.filtered(lambda i: i.state not in ['cancel'])" />
+						<t t-foreach="invoices" t-as="i">
+							<t t-set="report_url" t-value="i.get_portal_url(report_type='pdf', download=True)" />
+							<a t-att-href="report_url" style="display:block; margin-top:10px; background-color:#083eb2;" id="print_invoice" role="button" class="btn btn-secondary">Print Invoice</a>
+						</t>
 						
 					</div>
 				</t>
