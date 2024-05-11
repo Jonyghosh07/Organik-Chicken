@@ -38,6 +38,10 @@ odoo.define('meta_portal_ui.subscription_page', function(require) {
     });
 
 
+
+
+
+
     // Modal Close, Delete and Save Button
     publicWidget.registry.SubscriptionModal = publicWidget.Widget.extend({
         selector: '#o_subscription_line_form',
@@ -70,9 +74,9 @@ odoo.define('meta_portal_ui.subscription_page', function(require) {
         _onClickSaveButton: async function (ev) {
             var modalId = $("#modal_id").val();
             var modalPiece = $('#modal_piece').val();
-            if (modalPiece !== 0 && !Number.isInteger(parseFloat(modalPiece))) {
+            if (modalPiece <= 0 || !Number.isInteger(parseFloat(modalPiece)) || parseFloat(modalPiece) !== parseInt(modalPiece)) {
                 // Show popup with error message
-                alert("You should only enter an integer for the piece value.");
+                alert("You should only enter a positive value for the piece.");
                 return; // Stop further execution
             }
             // Show confirmation dialog
@@ -90,6 +94,11 @@ odoo.define('meta_portal_ui.subscription_page', function(require) {
             }
         },
     });
+
+
+
+
+
 
     // Add Product
     publicWidget.registry.SubscriptionAdd = publicWidget.Widget.extend({
@@ -113,21 +122,41 @@ odoo.define('meta_portal_ui.subscription_page', function(require) {
             o_sub_add_form.modal('show');
 
             this._selectProductOptions();
+
+            // Event listener for select element change
+            $('#select_modal_prod').change(function() {
+                // Get the selected option
+                const selectedOption = $(this).find('option:selected');
+                // Set the value of add_piece based on the selected product's minimum order quantity
+                const minimumOrderQuantity = selectedOption.data('minimum-order');
+                $('#add_piece').val(minimumOrderQuantity);
+            });
         },
 
         _selectProductOptions: async function() {
-            // Fetch product data from the server
-            const products = await this._fetchProductData();
-            // Select the select element
-            const selectElement = $('#select_modal_prod');
-            // Clear existing options
-            selectElement.empty();
-            // Add default option
-            selectElement.append('<option value="">Select Product</option>');
-            // Populate options with product data
-            products.forEach(product => {
-                selectElement.append(`<option value="${product.id}">${product.name}</option>`);
-            });
+            try {
+                // Fetch product data from the server
+                const products = await this._fetchProductData();
+                // Select the select element
+                const selectElement = $('#select_modal_prod');
+                // Clear existing options
+                selectElement.empty();
+                // Add default option
+                selectElement.append('<option value="">Select Product</option>');
+                // Populate options with product data
+                products.forEach(product => {
+                    selectElement.append(`<option value="${product.id}" data-minimum-order="${product.minimum_order_quantity}">${product.name}</option>`);
+                });
+                // Set the default selected product
+                const defaultProductId = 2;
+                selectElement.val(defaultProductId);
+
+                 // Set default value for add_piece based on selected product
+                const defaultPieceValue = selectElement.find('option:selected').data('minimum-order');
+                $('#add_piece').val(defaultPieceValue);
+            } catch (error) {
+                console.error('Error selecting product options:', error);
+            }
         },
 
         _fetchProductData: async function() {
@@ -155,11 +184,12 @@ odoo.define('meta_portal_ui.subscription_page', function(require) {
         _saveSubscription: async function(ev) {
             var productId = $('#select_modal_prod').val();
             var pieceValue = $('#add_piece').val();
+            var minimumOrderQuantity = $('#select_modal_prod').find('option:selected').data('minimum-order');
             // Check if pieceValue is not empty and is a valid integer
-            if (pieceValue !== 0 && !Number.isInteger(parseFloat(pieceValue))) {
+            if (pieceValue < minimumOrderQuantity || !Number.isInteger(parseFloat(pieceValue)) || parseFloat(pieceValue) !== parseInt(pieceValue)) {
                 // Show popup with error message
-                alert("You should only enter an integer for the piece value.");
-                return; // Stop further execution
+                alert("You should enter same or greater value than the minimum quantity.");
+                return;
             }
             
             var result = await this._rpc({

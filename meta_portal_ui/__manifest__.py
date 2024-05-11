@@ -11,7 +11,7 @@
     'co-author': "Jony Ghosh",
     'company': 'Metamorphosis',
     
-    'depends': ['portal', 'sale_management', 'website_sale_stock', 'meta_customer_fields'],
+    'depends': ['portal', 'sale_management', 'website_sale_stock', 'meta_customer_fields', 'abs_so_minimum_quantity'],
     'data': [
         'security/ir.model.access.csv',
 		'views/portal_view.xml',
