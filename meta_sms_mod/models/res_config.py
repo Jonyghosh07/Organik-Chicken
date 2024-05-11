@@ -28,10 +28,10 @@ class MetaSMSSettings(models.TransientModel):
     
     partner_due_msg = fields.Boolean(string="Partner Due SMS")
     partner_due_msg_content = fields.Text('Partner Due SMS Content')
-    #
-    # order_confirmation_msg_wod = fields.Boolean(string="Confirmation SMS W/O Delivery Date")
-    # order_confirmation_content_wod = fields.Text('Confirmation SMS Content W/O Delivery Date')
-    #
+    
+    order_cancel_msg = fields.Boolean(string="Order Cancellation SMS")
+    order_cancel_content = fields.Text('Order Cancellation SMS Content')
+    
     # order_otp_msg = fields.Boolean(string="Order OTP SMS")
     # order_otp_content = fields.Text(string='Order OTP SMS Content')
     
@@ -63,8 +63,8 @@ class MetaSMSSettings(models.TransientModel):
         IrDefault.set('res.config.settings', 'partner_due_msg', self.partner_due_msg)
         IrDefault.set('res.config.settings', 'partner_due_msg_content', self.partner_due_msg_content)
 
-        # IrDefault.set('res.config.settings','order_confirmation_msg_wod', self.order_confirmation_msg_wod)
-        # IrDefault.set('res.config.settings','order_confirmation_content_wod', self.order_confirmation_content_wod)
+        IrDefault.set('res.config.settings','order_cancel_msg', self.order_cancel_msg)
+        IrDefault.set('res.config.settings','order_cancel_content', self.order_cancel_content)
         
         # IrDefault.set('res.config.settings','order_otp_msg', self.order_otp_msg)
         # IrDefault.set('res.config.settings','order_otp_content', self.order_otp_content)
@@ -99,9 +99,9 @@ class MetaSMSSettings(models.TransientModel):
             'partner_due_msg': IrDefault.get('res.config.settings', 'partner_due_msg', self.partner_due_msg),
             'partner_due_msg_content': IrDefault.get('res.config.settings', 'partner_due_msg_content', self.partner_due_msg_content),
             
-            # 'order_confirmation_msg_wod':IrDefault.get('res.config.settings','order_confirmation_msg_wod', self.order_confirmation_msg_wod),
-            # 'order_confirmation_content_wod':IrDefault.get('res.config.settings','order_confirmation_content_wod', self.order_confirmation_content_wod),
-            #
+            'order_cancel_msg':IrDefault.get('res.config.settings','order_cancel_msg', self.order_cancel_msg),
+            'order_cancel_content':IrDefault.get('res.config.settings','order_cancel_content', self.order_cancel_content),
+            
             # 'order_otp_msg':IrDefault.get('res.config.settings','order_otp_msg', self.order_otp_msg),
             # 'order_otp_content':IrDefault.get('res.config.settings','order_otp_content', self.order_otp_content),
         })

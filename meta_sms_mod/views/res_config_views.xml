@@ -47,18 +47,17 @@
                                 </sheet>
 
                                 <!-- Order Confirmation W/O Message -->
-<!--                                    <sheet>-->
-<!--                                        <group>-->
-<!--                                            <label for="order_confirmation_msg_wod"/>-->
-<!--                                            <b><field name="order_confirmation_msg_wod" /></b>-->
-<!--                                        </group>-->
-<!--                                        <group attrs="{'invisible': [('order_confirmation_msg_wod', '!=', True)]}">-->
-<!--                                            <label for="order_confirmation_content_wod"/>-->
-<!--                                            <b><field name="order_confirmation_content_wod" placeholder="e.g. Dear Customer,-->
-<!--                                             you order has been confirm!-->
-<!--                                             You will have to pay"/></b>-->
-<!--                                        </group>-->
-<!--                                    </sheet>-->
+                                <sheet>
+                                    <group>
+                                        <label for="order_cancel_msg"/>
+                                        <b><field name="order_cancel_msg" /></b>
+                                    </group>
+                                    <group attrs="{'invisible': [('order_cancel_msg', '!=', True)]}">
+                                        <label for="order_cancel_content"/>
+                                        <b><field name="order_cancel_content" placeholder="e.g. Dear Customer,
+                                        you order has been cancelled!"/></b>
+                                    </group>
+                                </sheet>
 
                                 <!-- Reset Password Message -->
                                 <sheet>

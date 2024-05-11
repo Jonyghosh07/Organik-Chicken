@@ -150,7 +150,6 @@ class SaleOrder(models.Model):
         else:
             _logger.warning("Please Enter The Message Text")
 
-
     # Order Cash/Noncash sms function
     def action_cash_noncash_so_msg(self, payment_option):
         order_cash_msg = (
@@ -289,6 +288,45 @@ class SaleOrder(models.Model):
             so._order_confirmation_msg()
         res = super(SaleOrder, self).action_quotation_sent()
         return res
+
+    # Order Cancel SMS trigger
+    def action_cancel(self):
+        for so in self:
+            so._order_cancellation_msg()
+        res = super(SaleOrder, self).action_cancel()
+        return res
+    
+    # Cancellation SMS
+    def _order_cancellation_msg(self):
+        if self.partner_id and self.partner_id.phone:
+            order_confirmation_msg = (
+                self.env["ir.default"]
+                .sudo()
+                .get("res.config.settings", "order_cancel_content")
+            )
+
+            if order_confirmation_msg:
+                mobile = self.partner_id.phone.replace("-", "").replace(" ", "")
+                sms_text = (
+                    self.env["ir.default"]
+                    .sudo()
+                    .get("res.config.settings", "order_cancel_content")
+                    .replace("<name>", self.partner_id.name)
+                    .replace("<msg_body>", str(self.msg_body))
+                )
+                self.env["send.sms"].send_sms(mobile, sms_text)
+                self.message_post(
+                    body=_(
+                        "SMS of order cancellation Sent to %s (%s) : %s.",
+                        self.partner_id.name,
+                        mobile,
+                        sms_text,
+                    )
+                )
+            else:
+                _logger.warning("Please Enter The Message Text")
+        else:
+            _logger.warning("Customer Don't Have  Delivery Address")
 
     # Send Confirmation SMS and State to Sent in bulk from list action
     def _action_sms_quot_sent(self):
