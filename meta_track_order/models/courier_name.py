@@ -16,9 +16,6 @@ class CourierSaleOrder(models.Model):
 
     @api.onchange("delivery_done")
     def get_delivery_done_date(self):
-
-        print("cvdsd")
-        print("cjheck", self.delivery_done)
         if self.delivery_done == True:
             self.delivery_done_date = fields.Datetime.now()
         else:

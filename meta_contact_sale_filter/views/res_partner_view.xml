@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_res_partner_form_del_not_done" model="ir.ui.view">
+        <field name="name">view.res.partner.form.del_not_done</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="del_not_done"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_res_partner_tree_del_not_done" model="ir.ui.view">
+        <field name="name">view.res.partner.tree.del_not_done</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="delivery_batch"/>
+                <field name="del_not_done" optional="show" widget="badge" decoration-danger="del_not_done == 'not_done'" decoration-success="del_not_done == 'done'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="del_view_partner_search" model="ir.ui.view">
+        <field name="name">del.view.res.partner.search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="after">
+                <separator/>
+                <filter name="delivery_not_done" string="Delivery Not Done" domain="[('del_not_done','=', 'not_done')]"/>
+                <separator/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

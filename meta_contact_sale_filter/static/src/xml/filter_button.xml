@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="meta_contact_sale_filter.ListView.Buttons" t-inherit="web.ListView.Buttons" t-inherit-mode="primary">
+        <xpath expr="//div[hasclass('o_list_buttons')]" position="inside">
+            <button t-if="nbSelected == 0"
+                class="btn btn-primary" type="button"  t-on-click="OnApplyClick">
+                Date Lot Filter
+            </button>
+        </xpath>
+    </t>
+</templates>
