@@ -26,11 +26,11 @@ class SendSMS(models.TransientModel):
             _logger.warning("Sms Text--------------->%s", sms_text)
             
             payload = {'api_key': api_token,
-                       "type": "unicode",
-                       'contacts': number,
-                       "senderid": sid,
-                       'msg': sms_text,
-                       }
+                        "type": "unicode",
+                        'contacts': number,
+                        "senderid": sid,
+                        'msg': sms_text,
+                        }
             _logger.warning("Payload--------------->%s", payload)
             
             r = requests.post(elitbuzz_url, data=payload)

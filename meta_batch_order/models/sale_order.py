@@ -237,39 +237,22 @@ class SaleOrderLine(models.Model):
     @api.onchange('piece_qty')
     def _compute_product_uom_qty(self):
         for lines in self:
-            if lines.batch_num:
-                lines.product_uom_qty = lines.piece_qty * lines.batch_num.avg_wght
-            if lines.batch_num.unit_price_kg:
-                lines.price_unit = lines.batch_num.unit_price_kg
+            if lines.product_template_id:
+                lines.product_uom_qty = lines.piece_qty * lines.product_template_id.weight
+            # if lines.batch_num.unit_price_kg:
+            #     lines.price_unit = lines.batch_num.unit_price_kg
 
-    @api.onchange('product_uom_qty')
-    def _onchange_product_uom_qty(self):
-        for lines in self:
-            if lines.batch_num:
-                lines.price_subtotal = lines.product_uom_qty * lines.batch_num.unit_price_kg
+    # @api.onchange('product_uom_qty')
+    # def _onchange_product_uom_qty(self):
+    #     for lines in self:
+    #         if lines.batch_num:
+    #             lines.price_subtotal = lines.product_uom_qty * lines.batch_num.unit_price_kg
 
-    # @api.depends('product_template_id')
-    # def _compute_lot_id(self):
+    # @api.onchange('batch_num')
+    # def _onchange_batch_num(self):
     #     for record in self:
-    #         _logger.info(f"record ------> {record}")
-    #         if record.product_template_id:
-    #             _logger.info(f"record has product ------> {record}")
-    #             lot_nos = self.env['stock.lot'].sudo().search(
-    #                 [("product_id.id", "=", record.product_template_id.product_id.id)])
-    #             _logger.info(f"lot_nos ------> {lot_nos}")
-    #             lots = []
-    #             if lot_nos:
-    #                 for lot in lot_nos:
-    #                     lots.append(lot.id)
-    #             return {'domain': {'batch_num': [('id', 'in', lots)]}}
-    #         else:
-    #             record.batch_num = False
-
-    @api.onchange('batch_num')
-    def _onchange_batch_num(self):
-        for record in self:
-            lot_no = self.env['stock.lot'].sudo().search([("id", "=", record.batch_num.id)])
-            if lot_no.avg_wght and record.piece_qty:
-                record.product_uom_qty = lot_no.avg_wght * record.piece_qty
-            if lot_no.unit_price_kg:
-                record.price_unit = lot_no.unit_price_kg
+    #         lot_no = self.env['stock.lot'].sudo().search([("id", "=", record.batch_num.id)])
+    #         if lot_no.avg_wght and record.piece_qty:
+    #             record.product_uom_qty = lot_no.avg_wght * record.piece_qty
+    #         if lot_no.unit_price_kg:
+    #             record.price_unit = lot_no.unit_price_kg

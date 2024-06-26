@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="portal_grant_access_phone" model="ir.ui.view">
+        <field name="name">portal.grant.access.phone</field>
+        <field name="model">portal.wizard</field>
+        <field name="inherit_id" ref="portal.wizard_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_grant_access']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('is_portal', '=', True), ('is_internal', '=', True)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
