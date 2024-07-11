@@ -47,7 +47,7 @@ class DeliveryPortal(portal.CustomerPortal):
             domain or [],
             ['&', '&', '&', ('delivery_man', '=', request.env.user.partner_id.id), ('state', 'in', ['draft', 'sent'])
             # ['&', '&', '&', ('delivery_man', '=', request.env.user.partner_id.id), ('state', 'in', ['sent'])
-             , ('delivery_date', '=', today), ('defer_status', '=', False)],
+            , ('delivery_date', '=', today), ('defer_status', '=', False)],
         ])
 
         searchbar_sortings = {

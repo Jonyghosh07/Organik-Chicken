@@ -23,7 +23,7 @@ class DeliveryReport(CustomerPortal):
         SaleOrder = request.env['sale.order']
         domain = ['&', '&',
                   ('delivery_man', '=', request.env.user.partner_id.id),
-                  ('state', 'in', ['draft', 'sale']),
+                  ('state', 'in', ['draft', 'sent', 'sale']),
                 #   ('state', 'in', ['sent', 'sale']),
                   ('delivery_date', '=', today),
                   ]

@@ -8,6 +8,11 @@
             <xpath expr="//button[@name='action_grant_access']" position="attributes">
                 <attribute name="attrs">{'invisible': ['|', ('is_portal', '=', True), ('is_internal', '=', True)]}</attribute>
             </xpath>
+
+            <xpath expr="//footer" position="inside">
+                <button name="give_access_to_all" string="Give access to all" type="object" />
+            </xpath>
+
         </field>
     </record>
 </odoo>

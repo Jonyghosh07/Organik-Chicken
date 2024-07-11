@@ -33,18 +33,21 @@ class SendOtp(models.TransientModel):
         if mobile:
             sms_provider = self.env['ir.default'].sudo().get('website.otp.settings', 'sms_provider')
             sms_text = self.env['ir.default'].sudo().get('website.otp.settings', 'otp_content').replace('<otp>', str(otp))
-            # provider_url = self.env['ir.default'].sudo().get('website.otp.settings', 'provider_url')
+            provider_url = self.env['ir.default'].sudo().get('website.otp.settings', 'provider_url')
             if(sms_provider == 'elitbuzz'):
-                
+
                 api_key = self.env['ir.default'].sudo().get('website.otp.settings', 'elitbuzz_api_key')
                 senderid = self.env['ir.default'].sudo().get('website.otp.settings', 'elitbuzz_senderid')
                 
                 payload = {'contacts': mobile, 'msg': sms_text, 'api_key': api_key, 'type': 'text', 'senderid': senderid}
-                print(f"payload ---------------> {payload}")
-                
-                r = requests.post('https://msg.elitbuzz-bd.com/smsapi', params=payload)
+                header = {
+                    # "HTTP_CF_CONNECTING_IP" : '139.162.23.57'
+                }
+                # r = requests.post('https://msg.elitbuzz-bd.com/smsapi', params=payload, headers=header)
+                r = requests.post(provider_url, params=payload, headers=header)
                 logging.warning("elitbuzz sms response status_code {} : response text {}".format(r.status_code, r.text))
-
+        
+                # raise ValidationError(json.loads(r.content))
             elif sms_provider == 'iSMS':
                 api_token = self.env['ir.default'].sudo().get('website.otp.settings', 'isms_api_token')
                 sid = self.env['ir.default'].sudo().get('website.otp.settings', 'isms_sid')

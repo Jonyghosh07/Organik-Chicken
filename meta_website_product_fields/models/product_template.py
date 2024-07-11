@@ -14,8 +14,15 @@ class ProductTemplate(models.Model):
         'uom.uom', 'Website UOM',
         default=_get_default_web_uom_id, required=True,
         help="Default unit of measure used for Website Product details.")
-    
+    web_uom_name = fields.Char(string='Unit of Measure Name', related='web_uom_id.name', readonly=True)
+    web_unit_name = fields.Char(compute='_compute_web_unit_name')
     special_text = fields.Text(string="Special Text")
+    
+    
+    @api.depends('web_uom_name')
+    def _compute_web_unit_name(self):
+        for product in self:
+            product.web_unit_name = product.web_uom_name
     
     
     def _get_combination_info(self, combination=False, product_id=False, add_qty=1, pricelist=False, parent_combination=False, only_template=False):
@@ -33,7 +40,7 @@ class ProductTemplate(models.Model):
         
         product = self.env['product.product'].browse(combination_info['product_id']) or self
         combination_info.update(
-                web_uom_id=product.web_uom_id.name,
+                web_unit_name=product.web_unit_name,
                 special_text=product.special_text,
             )
         

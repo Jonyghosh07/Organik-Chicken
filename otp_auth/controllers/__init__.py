@@ -15,3 +15,4 @@
 
 from . import main
 from . import portal
+from . import signup_otp

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="otp_verify_before_signup" name="Otp verify Before Singup">
+        <t t-call="web.login_layout">
+
+            <form class="oe_signup_form" id="oe_signup_form" role="form" method="post" action='/signup/otp' t-if="not message">
+
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input type="hidden" id="login" name="login" t-att-value="login"/>
+                <input type="hidden" id="name" name="name" t-att-value="name"/>
+                <input type="hidden" id="password" name="password" t-att-value="password"/>
+
+                <h3>Please verify your account.</h3>
+                <p style="margin-bottom: 20px;"> An Otp has been sent to <strong>
+                    <t t-esc="login"/>
+                    </strong>
+                </p>
+                <div class="form-group field-name">
+                    <label for="otpin">Enter OTP</label>
+                    <input type="text" name="otpin" id="otpin" class="form-control form-control-sm" required="required" placeholder="Here ..." />
+                </div>
+
+                <div class="text-center oe_login_buttons pt-3">
+                    <button id="send_verify_otp" type="submit" class="btn btn-primary btn-block"> Verify </button>
+                    <a id="sendAgain" t-attf-href="/otp/verification" class="btn btn-link btn-sm" role="button">Did Not Received OTP?</a>
+                </div>
+            </form>
+        </t>
+    </template>
+
+</odoo>

@@ -12,9 +12,9 @@
             </t>
         </xpath>
 
-        <!-- Add web_uom_id text after Quantity in Shop portal -->
+        <!-- Add web_unit_name text after Quantity in Shop portal -->
         <xpath expr="//div[@id='add_to_cart_wrap']" position="before">
-            <h4 t-esc="combination_info['web_uom_id']"/>
+            <h4 t-esc="combination_info['web_unit_name']"/>
         </xpath>
     </template>
 

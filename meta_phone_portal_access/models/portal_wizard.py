@@ -8,6 +8,15 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
+class PortalWizard(models.TransientModel):
+    _inherit = 'portal.wizard'
+    
+    def give_access_to_all(self):
+        for user in self.user_ids:
+            exist_user = self.env['res.users'].sudo().search([('login', '=', user.partner_id.email)])
+            if not exist_user:
+                user.action_grant_access()
+
 class PortalWizardUser(models.TransientModel):
     """
         A model to configure users in the portal wizard.
