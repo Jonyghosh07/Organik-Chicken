@@ -6,31 +6,8 @@ odoo.define('otp_auth.wk_otp_login', function (require) {
     var ajax = require('web.ajax');
     var session = require('web.session');
     $(document).ready(function () {
-
-        // Send Signup OTP
-        if ($('#oe_signup_form').length) {
-            sendSignupOtp();
-        }
-
-
-
-
-        // Disable Verify Button untill entered otp length is 6
-        $('#otpin').on('input', function () {
-            if ($(this).val().length == 6) {
-                $('#send_verify_otp').removeAttr('disabled');
-            } else {
-                $('#send_verify_otp').attr('disabled', true);
-            }
-        });
-        // if Verify is clicked.......................................
-        $('#send_verify_otp').on('click', function (event) {
-            event.preventDefault(); // Prevent form submission
-            verifyOtp();
-        });
-
-
-
+        // $(".field-login>label").text('Mobile Number');
+        // $(".field-login>input").attr('placeholder','Mobile Number');
 
         if ($('#otplogincounter').get(0)) {
             // get number form URL
@@ -97,6 +74,9 @@ odoo.define('otp_auth.wk_otp_login', function (require) {
                 $(".wk_next_btn").show();
             }
         });
+        // if (!$('.oe_signup_form').length) {
+        //     $('label[for=password], input#password').text("OTP");
+        // }
         $('input:radio[name="radio-otp"]').change(function () {
             if ($(this).val() == 'radiotp') {
                 console.log("OTP Selected......")
@@ -113,81 +93,22 @@ odoo.define('otp_auth.wk_otp_login', function (require) {
 
     });
 
-
-
-
-
-
-    // OTP Send .....................................
-    function sendSignupOtp(otpTimeLimit) {
-        var login = $('#login').val();
-        var csrf_token = $("input[name='csrf_token']").val();
-        console.log("login ----------------> ", login)
-        ajax.jsonRpc("/signup/otp", 'call', { 'login': login, 'csrf_token': csrf_token })
-    }
-
-    // OTP Verification .....................................
-    function verifyOtp() {
-        var otp = $('#otpin').val();
-        var login = $('#login').val();
-        var password = $('#password').val();
-        var name = $('#name').val();
-        console.log("entered otp ------------> ", otp)
-        console.log("entered login ------------> ", login)
-        console.log("entered password ------------> ", password)
-        console.log("entered name ------------> ", name)
-        ajax.jsonRpc("/verify/signup/otp", 'call', { 'otp': otp })
-            .then(function(data) {
-                if (data) {
-                    console.log("data ------------> ", data)
-                    console.log("login ------------> ", login)
-                    console.log("password ------------> ", password)
-                    if (data && login && password) {
-                        createNewUser(login, password, name);
-                    }
-
-                    console.log("data ------------> ", data)
-                    $('#otp').after("<i class='fa fa-check-circle wkcheck' aria-hidden='true'></i>");
-                    $(".wkcheck").css("color", "#3c763d");
-                    $('#wkotp').removeClass("form-group has-error");
-                    $('#wkotp').addClass("form-group has-success");
-                    $(":submit").removeAttr("disabled").find('.fa-refresh').addClass('d-none');
-                } else {
-                    $(":submit").attr("disabled", true);
-                    $('#otp').after("<i class='fa fa-times-circle wkcheck' aria-hidden='true'></i>");
-                    $('#wkotp').removeClass("form-group has-success");
-                    $(".wkcheck").css("color", "#a94442");
-                    $('#wkotp').addClass("form-group has-error");
-                }
-            })
-            .catch(function (error) {
-                console.error("Error: ", error);
-            });
-    }
-
-
-    function createNewUser(login, password, name) {
-        console.log("createNewUser ------------> ", login)
-        ajax.jsonRpc("/create/new/user", 'call', { 'login': login, 'password': password, 'name':name })
-            .then(function(data) {
-                if (data) {
-                    console.log("User created successfully");
-                    // Handle success scenario
-                } else {
-                    console.error("Failed to create user");
-                    // Handle failure scenario
-                }
-            })
-            .catch(function (error) {
-                console.error("Error: ", error);
-                // Handle error scenario
-            });
-    }
-
     function generateLoginOtp() {
         var mobile = $('#mobile').val();
         var email = $('#login').val();
         var otp_type = $('.otp_type').val();
+
+        // Get Actual Login and Mobile
+        if (email.includes("@") === false) {
+            ajax.jsonRpc("/get/login", 'call', { 'email': email })
+                .then(function (data) {
+                    if (data) {
+                        mobile = email;
+                        email = data.email.login
+                        $('#login').val(data.email.login)
+                    }
+                })
+        }
 
         $("div#wk_loader").addClass('show');
         ajax.jsonRpc("/send/otp", 'call', { 'email': email, "loginOTP": 'loginOTP', 'mobile': mobile })
@@ -217,6 +138,10 @@ odoo.define('otp_auth.wk_otp_login', function (require) {
                     }
                     if (data.mobile) {
                         if (data.mobile.status == 1) {
+                            // if (data.mobile.status) {
+                            //     $('label[for=login], input#login').val(data[3]);
+                            // }
+
                             if (data.email) {
                                 if (data.email.status != 1) {
                                     $("div#wk_loader").removeClass('show');

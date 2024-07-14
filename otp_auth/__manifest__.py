@@ -28,7 +28,6 @@
     "depends":  ['web', 'website', 'portal', 'auth_signup'],
     "data":  [
         'security/ir.model.access.csv',
-        'views/otp_template.xml',
         'views/auth_signup_login_templates.xml',
         'views/webclient_templates.xml',
         'edi/otp_edi_template.xml',

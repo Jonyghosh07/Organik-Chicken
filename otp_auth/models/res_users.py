@@ -12,7 +12,7 @@ class MetaResPartner(models.Model):
     _inherit = 'res.partner'
 
     otp_varified = fields.Boolean(
-        string='Otp varified', default=False
+        string='Otp Verified', default=False
         )
     
     def send_otp(self):

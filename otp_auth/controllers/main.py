@@ -43,7 +43,7 @@ class MetaAuthSignupHome(Home):
         message = [1, _("Thanks for the registration."), 0]
         _logger.warning("{}".format(user_obj))
         if not user_obj:
-            message = [0, _("No user is found registered using this email or mobile number."), 0]
+            message = [0, _("No user is found registered using this mobile number."), 0]
             return False, message
         return user_obj, message
 
@@ -56,7 +56,6 @@ class MetaAuthSignupHome(Home):
 
     @http.route(['/verify/otp'], type='json', auth="public", methods=['POST'], website=True)
     def verify_otp(self, otp=False):
-        print(f"Inside verify OTP ---------> {otp}")
         totp = int(request.session.get('otpobj'))
         if otp.isdigit():
             return True if totp==int(otp) else False
@@ -81,14 +80,10 @@ class MetaAuthSignupHome(Home):
         _logger.warning("web_login response ----->>>>> {}".format(response))
         return response
 
-
-
     @http.route('/web/reset_password', type='http', auth='public', website=True, sitemap=False)
     def web_auth_reset_password(self, *args, **kw):
         request.session['radio-otp']=None
         return super(MetaAuthSignupHome, self).web_auth_reset_password(*args, **kw)
-
-
 
     @http.route('/web/signup', type='http', auth='public', website=True, sitemap=False)
     def web_auth_signup(self, *args, **kw):
@@ -106,8 +101,6 @@ class MetaAuthSignupHome(Home):
                 return response
         else:
             login = kw.get('login')
-            password = kw.get('password')
-            name = kw.get('name')
             if not re.match(r"^01[3-9]\d{8}$", login):
                 qcontext = self.get_auth_signup_qcontext()
                 qcontext['error'] = _("Invalid Bangladeshi phone number. Please enter a valid 11-digit phone number starting with '01'.")
@@ -117,14 +110,7 @@ class MetaAuthSignupHome(Home):
                 response.headers['Content-Security-Policy'] = "frame-ancestors 'self'"
                 return response
             else:
-                redirect= '/my'
-                response = request.render('otp_auth.otp_verify_before_signup', {'login':login, 'redirect':redirect, 'password': password, 'name': name})
-                response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-                response.headers['Content-Security-Policy'] = "frame-ancestors 'self'"
-                return response
-
-
-
+                return super(MetaAuthSignupHome, self).web_auth_signup(*args, **kw)
 
     def get_auth_signup_qcontext(self):
         """ Shared helper returning the rendering context for signup and reset password """
@@ -136,8 +122,6 @@ class MetaAuthSignupHome(Home):
         #     "mobile" : mobile
         # })
         return qcontext
-        
-
 
     @http.route(['/send/otp'], type='json', auth="public", methods=['POST'], website=True)
     def send_otp(self, **kwargs):
@@ -154,9 +138,9 @@ class MetaAuthSignupHome(Home):
                 request.env['send.otp'].email_send_otp(False, otp, user_data.login)
                 message = {"email":{'status':1, 'message':_("OTP has been sent."), 'otp_time':otp_time, 'login':phone}}
             else:
-                message = {"email":{'status':0, 'message':_("User account does not exist. Please signup for an account else try different email or mobile number."), 'otp_time':0, 'login':phone}}
+                message = {"email":{'status':0, 'message':_("User account does not exist. Please signup for an account else try different mobile number."), 'otp_time':0, 'login':phone}}
         else:
-            message = {"email":{'status':0, 'message':_("Enter an email or phone number."), 'otp_time':0, 'login':False}}
+            message = {"email":{'status':0, 'message':_("Enter an phone number."), 'otp_time':0, 'login':False}}
         return message
 
     def getOTPData(self):
@@ -196,14 +180,10 @@ class MetaAuthSignupHome(Home):
                 # Send Login Otp
                 message = {"email":{'status':1, 'message':_("OTP has been sent to : {}.".format(email)), 'login':user_data.login}}
             else:
-                message = {"email":{'status':0, 'message':_("User account does not exist. Please signup for an account else try different email or mobile number."), 'otp_time':0, 'login':email}}
+                message = {"email":{'status':0, 'message':_("User account does not exist. Please signup for an account else try different mobile number."), 'otp_time':0, 'login':email}}
         else:
-            message = {"email":{'status':0, 'message':_("Enter an email or phone number."), 'otp_time':0, 'login':False}}
+            message = {"email":{'status':0, 'message':_("Enter an phone number."), 'otp_time':0, 'login':False}}
         return message
-
-
-
-
 
     @http.route(['/otp/verification'], type='http', auth="public", website=True)
     def otp_verifcation(self, redirect=None):
@@ -214,12 +194,18 @@ class MetaAuthSignupHome(Home):
         redirect= redirect or '/my'
         return request.render('otp_auth.otp_verify_after_signup', {'partner':partner, 'resp':resp, 'redirect':redirect})
 
-    
-    
+    # @http.route(['/otp/send'], type='http', auth="public", website=True)
+    # def otp_send(self, redirect=None):
+    #     partner = request.env.user.partner_id
+    #     if not partner:
+    #         return request.redirect('/web/login')
+    #     resp = partner.send_otp()
+    #     redirect= redirect or '/my'
+    #     return request.render('otp_auth.otp_verify_after_signup', {'partner':partner,'resp':resp, 'redirect':redirect})
+        
     
     @http.route(['/otp/verify'], type='http', auth="public", methods=['POST'], website=True)
     def verify_otp(self, redirect=None, otp=False, **post):
-        print(f"post ----------------------> {post}")
         totp = post.get('otpin')
         partner_id = int(post.get('partner_id'))
         partner = request.env.user.partner_id
@@ -232,8 +218,6 @@ class MetaAuthSignupHome(Home):
         else:
             return request.render('otp_auth.otp_verify_after_signup', {'partner':partner,'resp':resp, 'redirect':redirect})
         
-        
-    
 
 class OtpAuthWebsiteSale(WebsiteSale):
     @http.route(['/shop/checkout'], type='http', auth="public", website=True, sitemap=False)

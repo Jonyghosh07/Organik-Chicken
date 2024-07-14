@@ -13,6 +13,42 @@ odoo.define('otp_auth.wk_otp', function(require) {
             $(".oe_signup_form").wrapInner("<div class='container' id='wk_container'></div>");
         }
 
+        // $('.wk_send').on('click', function(e) {
+        //     if ($(this).closest('form').hasClass('oe_reset_password_form')) {
+        //         ValidUser = 1;
+        //     }
+        //     var email = $('#login').val();
+        //     if (email) {
+        //         if (validateEmail(email)) {
+        //             generateOtp(ValidUser);
+        //         } else {
+        //             $('#wk_error').remove();
+        //             $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a valid mobile number.</p>");
+        //         }
+        //     } else {
+        //         $('#wk_error').remove();
+        //         $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter an mobile number.</p>");
+        //     }
+        // });
+
+        // $('.wk_send').on('click', function(e) {
+        //     if ($(this).closest('form').hasClass('oe_reset_password_form')) {
+        //         ValidUser = 1;
+        //     }
+        //     var email = $('#login').val();
+        //     if (email) {
+        //         if (validateEmail(email)) {
+        //             generateOtp(ValidUser);
+        //         } else {
+        //             $('#wk_error').remove();
+        //             $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a valid mobile number.</p>");
+        //         }
+        //     } else {
+        //         $('#wk_error').remove();
+        //         $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter an mobile number.</p>");
+        //     }
+        // });
+
         $("#submitBtn").on('click', function(e) {
             if ($(this).closest('form').hasClass('oe_reset_password_form')) {
                 ValidUser = 1;
