@@ -5,7 +5,7 @@
         <template id="custom_portal_my_account_area" inherit_id="portal.portal_my_details_fields">
 
             <xpath expr="//div[3]" position="replace">
-                <div t-attf-class="mb-3 col-xl-6">
+                <div t-attf-class="mb-3 col-xl-6" style="display:none;">
                     <label class="col-form-label" for="email">Phone</label>
                     <input type="phone" name="email" t-attf-class="form-control" t-att-value="email or partner.email" />
                 </div>
@@ -17,7 +17,9 @@
             <xpath expr="//div[6]" position="attributes">
                 <attribute name="t-att-style">'display:none;'</attribute>
             </xpath>
-
+            <xpath expr="//div[7]" position="attributes">
+                <attribute name="t-att-style">'display:none !important;'</attribute>
+            </xpath>
             <xpath expr="//div[12]" position="attributes">
                 <attribute name="t-att-style">'display:none;'</attribute>
             </xpath>
@@ -34,7 +36,7 @@
 
             <xpath expr="//div[8]" position="after">
                 <div t-attf-class="mb-3 col-lg-6" id="div_whatsapp">
-                    <label class="col-form-label" for="whatsapp_num">WhatsApp No.</label>
+                    <label class="col-form-label" for="whatsapp_num">Mobile/WhatsApp No.</label>
                     <input type="whatsapp_num" name="whatsapp_num" t-attf-class="form-control #{error.get('whatsapp_num') and 'is-invalid' or ''}" t-att-value="whatsapp_num or partner.whatsapp_num" />
                 </div>
             </xpath>
