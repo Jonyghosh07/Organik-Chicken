@@ -4,6 +4,13 @@
         <!-- Override the address template -->
         <template id="custom_portal_my_account_area" inherit_id="portal.portal_my_details_fields">
 
+            <xpath expr="//div[3]" position="replace">
+                <div t-attf-class="mb-3 col-xl-6">
+                    <label class="col-form-label" for="email">Phone</label>
+                    <input type="phone" name="email" t-attf-class="form-control" t-att-value="email or partner.email" />
+                </div>
+            </xpath>
+
             <xpath expr="//div[5]" position="attributes">
                 <attribute name="t-att-style">'display:none;'</attribute>
             </xpath>

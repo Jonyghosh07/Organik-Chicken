@@ -1,5 +1,6 @@
 from odoo import tools, _
 from odoo.exceptions import ValidationError
+from odoo import http, tools, _, SUPERUSER_ID
 from odoo.http import request, route
 from odoo.addons.portal.controllers.portal import CustomerPortal
 import logging
@@ -8,8 +9,19 @@ _logger=logging.getLogger(__name__)
 
 
 class metaCustomerDetailsUpdate(CustomerPortal):
+    
+    MANDATORY_BILLING_FIELDS = ["name", "phone", "email", "street", "city", "country_id"]
+    OPTIONAL_BILLING_FIELDS = ["zipcode", "state_id", "vat", "company_name", "whatsapp_num", "area_id", "sub_area_id"]
 
+
+
+
+
+    # Base file path /addons/portal/controllers/portal.py line 380 function name details_form_validate() if data.get('email') and not tools.single_email_re.match(data.get('email')): removed by adding pass to avoid email validation as it was not working using super
+    
+    @http.route('/portal/attachment/remove', type='json', auth='public')
     def details_form_validate(self, data, partner_creation=False):
+        res = super().details_form_validate()
         error = dict()
         error_message = []
 
@@ -20,8 +32,9 @@ class metaCustomerDetailsUpdate(CustomerPortal):
 
         # email validation
         if data.get('email') and not tools.single_email_re.match(data.get('email')):
-            error["email"] = 'error'
-            error_message.append(_('Invalid Email! Please enter a valid email address.'))
+            pass
+            # error["email"] = 'error'
+            # error_message.append(_('Invalid Email! Please enter a valid email address.'))
 
         # vat validation
         partner = request.env.user.partner_id
@@ -34,7 +47,7 @@ class metaCustomerDetailsUpdate(CustomerPortal):
                     partner_dummy = partner.new({
                         'vat': data['vat'],
                         'country_id': (int(data['country_id'])
-                                       if data.get('country_id') else False),
+                                    if data.get('country_id') else False),
                     })
                     try:
                         partner_dummy.check_vat()
@@ -53,7 +66,7 @@ class metaCustomerDetailsUpdate(CustomerPortal):
             error['common'] = 'Unknown field'
             error_message.append("Unknown field '%s'" % ','.join(unknown))
 
-        return error, error_message
+        return error, error_message, res
 
 
     @route(['/my/account'], type='http', auth='user', website=True)
