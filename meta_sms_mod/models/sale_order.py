@@ -52,7 +52,7 @@ class SaleOrder(models.Model):
     def generate_due_message(self):
         for order in self:
             if order.prev_due:
-                message = f"আপনার টোটাল বকেয়া বিল {int(order.prev_due)} + {int(order.amount_total)} = {int(order.prev_due + order.amount_total)} ।"
+                message = f"Your Total Due Tk {int(order.prev_due)} + {int(order.amount_total)} = {int(order.prev_due + order.amount_total)} ।"
                 order.due_msg = message
             else:
                 message = ""
