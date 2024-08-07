@@ -345,7 +345,15 @@
                         <span t-field="sale_order.delivery_date" t-options='{"widget": "date"}' />
                     </div>
                 </div>
+
+
+
+
                 <div class="row" id="invoicing_shipping_address">
+                    <!-- Invoicing Address block  -->
+                    <!-- Invoicing Address block  -->
+                    <!-- Invoicing Address block  -->
+                    <!-- Invoicing Address block  -->
                     <div class="col-lg-6">
                         <strong class="d-block mb-1">
                             <t
@@ -404,61 +412,67 @@
                                 <span id="area" t-field="sale_order.partner_id.sub_area_id.name" />
                             </t>
                         </div>
-
                     </div>
-                    <div t-if="sale_order.partner_shipping_id != sale_order.partner_invoice_id"
-                        id="shipping_address"
-                        class="col-lg-6">
+
+
+                    <!-- Shipping Address block  -->
+                    <!-- Shipping Address block  -->
+                    <!-- Shipping Address block  -->
+                    <!-- Shipping Address block  -->
+                    <div t-if="sale_order.partner_shipping_id != sale_order.partner_invoice_id" id="shipping_address" class="col-lg-6">
                         <strong class="d-block mb-1">
                             Shipping Address:
                         </strong>
 
-                        <div>
+                        <div style="padding-top: 20px;">
                             <strong>Name :</strong>
-                            <t style="padding-top: 20px;" t-esc="sale_order.partner_invoice_id.name" />
-                            <t t-if="sale_order.partner_invoice_id.name" />
+                            <t style="padding-top: 20px;" t-esc="sale_order.partner_shipping_id.name" />
+                            <t t-if="sale_order.partner_shipping_id.name" />
                         </div>
 
-                        <!--Phone
-                        Mobile-->
+                        <!--Phone Mobile-->
                         <div>
                             <strong>Phone :</strong>
-                            <span t-set="has_phone" t-value="sale_order.partner_id.phone" />
-                            <span t-set="has_mobile" t-value="sale_order.partner_id.mobile" />
+                            <span t-set="has_phone" t-value="sale_order.partner_shipping_id.phone" />
+                            <span t-set="has_mobile" t-value="sale_order.partner_shipping_id.mobile" />
                             <t t-if="has_phone and has_mobile">
-                                <span id="phone" t-field="sale_order.partner_id.phone" />
+                                <span id="phone" t-field="sale_order.partner_shipping_id.phone" />
                             </t>
                             <t t-else="">
-                                <span id="mobile" t-field="sale_order.partner_id.mobile" />
+                                <span id="mobile" t-field="sale_order.partner_shipping_id.mobile" />
                             </t>
                         </div>
 
                         <div>
                             <strong>Address :</strong>
                             <t
-                                t-esc="sale_order.partner_invoice_id.street" /> <t
-                                t-if="sale_order.partner_invoice_id.street" />, <t
-                                t-esc="sale_order.partner_invoice_id.street2" /> <t
-                                t-if="sale_order.partner_invoice_id.street2" />, <t
-                                t-esc="sale_order.partner_invoice_id.city" /> <t
-                                t-if="sale_order.partner_invoice_id.city" />
+                                t-esc="sale_order.partner_shipping_id.street" /> <t
+                                t-if="sale_order.partner_shipping_id.street" />, <t
+                                t-esc="sale_order.partner_shipping_id.street2" /> <t
+                                t-if="sale_order.partner_shipping_id.street2" />, <t
+                                t-esc="sale_order.partner_shipping_id.city" /> <t
+                                t-if="sale_order.partner_shipping_id.city" />
                         </div>
 
                         <div>
-                            <t t-if="sale_order.partner_id.area_id">
+                            <t t-if="sale_order.partner_shipping_id.area_id">
                                 <strong>Area :</strong>
-                                <span id="area" t-field="sale_order.partner_id.area_id.name" />
+                                <span id="area" t-field="sale_order.partner_shipping_id.area_id.name" />
                             </t>
                         </div>
                         <div>
-                            <t t-if="sale_order.partner_id.sub_area_id">
+                            <t t-if="sale_order.partner_shipping_id.sub_area_id">
                                 <strong>Sub Area :</strong>
-                                <span id="area" t-field="sale_order.partner_id.sub_area_id.name" />
+                                <span id="area" t-field="sale_order.partner_shipping_id.sub_area_id.name" />
                             </t>
                         </div>
-
                     </div>
-                    <div>
+
+
+
+
+
+                    <div style="padding-top: 20px;">
                         <t t-if="sale_order.partner_remarks">
                             <strong>Remarks :</strong>
                             <span id="partner_remarks" t-field="sale_order.partner_remarks"
