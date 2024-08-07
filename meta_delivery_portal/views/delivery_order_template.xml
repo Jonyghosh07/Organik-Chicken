@@ -355,9 +355,8 @@
                     <!-- Invoicing Address block  -->
                     <!-- Invoicing Address block  -->
                     <div class="col-lg-6">
-                        <strong class="d-block mb-1">
-                            <t
-                                t-if="sale_order.partner_shipping_id == sale_order.partner_invoice_id">
+                        <strong class="d-block mb-1" style="font-size: 18px; color: orangered;">
+                            <t t-if="sale_order.partner_shipping_id == sale_order.partner_invoice_id">
                                 Invoicing and Shipping Address:
                             </t>
                             <t t-else="">
@@ -365,7 +364,7 @@
                             </t>
                         </strong>
 
-                        <div style="padding-top: 20px;">
+                        <div style="padding-top: 10px;">
                             <strong>Name :</strong>
                             <t t-esc="sale_order.partner_invoice_id.name" />
                             <t t-if="sale_order.partner_invoice_id.name" />
@@ -419,12 +418,12 @@
                     <!-- Shipping Address block  -->
                     <!-- Shipping Address block  -->
                     <!-- Shipping Address block  -->
-                    <div t-if="sale_order.partner_shipping_id != sale_order.partner_invoice_id" id="shipping_address" class="col-lg-6">
-                        <strong class="d-block mb-1">
+                    <div style="padding-top: 30px;" t-if="sale_order.partner_shipping_id != sale_order.partner_invoice_id" id="shipping_address" class="col-lg-6">
+                        <strong class="d-block mb-1" style="font-size: 18px; color: orangered;">
                             Shipping Address:
                         </strong>
 
-                        <div style="padding-top: 20px;">
+                        <div style="padding-top: 10px;">
                             <strong>Name :</strong>
                             <t style="padding-top: 20px;" t-esc="sale_order.partner_shipping_id.name" />
                             <t t-if="sale_order.partner_shipping_id.name" />
